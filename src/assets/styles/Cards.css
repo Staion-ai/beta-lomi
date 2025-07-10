@@ -1,0 +1,35 @@
+.features-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+
+    margin-top: 150px;
+    margin-bottom: 250px;
+
+}
+  
+.feature-card {
+    background-color: #BDADC2;
+    border-radius: 20px;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+  
+.feature-card p {
+    color: #41475D;
+    font-size: 48px;
+    font-weight: 400;
+
+    padding-left: 20px;
+    transition: color 0.3s ease;
+
+    margin-bottom: 20px;
+  }
+  
+.feature-card:hover p {
+    color: #ffffff;
+}
+  
