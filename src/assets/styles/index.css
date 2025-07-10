@@ -8,13 +8,11 @@
 html, body {
     height: 100%;
     margin: 0;
-
-
-  }
+}
   
-  body {
+body {
     background: linear-gradient(to bottom, #F9DCB8, #8783CA);
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
-  }
+}
