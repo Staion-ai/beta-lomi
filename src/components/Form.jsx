@@ -49,14 +49,14 @@ const Form = () => {
         }
 
         try {
-            // Enviar datos al servidor PHP
-            const response = await fetch('http://localhost/landing-lomi/backend/api/send-mail.php', {
+            
+            const response = await fetch('https://staion-api.onrender.com/api/send-lomi-email/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-});
+                },
+                body: JSON.stringify( formData ),
+            });
     
             const result = await response.json();
     
@@ -64,7 +64,6 @@ const Form = () => {
                 // Mostrar mensaje de éxito
                 setShowSuccess( true );
                 setErrorMessage( '' );
-            
                 setFormData({
                     businessName: '',
                     businessType: '',
