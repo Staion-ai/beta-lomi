@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import '../assets/styles/Formulario.css'
+import '../assets/styles/Form.css'
 
 const Form = () => {
     const [ formData, setFormData ] = useState({
@@ -90,7 +90,6 @@ const Form = () => {
         } finally {
             setIsSubmitting( false );
         }
-
 
     };
 
