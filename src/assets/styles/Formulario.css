@@ -1,0 +1,238 @@
+.form-section {
+    max-width: 700px;
+    margin: 150px auto 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .form-title {
+    font-size: 56px;
+    font-weight: 400;
+    color: #ffffff;
+    margin-bottom: 0.25rem;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.1rem;
+  }
+  
+  .form-subtitle {
+    font-size: 20px;
+    font-weight: 400;
+    color: #ffffff;
+    margin-bottom: 2rem;
+  }
+  
+  .form-container {
+    width: 100%;
+  }
+  
+  form label:not(.checkbox-label) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+  
+  .input-label {
+    font-size: 16px;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+    margin-left: 15px;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    font-size: 16px;
+    border: none;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.25);
+    color: #41475D;
+    outline: none;
+  }
+  
+  .checkbox-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* ← centra horizontalmente todo dentro */
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  
+  .checkbox-label input[type="checkbox"] {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    background: linear-gradient(to bottom, #41475D, #BDADC2);
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+  }
+  
+  .checkbox-label input[type="checkbox"]:checked::after {
+    content: "✔";
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -58%);
+  }
+   
+  .submit-button {
+    width: 100%;
+    height: 40px; 
+    background-color: #F9DF88;
+    color: #41475D;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-top: 1.5rem;
+    padding: 0.6rem 1rem;
+    align-self: center;
+  }
+  
+  .form-legal {
+    font-size: 12px;
+    font-weight: 300;
+    color: #ffffff;
+    opacity: 0.75;
+    text-align: center;
+    margin-top: 1rem;
+    line-height: 1.4;
+    max-width: 90%;
+    text-decoration: none;
+    margin-bottom: 50px;
+    display: block;
+
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .success-message,
+  .error-message {
+    display: block;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-align: left;
+  }
+  
+  .success-message {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  
+  .error-message {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+  
+  /* ----------------------- */
+  /* RESPONSIVE ADAPTATION  */
+  /* ----------------------- */
+  @media (max-width: 768px) {
+
+    .form-section{
+      margin-top: 0;
+    }
+
+    .form-title {
+      font-size: 42px;
+    }
+  
+    .form-subtitle {
+      font-size: 18px;
+    }
+  
+    .input-label {
+      font-size: 15px;
+      margin-left: 10px;
+    }
+  
+    input[type="text"] {
+      font-size: 15px;
+    }
+  
+    .checkbox-label {
+      font-size: 15px;
+    }
+  
+    .submit-button {
+      max-width: 250px;
+      font-size: 15px;
+      padding: 0.5rem 1rem;
+    }
+  
+    .form-legal {
+      font-size: 11px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .form-title {
+      font-size: 32px;
+      letter-spacing: 0.05rem;
+    }
+  
+    .form-subtitle {
+      font-size: 16px;
+    }
+  
+    .input-label {
+      font-size: 14px;
+      margin-left: 8px;
+    }
+  
+    input[type="text"] {
+      font-size: 14px;
+      padding: 0.5rem 0.9rem;
+    }
+  
+    .checkbox-label {
+        display: flex;
+        align-items: flex-start;
+        line-height: 1.4;
+      }
+
+
+      .checkbox-label input[type="checkbox"] {
+        margin-top: 3px;
+      }
+  
+    .submit-button {
+      max-width: 220px;
+      font-size: 14px;
+      padding: 0.5rem 1rem;
+    }
+  
+    .form-legal {
+      font-size: 10px;
+      line-height: 1.3;
+      margin-bottom: 30px;
+
+    }
+  }
+  

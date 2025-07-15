@@ -1,0 +1,225 @@
+/* Base global */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Contenedor principal */
+.hero {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header y estructura */
+.header {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+/* Logo */
+.logo-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 140px;
+  height: auto;
+  margin-left: 10px;
+  padding-top: 10px;
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+  margin-right: 0px;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: 400;
+  margin: 0;
+}
+
+/* Info principal */
+.info-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 1rem;
+
+}
+
+.info-title {
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: 0.08rem;
+  line-height: 1.3;
+  margin: 0;
+  word-break: break-word;
+}
+
+.text-white {
+  color: #ffffff;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
+}
+
+.text-black {
+  background: linear-gradient(to bottom, #BDADC2, #41475D);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.description {
+  color: #ffffff;
+  font-size: 14px;
+  margin-top: 12px;
+  font-weight: 350;
+  line-height: 1.5;
+  max-width: 100%;
+}
+
+/* Botón CTA */
+.cta {
+  width: 100% !important;
+  max-width: 416px !important;
+  padding: 10px 24px !important;
+  margin-top: 30px;
+  font-size: 14px;
+  font-weight: 400;
+  background-color: white;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  line-height: 1.2;
+
+  color: #41475D;
+  -webkit-text-fill-color: #41475D;
+}
+
+.cta:hover {
+  background-color: #f9df88;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* Nota inferior */
+.footer-note {
+  font-size: 10px;
+  font-weight: 300;
+  color: #ffffff;
+  text-align: center;
+  opacity: 0.9;
+  margin-top: 1rem;
+  margin-bottom: 24px;
+  padding: 0 1rem;
+}
+
+/* --------------------------- */
+/* TABLET (>=768px) */
+@media (min-width: 768px) {
+  .logo-container {
+    max-width: 150px;
+    padding-top: 15px;
+    margin-left: 15px;
+  }
+
+  .logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .logo-text {
+    font-size: 32px;
+  }
+
+  .info-container {
+    margin-top: 80px;
+    padding: 0 15px;
+  }
+
+  .info-title {
+    font-size: 42px;
+    letter-spacing: 0.1rem;
+    line-height: 1.1;
+  }
+
+  .description {
+    font-size: 18px;
+    margin-top: 20px;
+  }
+
+  .cta {
+    width: 350px;
+    padding: 14px 28px;
+    font-size: 15px;
+  }
+
+  .footer-note {
+    font-size: 11px;
+    margin-bottom: 30px;
+  }
+}
+
+/* --------------------------- */
+/* DESKTOP (>=1024px) */
+@media (min-width: 1024px) {
+  .logo-container {
+    max-width: 190px;
+    margin-left: 100px;
+    padding-top: 0;
+  }
+
+  .logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .logo-text {
+    font-size: 40px;
+  }
+
+  .info-container {
+    margin-top: 0;
+  }
+
+  .info-title {
+    font-size: 56px;
+    letter-spacing: 0.125rem;
+  }
+
+  .description {
+    font-size: 20px;
+    max-width: 650px;
+  }
+
+  .cta {
+    width: 450px;
+    padding: 16px 32px;
+    font-size: 16px;
+  }
+
+  .footer-note {
+    font-size: 12px;
+    margin-bottom: 40px;
+  }
+}

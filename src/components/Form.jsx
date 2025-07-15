@@ -96,7 +96,7 @@ const Form = () => {
 
     return (
     <>
-        <div className="form-section">
+        <div className="form-section" id="formulario">
             <h2 className="form-title">Asegura tu lugar ahora</h2>
             <p className="form-subtitle">Solo los primeros acceden antes.</p>
 
