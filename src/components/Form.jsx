@@ -194,7 +194,11 @@ const Form = () => {
                     { isSubmitting  ? 'Enviando...' : 'Registrarme ahora' }
                 </button>
 
-                <a href="#" className="form-legal">
+                <a 
+                    href="/docs/Politicas_Lomi.pdf"
+                    className="form-legal"
+                    target="_blank"
+                    rel="noopener noreferrer">
                     Consulta nuestra Política de Privacidad y Términos y Condiciones
                 </a>
             </form>

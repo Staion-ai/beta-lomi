@@ -19,7 +19,10 @@ const Footer = () => {
             </p>
 
             <p className="footer-contact">
-                ¿Tienes dudas? Escríbenos a: hola@staion.com.co
+                ¿Tienes dudas? Escríbenos a:{" "}
+                <a href="mailto:hola@staion.com.co" className="email-link">
+                    hola@staion.com.co
+                </a>
             </p>
 
             <p className="footer-copy">
