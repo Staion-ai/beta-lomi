@@ -24,8 +24,8 @@ const Header = () => {
                         <span className="text-black">por sólo $7usd al año.</span>
                     </h1>
         
-                    <p className="description"> Únete gratis a la comunidad Lomi  
-                                                Sé de los primeros en LATAM en lanzarla.
+                    <p className="description"> 
+                        Únete gratis a la comunidad Lomi.Sé de los primeros en LATAM en lanzarla.
                     </p>
                     <button 
                         className="cta"
