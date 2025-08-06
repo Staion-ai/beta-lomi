@@ -2,14 +2,11 @@ import '../assets/styles/Header.css'
 
 const Header = () => {
     
-    const scrollToForm = () => {
-        const formSection = document.getElementById("formulario");
-
-        if( formSection ){
-            formSection.scrollIntoView({ behavior: 'smooth' })
-        }
+    function openWhatsAppGroup() {
+        setTimeout(() => {
+          window.open('https://chat.whatsapp.com/HPKs6il6tTZBnvDuTwvXIw?mode=r_t', '_blank');
+        }, 1000);
     }
-
 
 
     return (
@@ -30,7 +27,7 @@ const Header = () => {
                     <p className="description"> Los primeros 1000 negocios de LATAM que tendrán su web lista en menos de 15 minutos. </p>
                     <button 
                         className="cta"
-                        onClick={scrollToForm}>
+                        onClick={ openWhatsAppGroup }>
                         Quiero mi sitio antes que todos
                     </button>
                     <p className="footer-note"> Únete a la lista de espera y sé parte del lanzamiento de LOMI.</p>
