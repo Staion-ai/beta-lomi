@@ -24,13 +24,15 @@ const Header = () => {
                         <span className="text-black">por sólo $7usd al año.</span>
                     </h1>
         
-                    <p className="description"> Los primeros 1000 negocios de LATAM que tendrán su web lista en menos de 15 minutos. </p>
+                    <p className="description"> Únete gratis a la comunidad Lomi  
+                                                Sé de los primeros en LATAM en lanzarla.
+                    </p>
                     <button 
                         className="cta"
                         onClick={ openWhatsAppGroup }>
-                        Quiero mi sitio antes que todos
+                        Quiero ya mismo mi sitio web
                     </button>
-                    <p className="footer-note"> Únete a la lista de espera y sé parte del lanzamiento de LOMI.</p>
+                    <p className="footer-note"> ¡Corre el tiempo se acaba!</p>
                 </div>
             </header>
         </div>
