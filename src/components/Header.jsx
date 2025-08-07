@@ -3,10 +3,11 @@ import '../assets/styles/Header.css'
 const Header = () => {
     
     function openWhatsAppGroup() {
+        const newTab = window.open('', '_blank');
         setTimeout(() => {
-          window.open('https://chat.whatsapp.com/HPKs6il6tTZBnvDuTwvXIw?mode=r_t', '_blank');
-        }, 1000);
-    }
+          newTab.location.href = 'https://chat.whatsapp.com/HPKs6il6tTZBnvDuTwvXIw?mode=r_t';
+        }, 500);
+      }
 
 
     return (
