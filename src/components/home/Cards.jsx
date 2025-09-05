@@ -1,8 +1,7 @@
-import '../assets/styles/Cards.css'
+import '../../assets/styles/Cards.css'
 
 const Cards = () => {
-  return (
-    <>
+    return (
         <div className="features-container">
             <div className="feature-card">
                 <p>Sin diseñadores,<br />sin programar,<br />sin enredos</p>
@@ -17,9 +16,7 @@ const Cards = () => {
             </div>
 
         </div>
-
-    </>
-  )
+    )
 }
 
 export default Cards

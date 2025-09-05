@@ -1,8 +1,7 @@
-import '../assets/styles/Footer.css'
+import '../../assets/styles/Footer.css'
 
 const Footer = () => {
-  return (
-    <>
+    return (
         <footer className="footer">
             <p className="footer-message">
                 Tu página web no puede seguir siendo un pendiente.<br />
@@ -29,8 +28,7 @@ const Footer = () => {
                 © 2025 Lomi / Staion S.A.S. Todos los derechos reservados.
             </p>
         </footer>
-    </>
-  )
+    )
 }
 
 export default Footer
