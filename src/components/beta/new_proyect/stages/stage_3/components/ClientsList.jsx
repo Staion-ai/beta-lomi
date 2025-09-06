@@ -7,7 +7,8 @@ function ClientsList({
     expandedItems,
     onToggleExpand,
     onRemoveClient,
-    errors
+    errors,
+    updateStageFiles
 }) {
     if (fields.length === 0) {
         return (
@@ -32,6 +33,7 @@ function ClientsList({
                         onToggleExpand={onToggleExpand}
                         onRemove={onRemoveClient}
                         hasError={!!errors.testimonials?.[index]?.clientName}
+                        updateStageFiles={updateStageFiles}
                     />
                 </Grid>
             ))}

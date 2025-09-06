@@ -16,7 +16,8 @@ function ClientCard({
     isExpanded,
     onToggleExpand,
     onRemove,
-    hasError
+    hasError,
+    updateStageFiles
 }) {
     const handleHeaderClick = () => {
         onToggleExpand(index)
@@ -121,7 +122,7 @@ function ClientCard({
                         marginBottom: '1.5rem'
                     }
                 }}>
-                    <ClientForm index={index} />
+                    <ClientForm index={index} updateStageFiles={updateStageFiles} />
                 </Box>
             </Collapse>
         </Box>

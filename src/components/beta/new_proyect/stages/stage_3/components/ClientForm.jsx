@@ -6,14 +6,19 @@ import {
     Typography
 } from '@mui/material'
 
-function ClientForm({ index }) {
+function ClientForm({ index, updateStageFiles }) {
     const { control, formState: { errors } } = useFormContext()
 
-    const handleImageUpload = (index, event, onChange) => {
+    const handleImageUpload = (index, event, onChange, updateStageFiles) => {
         const file = event.target.files[0]
         if (file) {
-            // For now, we'll store the file name. In a real app, you'd upload to a server
+            // Almacenar el nombre del archivo en el formulario para visualización
             onChange(file.name)
+            
+            // Almacenar el archivo real usando updateStageFiles
+            if (updateStageFiles) {
+                updateStageFiles('stage3', `testimonial_${index}_image`, file)
+            }
         }
     }
 
@@ -77,7 +82,7 @@ function ClientForm({ index }) {
                             <input
                                 type="file"
                                 accept="image/*"
-                                onChange={(e) => handleImageUpload(index, e, onChange)}
+                                onChange={(e) => handleImageUpload(index, e, onChange, updateStageFiles)}
                                 id={`testimonial-image-${index}`}
                                 style={{ display: 'none' }}
                             />

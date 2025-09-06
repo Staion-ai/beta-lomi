@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useFormContext, useFieldArray } from 'react-hook-form'
 
-export function useProductsManager() {
+export function useProductsManager(updateStageFiles) {
     const { control } = useFormContext()
     const { fields, append, remove } = useFieldArray({
         control,
@@ -50,11 +50,20 @@ export function useProductsManager() {
             })
             return updatedState
         })
+        
+        // Limpiar archivo asociado si existe la función de actualización
+        if (updateStageFiles) {
+            updateStageFiles('stage2', `product_${index}_image`, null)
+        }
     }
 
     const handleImageUpload = (index, file) => {
-        // Custom logic for handling image upload can be added here
         console.log(`Image uploaded for product ${index}:`, file)
+        
+        // Almacenar el archivo usando updateStageFiles
+        if (updateStageFiles && file) {
+            updateStageFiles('stage2', `product_${index}_image`, file)
+        }
     }
 
     return {

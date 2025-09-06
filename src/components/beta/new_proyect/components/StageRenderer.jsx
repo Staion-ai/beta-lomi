@@ -7,21 +7,22 @@ import Stage3 from '../stages/stage_3/Stage3'
 /**
  * Componente que renderiza el contenido del paso actual
  */
-const StageRenderer = ({ activeStep }) => {
+const StageRenderer = ({ activeStep, updateStageFiles }) => {
     switch (activeStep) {
         case 0:
             return <Stage1 />
         case 1:
-            return <Stage2 />
+            return <Stage2 updateStageFiles={updateStageFiles} />
         case 2:
-            return <Stage3 />
+            return <Stage3 updateStageFiles={updateStageFiles} />
         default:
             return null
     }
 }
 
 StageRenderer.propTypes = {
-    activeStep: PropTypes.number.isRequired
+    activeStep: PropTypes.number.isRequired,
+    updateStageFiles: PropTypes.func
 }
 
 export default StageRenderer

@@ -38,7 +38,8 @@ function ProyectForm() {
     isSubmitting,
     handleSubmit,
     handleBack,
-    checkStepComplete
+    checkStepComplete,
+    updateStageFiles
   } = useMultiStepForm(steps)
 
   // Función para verificar si un paso está completo usando el hook
@@ -63,7 +64,7 @@ function ProyectForm() {
         <Box className="form-container" style={{ marginBottom: '2rem' }}>
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(handleSubmit)}>
-              <StageRenderer activeStep={activeStep} />
+              <StageRenderer activeStep={activeStep} updateStageFiles={updateStageFiles} />
 
               <FormNavigationButtons
                 activeStep={activeStep}

@@ -8,7 +8,7 @@ import {
   useClientsManager
 } from './components'
 
-function Stage3() {
+function Stage3({ updateStageFiles }) {
   const {
     fields,
     errors,
@@ -29,6 +29,7 @@ function Stage3() {
           onToggleExpand={toggleExpand}
           onRemoveClient={removeClient}
           errors={errors}
+          updateStageFiles={updateStageFiles}
         />
 
         <AddClientButton

@@ -6,7 +6,7 @@ import {
   useProductsManager
 } from './components'
 
-function Stage2() {
+function Stage2({ updateStageFiles }) {
   const {
     fields,
     collapsedCards,
@@ -14,7 +14,7 @@ function Stage2() {
     addProduct,
     removeProduct,
     handleImageUpload
-  } = useProductsManager()
+  } = useProductsManager(updateStageFiles)
 
   return (
     <Box className="stage-container">
