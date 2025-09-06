@@ -1,6 +1,5 @@
 import '../assets/styles/Footer.css'
 import '../assets/styles/Fonts.css'
-import content from '../data/template_structure.json'
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube, FaTiktok } from "react-icons/fa";
 
 const iconMap = {

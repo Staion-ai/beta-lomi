@@ -1,6 +1,5 @@
 import '../assets/styles/Services.css'
 import '../assets/styles/Fonts.css'
-import content from '../data/template_structure.json'
 
 
 const Services = ({ content }) => {

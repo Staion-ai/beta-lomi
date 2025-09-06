@@ -1,6 +1,5 @@
 import '../assets/styles/Testimonials.css'
 import '../assets/styles/Fonts.css'
-import content from '../data/template_structure.json'
 
 
 const Testimonials = ({ content }) => {
