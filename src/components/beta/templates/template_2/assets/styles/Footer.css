@@ -1,0 +1,120 @@
+.footer-container {
+    width: 100%;
+    height: 250px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-container {
+    width: 80%;
+    height: 100%;
+
+    font-size: 16px;
+    font-weight: 400px;
+
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.content-divisor {
+    width: 90%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.placeholder-info, .placeholder-logo, .placeholder-contact {
+    width: 33%;
+    height: 100%;
+}
+
+.placeholder-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+}
+
+.placeholder-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.legal-section {
+    font-size: 14px;
+}
+
+.sublogo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sublegal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px;
+}
+.placeholder-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+}
+
+.content-container img { 
+    width: 150px;
+    height: 100px;
+}
+
+.subtitles {
+    width: 100%;
+}
+
+.footer-info {
+    width: 100%;
+    height: 80%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.social-media {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.social-links {
+    display: flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.content-container a,
+.content-container a:visited,
+.content-container a:active,
+.content-container a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.content-container ul,
+.content-container li {
+  list-style: none;
+}
+

@@ -1,0 +1,113 @@
+{
+    "navbar": {
+      "logo": {
+        "image_url": "path/to/logo.png",
+        "link_url": "https://example.com",
+        "alt_text": "Company Logo"
+      },
+      "options": [
+        { "label": "OPTION 1", "url": "/" },
+        { "label": "OPTION 2", "url": "/about" },
+        { "label": "OPTION 3", "url": "/contact" }
+      ],
+      "cta_button": {
+        "label": "Get Started",
+        "url": "/get-started"
+      },
+      "sec_cta_button":{
+        "label": "Know More",
+        "url": "/know-more"
+      }
+    },
+    "hero_section": {
+      "title": "Welcome to Our Website",
+      "subtitle": "Your journey starts here",
+      "background_image":  "src/assets/images/image_test.png" ,
+      "cta_button": {
+        "label": "Learn More",
+        "url": "/learn-more"
+      },
+      
+      "social_proof": {
+        "text": "Here's what our users are saying"
+      }
+    },
+    "value_proposition": {
+      "title": "Our Services",
+      "content": [
+        { "name": "Service name 1", "image_url": "src/assets/images/image_test.png" },
+        { "name": "Service name 2", "image_url": "src/assets/images/image_test.png" },
+        { "name": "Service name 3", "image_url": "src/assets/images/image_test.png" },
+        { "name": "Service name 4", "image_url": "src/assets/images/image_test.png" }
+      ]
+    },
+    "faqs": {
+      "title": "Frequently Asked Questions",
+      "background_image": "path/to/background.jpg",
+      "questions": [
+        { "question": "What is your return policy?", "answer": "You can return any item within 30 days for a full refund." },
+        { "question": "Do you offer technical support?", "answer": "Yes, we offer 24/7 technical support for all our products." },
+        { "question": "What is your return policy?", "answer": "You can return any item within 30 days for a full refund." },
+        { "question": "Do you offer technical support?", "answer": "Yes, we offer 24/7 technical support for all our products." }
+      ]
+    },
+    "testimony":{
+      "title": "This are our testimonials",
+      "testimonials": [
+        { "client_name": "client 1", "client_image": "src/assets/images/image_test.png" },
+        { "client_name": "client 2", "client_image": "src/assets/images/image_test.png" },
+        { "client_name": "client 3", "client_image": "src/assets/images/image_test.png" },
+        { "client_name": "client 4", "client_image": "src/assets/images/image_test.png" }
+      ]
+    },
+    "footer": {
+      "engaging_subtitles": [
+        "Join our community",
+        "Stay updated with our latest news"
+      ],
+      "social_media_section": {
+        "subtitle": "Follow us on social media",
+        "social_links": [
+          { "platform": "Facebook", "url": "https://facebook.com/yourpage" },
+          { "platform": "Twitter", "url": "https://twitter.com/yourpage" },
+          { "platform": "Instagram", "url": "https://instagram.com/yourpage" },
+          { "platform": "LinkedIn", "url": "https://linkedin.com/company/yourpage" },
+          { "platform": "YouTube", "url": "https://youtube.com/@yourchannel" },
+          { "platform": "TikTok", "url": "https://tiktok.com/@yourprofile" }
+        ],
+        "active": ["Facebook", "Instagram", "YouTube"]
+      },
+      "contact": {
+        "subtitle": "Get in touch with us",
+        "contact_info": [
+          { "type": "Email", "value": "contact@example.com" },
+          { "type": "Phone", "value": "+1234567890" }
+        ]
+      },
+      "logo": {
+        "image_url": "src/assets/images/image_test.png",
+        "link_url": "https://example.com",
+        "alt_text": "Company Logo"
+      },
+      "develop_by": "2025 [marca] - Un producto de STAION SAS"
+    },
+    "styles": {
+      "color_primary": "#00FFFF",
+      "color_secondary": "#000000",
+      "color_tertiary": "#000000",
+      "fonts": [
+        "Roboto",
+        "Open Sans",
+        "Lato",
+        "Inter",
+        "Source Sans",
+        "Noto Sans",
+        "Mulish",
+        "Work Sans",
+        "IBM Plex Sans",
+        "DM Sans"
+      ],
+      "active_font": "Work Sans"
+    }
+  }
+  

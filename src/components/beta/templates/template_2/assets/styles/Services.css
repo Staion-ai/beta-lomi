@@ -1,0 +1,80 @@
+.services-container {
+    width: 100%;
+    height: 632px; /* Cambiado de 448px a auto para adaptarse al contenido */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 80px;
+
+}
+
+.re-container {
+    width: 80%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.services-title {
+    width: 90%;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.services-grid {
+    width: 90%;
+    height: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-width: 100%;
+
+}
+
+.service-card {
+    flex: 1 1 calc(50% - 0.5rem); /* 2 columnas con espacio para el gap */
+    max-width: calc(50% - 0.5rem);
+    height: 280px; /* Reducida de 354px */
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.service-card img {
+    width: 100%;
+    height: 200px; /* Reducida de 300px */
+    object-fit: fill;
+    border-radius: 8px 8px 0 0;
+}
+
+.service-info {
+    padding: 10px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.service-info .description {
+    margin: 5px 0;
+    font-size: 14px; /* Opcional: reducir tamaño de fuente si es necesario */
+}
+
+/* Responsive para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .service-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+    
+    .services-title {
+        width: 100%;
+    }
+}

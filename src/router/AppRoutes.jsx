@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import Home from '../pages/Home'
-import ProyectForm from '../components/beta/NewProyect/ProyectForm'
+import ProyectForm from '../components/beta/new_proyect/ProyectForm'
 
 function AppRoutes() {
     return (

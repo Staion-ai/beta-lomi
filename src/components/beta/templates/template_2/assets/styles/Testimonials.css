@@ -1,0 +1,48 @@
+.testimony-container {
+    width: 100%;
+    height: 448px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    margin-bottom: 80px;
+}
+
+.re-container {
+    width: 80%;
+    height: 100%; 
+}
+  
+.testimony-title {
+    width: 100%;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+  
+.testimony-grid {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+    
+.testimony-card {
+    flex: 1 1 280px;
+    max-width: 308px;
+    height: 432px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+}
+
+.client-image img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover; 
+    border-radius: 8px 8px 0 0;
+}

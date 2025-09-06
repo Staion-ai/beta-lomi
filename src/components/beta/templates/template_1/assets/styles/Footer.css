@@ -1,0 +1,63 @@
+.footer-container {
+    width: 100%;
+    height: 400px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: "Inter";
+}
+
+.content-container {
+    width: 50%;
+    height: 100%;
+
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400px;
+
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.content-container img { 
+    width: 150px;
+    height: 100px;
+}
+
+
+.social-media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.content-container a,
+.content-container a:visited,
+.content-container a:active,
+.content-container a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.content-container ul,
+.content-container li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.legal-section {
+    font-size: 14px;
+}

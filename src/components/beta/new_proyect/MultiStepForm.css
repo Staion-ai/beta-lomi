@@ -111,6 +111,15 @@
   margin-bottom: 1.5rem;
 }
 
+.input-label {
+  display: block;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
 .form-field .MuiFormLabel-root {
   color: rgba(255, 255, 255, 0.9) !important;
   font-size: 16px;
@@ -162,20 +171,84 @@
 }
 
 /* Dynamic sections (products, testimonials) */
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
 .dynamic-section {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 15px;
   padding: 1.5rem;
-  margin-bottom: 1.5rem;
   background-color: rgba(255, 255, 255, 0.05);
   position: relative;
+  height: fit-content;
+  transition: all 0.3s ease;
+}
+
+.dynamic-section.collapsed {
+  padding-bottom: 1rem;
 }
 
 .dynamic-section-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 1rem;
+}
+
+.section-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.section-header-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.card-status-indicators {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.error-indicator {
+  color: #ff5252 !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+
+.success-indicator {
+  color: #F9DF88 !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+
+.collapse-button {
+  background-color: transparent !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 50% !important;
+  min-width: 32px !important;
+  height: 32px !important;
+  padding: 0 !important;
+  transition: all 0.3s ease !important;
+}
+
+.collapse-button:hover {
+  background-color: rgba(249, 223, 136, 0.2) !important;
+  border-color: #F9DF88 !important;
+  color: #F9DF88 !important;
+  transform: scale(1.05);
+}
+
+.card-content {
+  padding-top: 0.5rem;
 }
 
 .section-number {
@@ -262,11 +335,16 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .products-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
   .form-actions {
     flex-direction: column-reverse;
     gap: 1rem;
   }
-  
+
   .back-button,
   .submit-button {
     width: 100%;
@@ -285,12 +363,35 @@
     padding: 1rem;
   }
 
+  .dynamic-section.collapsed {
+    padding-bottom: 0.75rem;
+  }
+
+  .section-header-left {
+    gap: 0.25rem;
+  }
+
+  .section-header-actions {
+    gap: 0.25rem;
+  }
+
+  .collapse-button,
+  .remove-button {
+    min-width: 28px !important;
+    height: 28px !important;
+  }
+
   .custom-step-label .MuiStepLabel-label {
     font-size: 12px;
   }
 }
 
 @media (max-width: 480px) {
+  .products-container {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
   .stepper-container {
     margin: 1rem 0;
   }
@@ -305,6 +406,33 @@
 
   .form-actions {
     margin-top: 1.5rem;
+  }
+
+  .dynamic-section {
+    padding: 0.75rem;
+  }
+
+  .dynamic-section.collapsed {
+    padding-bottom: 0.5rem;
+  }
+
+  .section-number {
+    font-size: 16px !important;
+  }
+
+  .error-indicator,
+  .success-indicator {
+    font-size: 11px !important;
+  }
+
+  .section-header-actions {
+    gap: 0.125rem;
+  }
+
+  .collapse-button,
+  .remove-button {
+    min-width: 24px !important;
+    height: 24px !important;
   }
 
   .custom-step-label .MuiStepLabel-label {

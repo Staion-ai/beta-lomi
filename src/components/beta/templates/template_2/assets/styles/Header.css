@@ -1,0 +1,172 @@
+/* Estilos para los contenedores del header */
+.header-container {
+    width: 100%;
+    height: 580px;
+    
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilos para el navi */
+.navigation-container {
+    width: 100%;
+    height: 80px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    gap: 2rem;
+
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.left-navigation {
+    justify-content: space-between ;
+    margin-left: 32px;
+    gap: 2rem;
+}
+.left-navigation, .right-navigation {
+    width: 30%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 120px;
+    height: 80px;
+}
+
+.navigation-container a,
+.navigation-container a:visited,
+.navigation-container a:active,
+.navigation-container a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.navigation-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    display: flex;
+    gap: 2rem;
+}
+
+.right-navigation button {
+    width:300px;
+    height: 40px;
+    font-size: 20px;
+    margin-left: 176px;
+
+    border: none;
+    border-radius: 8px;
+}
+
+.panel {
+    width: 100%;
+    height: 504px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    text-align: center;
+}
+
+.left-panel {
+    width: 35%;
+    height: 80%;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.right-panel {
+    width: 20%;
+    height: 80%;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;    
+}
+
+.title-parag {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.subtitle-parag {
+    font-size: 24px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.hash-parag {
+    margin-bottom: 25px;
+}
+
+
+/* Estilos para la imagen/video del header*/
+.img-header-container {
+    width: 100%;
+    height: 450px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+}
+
+.img-header-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+/* Estilos para el contenedor del branding*/
+.branding-container {
+    width: 100%;
+    height: 260px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #F6E4E1;
+}
+
+.paragraph-container {
+    width: 70%;
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.btn-container {
+    width: 60%;
+    height: 40px;
+    margin-bottom: 25px;
+    margin-top: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-container button {
+    width: 300px;
+    height: 40px;
+    font-size: 20px;
+
+    border: none;
+    border-radius: 8px;
+}
