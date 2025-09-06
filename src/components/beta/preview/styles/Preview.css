@@ -1,7 +1,6 @@
 /* Preview component styles */
 .preview-container {
     min-height: 100vh;
-    background-color: #f5f5f5;
 }
 
 .preview-header {
@@ -45,11 +44,11 @@
     .preview-content {
         padding: 1rem;
     }
-    
+
     .preview-header {
         padding: 1rem;
     }
-    
+
     .template-selector {
         padding: 1rem;
     }

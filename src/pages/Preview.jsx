@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Container, Typography, Box } from '@mui/material';
-import TemplateSelector from './Preview/components/TemplateSelector';
-import TemplateRenderer from './Preview/components/TemplateRenderer';
-import { DEFAULT_TEMPLATE } from './Preview/templateConfig';
-import './Preview/styles/Preview.css';
+import TemplateSelector from '../components/beta/preview/components/TemplateSelector';
+import TemplateRenderer from '../components/beta/preview/components/TemplateRenderer';
+import { DEFAULT_TEMPLATE } from '../components/beta/preview/templateConfig';
+import '../components/beta/preview/styles/Preview.css';
 
 function Preview() {
     const [selectedTemplate, setSelectedTemplate] = useState(DEFAULT_TEMPLATE);
@@ -24,14 +24,14 @@ function Preview() {
                     </Typography>
                 </Container>
             </div>
-            
+
             <div className="preview-content">
                 <Container maxWidth="lg">
                     <TemplateSelector
                         selectedTemplate={selectedTemplate}
                         onTemplateChange={handleTemplateChange}
                     />
-                    
+
                     <TemplateRenderer template={selectedTemplate} />
                 </Container>
             </div>
