@@ -1,7 +1,9 @@
 {
+  "repo_url": "https://github.com/Staion-Startup/lomi-template-3.git",
+  "client_name": "Tenis los verdes",
   "navbar": {
     "logo": {
-      "image_url": "https://example.com/logo.png",
+      "image_url": "src\\components\\beta\\templates\\template_1\\assets\\images\\hi_lizz_logo.jpg",
       "link_url": "https://example.com",
       "alt_text": "Tenis los verdes Logo"
     },
@@ -31,7 +33,7 @@
   "hero_section": {
     "title": "¡Caminemos juntos hacia el estilo con Tenis los Verdes!",
     "subtitle": "Encuentra los tenis verdes más exclusivos, ¡solo en nuestra tienda!",
-    "background_image": "path/to/background.jpg",
+    "background_image": "src\\components\\beta\\templates\\template_1\\assets\\images\\cabello_header.jpg",
     "cta_button": {
       "label": "¡Compra ahora!",
       "url": "/learn-more"
@@ -45,25 +47,25 @@
     "content": [
       {
         "name": "Tenis Verde Clásico",
-        "image_url": "src/assets/images/image_test.png"
+        "image_url": "src\\components\\beta\\templates\\template_1\\assets\\images\\image_test.png"
       },
       {
         "name": "Tenis Verde Neón",
-        "image_url": "src/assets/images/image_test.png"
+        "image_url": "src\\components\\beta\\templates\\template_1\\assets\\images\\image_test.png"
       },
       {
         "name": "Tenis Verde Militar",
-        "image_url": "src/assets/images/image_test.png"
+        "image_url": "src\\components\\beta\\templates\\template_1\\assets\\images\\image_test.png"
       },
       {
         "name": "Tenis Verde Elegante",
-        "image_url": "src/assets/images/image_test.png"
+        "image_url": "src\\components\\beta\\templates\\template_1\\assets\\images\\image_test.png"
       }
     ]
   },
   "faqs": {
     "title": "Preguntas Frecuentes",
-    "background_image": "path/to/background.jpg",
+    "background_image": "src\\components\\beta\\templates\\template_1\\assets\\images\\cabello_header.jpg",
     "questions": [
       {
         "question": "¿Qué tallas tienen disponibles los tenis verdes?",
@@ -88,19 +90,19 @@
     "testimonials": [
       {
         "client_name": "María Gómez",
-        "client_image": "url/to/testimony1.png"
+        "client_image": "src\\components\\beta\\templates\\template_1\\assets\\images\\cabello_header.jpg"
       },
       {
         "client_name": "Carlos Pérez",
-        "client_image": "url/to/testimony2.png"
+        "client_image": "src\\components\\beta\\templates\\template_1\\assets\\images\\cabello_header.jpg"
       },
       {
         "client_name": "Luisa Rodríguez",
-        "client_image": "url/to/testimony3.png"
+        "client_image": "src\\components\\beta\\templates\\template_1\\assets\\images\\cabello_header.jpg"
       },
       {
         "client_name": "Juan Vargas",
-        "client_image": "url/to/testimony4.png"
+        "client_image": "src\\components\\beta\\templates\\template_1\\assets\\images\\cabello_header.jpg"
       }
     ]
   },

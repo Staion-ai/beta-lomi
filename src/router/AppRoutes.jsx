@@ -10,21 +10,21 @@ function AppRoutes() {
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route 
-                path="/dashboard" 
+            <Route
+                path="/form"
                 element={
                     <ProtectedRoute>
                         <ProyectForm />
                     </ProtectedRoute>
-                } 
+                }
             />
-            <Route 
-                path="/preview" 
+            <Route
+                path="/preview"
                 element={
                     <ProtectedRoute>
                         <Preview />
                     </ProtectedRoute>
-                } 
+                }
             />
         </Routes>
     )

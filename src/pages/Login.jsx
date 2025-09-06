@@ -25,7 +25,7 @@ function Login() {
   const location = useLocation()
   const { login, loading } = useAuth()
 
-  const from = location.state?.from?.pathname || '/dashboard'
+  const from = location.state?.from?.pathname || '/form'
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -47,7 +47,7 @@ function Login() {
     }
 
     const result = await login(formData.email, formData.password)
-    
+
     if (result.success) {
       navigate(from, { replace: true })
     } else {
@@ -66,7 +66,7 @@ function Login() {
     <Box
       sx={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: 'linear-gradient(180deg,#F9DCB8, #8783CA 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -74,7 +74,7 @@ function Login() {
       }}
     >
       <Container maxWidth="sm">
-        <Card 
+        <Card
           elevation={8}
           sx={{
             borderRadius: 3,
@@ -85,20 +85,20 @@ function Login() {
             {/* Logo y titulo */}
             <Box sx={{ textAlign: 'center', mb: 4 }}>
               <Box sx={{ mb: 2 }}>
-                <img 
-                  src="/favicon.ico" 
+                <img
+                  src="/favicon.ico"
                   alt="LOMI Logo"
-                  style={{ 
-                    width: '60px', 
+                  style={{
+                    width: '60px',
                     height: '60px',
                     borderRadius: '12px'
                   }}
                 />
               </Box>
-              <Typography 
-                variant="h4" 
+              <Typography
+                variant="h4"
                 component="h1"
-                sx={{ 
+                sx={{
                   fontWeight: 'bold',
                   color: '#333',
                   mb: 1
@@ -106,8 +106,8 @@ function Login() {
               >
                 LOMI
               </Typography>
-              <Typography 
-                variant="body1" 
+              <Typography
+                variant="body1"
                 color="text.secondary"
               >
                 Ingresa a tu cuenta para continuar
@@ -165,9 +165,9 @@ function Login() {
                   sx={{
                     borderRadius: 2,
                     py: 1.5,
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    background: 'linear-gradient(45deg, #F9DCB8, #8783CA 100%)',
                     '&:hover': {
-                      background: 'linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%)'
+                      background: 'linear-gradient(15deg, #5a6fd8 0%, #6a4190 100%)'
                     },
                     textTransform: 'none',
                     fontSize: '1rem',
