@@ -13,6 +13,9 @@ import {
 // Hooks personalizados
 import { useMultiStepForm } from './hooks'
 
+// Componente de autenticación
+import AuthHeader from '../../auth/AuthHeader'
+
 // Estilos
 import '../../../assets/styles/Form.css'
 import './MultiStepForm.css'
@@ -45,8 +48,10 @@ function ProyectForm() {
   }
 
   return (
-    <div className="form-section">
-      <FormHeader />
+    <>
+      <AuthHeader title="Dashboard - Crear Proyecto" />
+      <div className="form-section">
+        <FormHeader />
 
       <Container maxWidth="md">
         <CustomStepper
@@ -72,6 +77,7 @@ function ProyectForm() {
         </Box>
       </Container>
     </div>
+    </>
   )
 }
 
