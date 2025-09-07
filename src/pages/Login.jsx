@@ -25,7 +25,7 @@ function Login() {
   const location = useLocation()
   const { login, loading } = useAuth()
 
-  const from = location.state?.from?.pathname || '/form'
+  const from = location.state?.from?.pathname || '/dashboard'
 
   const handleInputChange = (e) => {
     const { name, value } = e.target

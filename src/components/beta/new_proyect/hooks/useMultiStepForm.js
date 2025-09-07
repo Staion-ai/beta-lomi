@@ -6,7 +6,7 @@ import { useFormValidation } from './useFormValidation'
 import { useCreateImagesUrl } from './useFetchImages'
 import { useTemplateContent } from './useTemplateContent'
 
-export const useMultiStepForm = (steps) => {
+export const useMultiStepForm = (steps, onComplete) => {
     const [activeStep, setActiveStep] = useState(0)
     const [formData, setFormData] = useState({})
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -103,6 +103,13 @@ export const useMultiStepForm = (steps) => {
                     setFormData(updatedDataWithUrls)
                     const templateContent = generateTemplateContent(updatedDataWithUrls)
                     setNotification({ open: true, message: 'Proyecto creado exitosamente. Las imágenes han sido subidas.', severity: 'success' })
+                    
+                    // Navigate to preview with template content after successful completion
+                    if (onComplete) {
+                        setTimeout(() => {
+                            onComplete(updatedDataWithUrls)
+                        }, 2000) // Wait 2 seconds to show success message
+                    }
                 } catch (error) {
                     console.error('Error uploading images:', error)
                     setNotification({ open: true, message: 'Error al subir las imágenes. Inténtalo de nuevo.', severity: 'error' })

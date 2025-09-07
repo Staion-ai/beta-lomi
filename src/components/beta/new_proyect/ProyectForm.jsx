@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Box, Container } from '@mui/material'
 
@@ -24,6 +25,7 @@ import './MultiStepForm.css'
 const steps = ['Información de la Empresa', 'Productos y Servicios', 'Clientes']
 
 function ProyectForm() {
+  const navigate = useNavigate()
   const methods = useForm({
     defaultValues: {
       company_name: '',
@@ -33,6 +35,10 @@ function ProyectForm() {
       testimonials: []
     }
   })
+
+  const handleFormComplete = (formData) => {
+    navigate('/preview', { state: { templateContent: formData } })
+  }
 
   const {
     activeStep,
@@ -44,7 +50,7 @@ function ProyectForm() {
     handleBack,
     isStepComplete: checkStepComplete,
     updateStageFiles
-  } = useMultiStepForm(steps)
+  } = useMultiStepForm(steps, handleFormComplete)
 
   const isStepComplete = (stepIndex) => {
     const currentData = methods.getValues()
