@@ -24,7 +24,7 @@ export const useMultiStepForm = (steps, onComplete) => {
         validateCurrentStep,
         validateAllSteps,
         isStepComplete,
-        showValidationErrors
+        // showValidationErrors - unused but kept for future use
     } = useFormValidation()
 
     const updateStageFiles = (stage, fileKey, file) => {
@@ -37,15 +37,15 @@ export const useMultiStepForm = (steps, onComplete) => {
         }))
     }
 
-    const createFormData = (formData) => {
+    const createFormData = (/* formData */) => {
         const finalFormData = new FormData()
 
         // Agregar user_id ficticio
         finalFormData.append('user_id', 'user_12345')
 
         // Agregar archivos de cada stage
-        Object.entries(filesData).forEach(([stage, files]) => {
-            Object.entries(files).forEach(([fileKey, file]) => {
+        Object.entries(filesData).forEach(([/* stage */, files]) => {
+            Object.entries(files).forEach(([/* fileKey */, file]) => {
                 if (file) {
                     finalFormData.append('files', file)
                 }
@@ -101,7 +101,8 @@ export const useMultiStepForm = (steps, onComplete) => {
                     const response = await createImagesUrl(finalFormData)
                     const updatedDataWithUrls = updateImagesWithUrls(updatedData, response)
                     setFormData(updatedDataWithUrls)
-                    const templateContent = generateTemplateContent(updatedDataWithUrls)
+                    // const templateContent = generateTemplateContent(updatedDataWithUrls) // Generated but handled by callback
+                    generateTemplateContent(updatedDataWithUrls)
                     setNotification({ open: true, message: 'Proyecto creado exitosamente. Las imágenes han sido subidas.', severity: 'success' })
                     
                     // Navigate to preview with template content after successful completion
