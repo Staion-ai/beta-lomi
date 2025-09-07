@@ -101,14 +101,7 @@ export const useMultiStepForm = (steps) => {
                     const response = await createImagesUrl(finalFormData)
                     const updatedDataWithUrls = updateImagesWithUrls(updatedData, response)
                     setFormData(updatedDataWithUrls)
-                    const templateContent = generateTemplateContent({
-                        ...updatedDataWithUrls,
-                        testimonials: {
-                            ...updatedDataWithUrls.testimonials,
-                            clientCompany: "",
-                            testimonial: "",
-                        }
-                    })
+                    const templateContent = generateTemplateContent(updatedDataWithUrls)
                     setNotification({ open: true, message: 'Proyecto creado exitosamente. Las imágenes han sido subidas.', severity: 'success' })
                 } catch (error) {
                     console.error('Error uploading images:', error)
