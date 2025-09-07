@@ -7,7 +7,8 @@ import {
   FormHeader,
   CustomStepper,
   FormNavigationButtons,
-  StageRenderer
+  StageRenderer,
+  NotificationSnackbar
 } from './components'
 
 // Hooks personalizados
@@ -25,8 +26,8 @@ const steps = ['Información de la Empresa', 'Productos y Servicios', 'Clientes'
 function ProyectForm() {
   const methods = useForm({
     defaultValues: {
-      companyName: '',
-      companyDescription: '',
+      company_name: '',
+      description: '',
       colors: [],
       products: [],
       testimonials: []
@@ -36,16 +37,18 @@ function ProyectForm() {
   const {
     activeStep,
     isSubmitting,
+    isUploadingImages,
+    notification,
+    handleCloseNotification,
     handleSubmit,
     handleBack,
-    checkStepComplete,
+    isStepComplete: checkStepComplete,
     updateStageFiles
   } = useMultiStepForm(steps)
 
-  // Función para verificar si un paso está completo usando el hook
   const isStepComplete = (stepIndex) => {
     const currentData = methods.getValues()
-    return checkStepComplete(stepIndex, currentData)
+    return checkStepComplete ? checkStepComplete(stepIndex, currentData) : false
   }
 
   return (
@@ -54,30 +57,43 @@ function ProyectForm() {
       <div className="form-section">
         <FormHeader />
 
-      <Container maxWidth="md">
-        <CustomStepper
-          activeStep={activeStep}
-          steps={steps}
-          isStepComplete={isStepComplete}
-        />
+        <Container maxWidth="md">
+          <CustomStepper
+            activeStep={activeStep}
+            steps={steps}
+            isStepComplete={isStepComplete}
+          />
 
-        <Box className="form-container" style={{ marginBottom: '2rem' }}>
-          <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(handleSubmit)}>
-              <StageRenderer activeStep={activeStep} updateStageFiles={updateStageFiles} />
+          <Box className="form-container" style={{ marginBottom: '2rem' }}>
+            <FormProvider {...methods}>
+              <form onSubmit={methods.handleSubmit(handleSubmit)}>
+                <StageRenderer activeStep={activeStep} updateStageFiles={updateStageFiles} />
 
-              <FormNavigationButtons
-                activeStep={activeStep}
-                steps={steps}
-                onBack={handleBack}
-                isStepComplete={isStepComplete}
-                isSubmitting={isSubmitting}
-              />
-            </form>
-          </FormProvider>
-        </Box>
-      </Container>
-    </div>
+                <FormNavigationButtons
+                  activeStep={activeStep}
+                  steps={steps}
+                  onBack={handleBack}
+                  isStepComplete={isStepComplete}
+                  isSubmitting={isSubmitting || isUploadingImages}
+                />
+              </form>
+
+              {isUploadingImages && (
+                <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+                  <p>Generando URLs de imágenes...</p>
+                </div>
+              )}
+            </FormProvider>
+          </Box>
+        </Container>
+      </div>
+
+      <NotificationSnackbar
+        open={notification.open}
+        message={notification.message}
+        severity={notification.severity}
+        onClose={handleCloseNotification}
+      />
     </>
   )
 }

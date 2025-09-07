@@ -9,10 +9,10 @@ export const useFormValidation = () => {
 
         switch (activeStep) {
             case 0: // Stage 1 - Información de la empresa
-                if (!data.companyName || data.companyName.trim().length < 2) {
+                if (!data.company_name || data.company_name.trim().length < 2) {
                     errors.push('El nombre de la empresa es requerido (mínimo 2 caracteres)')
                 }
-                if (!data.companyDescription || data.companyDescription.trim().length < 10) {
+                if (!data.description || data.description.trim().length < 10) {
                     errors.push('La descripción de la empresa es requerida (mínimo 10 caracteres)')
                 }
                 if (!data.colors || data.colors.length === 0) {
@@ -29,6 +29,9 @@ export const useFormValidation = () => {
                         if (!product.name || product.name.trim().length < 2) {
                             errors.push(`Producto ${index + 1}: El nombre es requerido (mínimo 2 caracteres)`)
                         }
+                        if (!product.description || product.description.trim().length < 10) {
+                            errors.push(`Producto ${index + 1}: La descripción es requerida (mínimo 10 caracteres)`)
+                        }
                         if (!product.image) {
                             errors.push(`Producto ${index + 1}: La imagen es requerida`)
                         }
@@ -42,8 +45,8 @@ export const useFormValidation = () => {
                 } else {
                     // Validar que cada cliente tenga los campos requeridos
                     data.testimonials.forEach((client, index) => {
-                        if (!client.clientName || client.clientName.trim().length < 2) {
-                            errors.push(`Cliente ${index + 1}: El nombre es requerido (mínimo 2 caracteres)`)
+                        if (!client.clientCompany || client.clientCompany.trim().length < 2) {
+                            errors.push(`Cliente ${index + 1}: La compañía es requerida (mínimo 2 caracteres)`)
                         }
                     })
                 }
@@ -61,10 +64,10 @@ export const useFormValidation = () => {
         const errors = []
 
         // Validar Stage 1
-        if (!data.companyName || data.companyName.trim().length < 2) {
+        if (!data.company_name || data.company_name.trim().length < 2) {
             errors.push('Etapa 1: El nombre de la empresa es requerido')
         }
-        if (!data.companyDescription || data.companyDescription.trim().length < 10) {
+        if (!data.description || data.description.trim().length < 10) {
             errors.push('Etapa 1: La descripción de la empresa es requerida')
         }
         if (!data.colors || data.colors.length === 0) {
@@ -85,9 +88,9 @@ export const useFormValidation = () => {
         if (!data.testimonials || data.testimonials.length === 0) {
             errors.push('Etapa 3: Debes agregar al menos un cliente')
         } else {
-            const incompleteClients = data.testimonials.filter(t => !t.clientName)
+            const incompleteClients = data.testimonials.filter(t => !t.clientCompany)
             if (incompleteClients.length > 0) {
-                errors.push('Etapa 3: Todos los clientes deben tener nombre')
+                errors.push('Etapa 3: Todos los clientes deben tener compañía')
             }
         }
 
@@ -99,8 +102,8 @@ export const useFormValidation = () => {
         switch (stepIndex) {
             case 0:
                 return (
-                    data.companyName && data.companyName.trim().length >= 2 &&
-                    data.companyDescription && data.companyDescription.trim().length >= 10 &&
+                    data.company_name && data.company_name.trim().length >= 2 &&
+                    data.description && data.description.trim().length >= 10 &&
                     data.colors && data.colors.length > 0
                 )
             case 1:
@@ -111,7 +114,7 @@ export const useFormValidation = () => {
             case 2:
                 return (
                     data.testimonials && data.testimonials.length > 0 &&
-                    data.testimonials.every(t => t.clientName && t.clientName.trim().length >= 2)
+                    data.testimonials.every(t => t.clientCompany && t.clientCompany.trim().length >= 2)
                 )
             default:
                 return false

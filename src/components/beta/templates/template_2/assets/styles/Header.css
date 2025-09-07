@@ -1,43 +1,43 @@
-/* Estilos para los contenedores del header */
+* {
+    box-sizing: border-box;
+}
+
+/* === ESTILOS BASE (Desktop ≥1367px, monitores grandes) === */
 .header-container {
     width: 100%;
     height: 580px;
-    
     display: flex;
     flex-direction: column;
 }
 
-/* Estilos para el navi */
+/* Navigation */
 .navigation-container {
     width: 100%;
     height: 80px;
-
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
-    gap: 2rem;
-
+    justify-content: space-between;
+    padding: 0 32px;
     font-size: 16px;
     font-weight: 400;
 }
 
 .left-navigation {
-    justify-content: space-between ;
-    margin-left: 32px;
+    display: flex;
+    align-items: center;
     gap: 2rem;
 }
-.left-navigation, .right-navigation {
-    width: 30%;
-    height: 100%;
 
+.right-navigation {
     display: flex;
     align-items: center;
 }
 
 .logo img {
     width: 120px;
-    height: 80px;
+    height: 60px;
+    object-fit: contain;
 }
 
 .navigation-container a,
@@ -52,121 +52,480 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    
     display: flex;
     gap: 2rem;
 }
 
 .right-navigation button {
-    width:300px;
+    width: 200px;
     height: 40px;
-    font-size: 20px;
-    margin-left: 176px;
-
+    font-size: 16px;
     border: none;
     border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
 }
 
+.right-navigation button:hover {
+    opacity: 0.9;
+}
+
+/* Panel principal */
 .panel {
     width: 100%;
-    height: 504px;
-
+    height: calc(100% - 80px);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    text-align: center;
+    padding: 0 32px;
+    gap: 2rem;
 }
 
 .left-panel {
-    width: 35%;
+    width: 50%;
     height: 80%;
-
     display: flex;
     align-items: center;
     flex-direction: column;
-}
-
-.right-panel {
-    width: 20%;
-    height: 80%;
-
-    display: flex;
-    align-items: center;
-    flex-direction: column;    
-}
-
-.title-parag {
-    font-size: 32px;
-    margin-bottom: 10px;
-}
-
-.subtitle-parag {
-    font-size: 24px;
-    margin-bottom: 25px;
+    justify-content: center;
     text-align: center;
 }
 
-.hash-parag {
-    margin-bottom: 25px;
-}
-
-
-/* Estilos para la imagen/video del header*/
-.img-header-container {
-    width: 100%;
-    height: 450px;
-
+.right-panel {
+    width: 40%;
+    height: 80%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    border-radius: 16px;
-}
-
-.img-header-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-}
-
-/* Estilos para el contenedor del branding*/
-.branding-container {
-    width: 100%;
-    height: 260px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
-    background-color: #F6E4E1;
+    justify-content: center;
 }
 
 .paragraph-container {
-    width: 70%;
-    height: 15%;
-    display: flex;
-    flex-direction: column;
+    width: 100%;
+    margin-bottom: 2rem;
+}
 
-    font-size: 24px;
-    font-weight: 400;
+.title-parag {
+    font-size: 48px;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.subtitle-parag {
+    font-size: 20px;
+    margin-bottom: 2rem;
+    text-align: center;
+    line-height: 1.5;
+    opacity: 0.9;
 }
 
 .btn-container {
-    width: 60%;
-    height: 40px;
-    margin-bottom: 25px;
-    margin-top: 40px;
-
+    width: 100%;
+    margin-bottom: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .btn-container button {
-    width: 300px;
-    height: 40px;
-    font-size: 20px;
-
+    width: 250px;
+    height: 50px;
+    font-size: 18px;
     border: none;
     border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.btn-container button:hover {
+    opacity: 0.9;
+}
+
+.hash-parag {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* Imagen del header */
+.img-header-container {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.img-header-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+/* === LAPTOPS PEQUEÑAS (1280px – 1366px) === */
+@media screen and (max-width: 1366px) {
+    .header-container {
+        height: 540px;
+    }
+
+    .logo img {
+        width: 110px;
+        height: 55px;
+    }
+
+    .navigation-container ul {
+        gap: 1.5rem;
+    }
+
+    .navigation-container ul li a {
+        font-size: 15px;
+    }
+
+    .title-parag {
+        font-size: 40px;
+    }
+
+    .subtitle-parag {
+        font-size: 18px;
+    }
+
+    .right-navigation button {
+        width: 180px;
+        height: 38px;
+        font-size: 15px;
+    }
+
+    .btn-container button {
+        width: 220px;
+        height: 44px;
+        font-size: 16px;
+    }
+
+    .img-header-container {
+        height: 360px;
+    }
+}
+
+/* === TABLET GRANDE (≤1024px) === */
+@media screen and (max-width: 1024px) {
+    .header-container {
+        height: 480px;
+    }
+
+    .navigation-container {
+        height: 70px;
+        gap: 1.5rem;
+    }
+
+    .logo img {
+        width: 100px;
+        height: 65px;
+    }
+
+    .navigation-container ul li a {
+        font-size: 14px;
+    }
+
+    .right-navigation button {
+        width: 200px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    .panel {
+        height: 410px;
+    }
+
+    .left-panel {
+        width: 38%;
+    }
+
+    .right-panel {
+        width: 22%;
+    }
+
+    .title-parag {
+        font-size: 32px;
+    }
+
+    .subtitle-parag {
+        font-size: 18px;
+    }
+
+    .btn-container button {
+        width: 200px;
+        height: 36px;
+        font-size: 15px;
+    }
+
+    .img-header-container {
+        height: 300px;
+    }
+}
+
+/* === TABLET PEQUEÑA (600px – 770px) === */
+@media screen and (max-width: 770px) and (min-width: 600px) {
+    .header-container {
+        height: 420px;
+    }
+
+    .navigation-container {
+        height: 60px;
+        justify-content: space-between;
+        padding: 0 12px;
+        gap: 0.8rem;
+    }
+
+    .logo img {
+        width: 80px;
+        height: 55px;
+    }
+
+    .navigation-container ul {
+        gap: 0.8rem;
+    }
+
+    .navigation-container ul li a {
+        font-size: 12px;
+    }
+
+    .right-navigation button {
+        width: 160px;
+        height: 32px;
+        font-size: 13px;
+    }
+
+    .panel {
+        height: 360px;
+    }
+
+    .left-panel {
+        width: 45%;
+    }
+
+    .right-panel {
+        width: 30%;
+    }
+
+    .title-parag {
+        font-size: 24px;
+    }
+
+    .subtitle-parag {
+        font-size: 16px;
+    }
+
+    .btn-container button {
+        width: 180px;
+        height: 32px;
+        font-size: 14px;
+    }
+
+    .img-header-container {
+        height: 280px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .header-container {
+        height: auto;
+        min-height: 420px;
+    }
+    
+    .navigation-container {
+        height: auto;
+        min-height: 50px;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0.8rem 16px;
+    }
+    
+    .left-navigation {
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .right-navigation {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .logo img {
+        width: 80px;
+        height: 50px;
+    }
+    
+    .navigation-container ul {
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .navigation-container ul li a {
+        font-size: 12px;
+    }
+    
+    .right-navigation button {
+        width: 200px;
+        height: 32px;
+        font-size: 14px;
+        margin-left: 0;
+    }
+    
+    .panel {
+        min-height: 350px;
+        gap: 1rem;
+        padding: 0.8rem 16px;
+    }
+    
+    .left-panel {
+        width: 95%;
+    }
+    
+    .right-panel {
+        width: 85%;
+    }
+    
+    .paragraph-container {
+        width: 95%;
+        font-size: 20px;
+    }
+    
+    .title-parag {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+    
+    .subtitle-parag {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+    
+    .btn-container {
+        width: 90%;
+        margin-top: 25px;
+        margin-bottom: 15px;
+    }
+    
+    .btn-container button {
+        width: 200px;
+        height: 32px;
+        font-size: 14px;
+    }
+    
+    .img-header-container {
+        height: 220px;
+    }
+    
+    .hash-parag {
+        margin-bottom: 15px;
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .header-container {
+        min-height: 380px;
+    }
+    
+    .navigation-container {
+        padding: 0.6rem 12px;
+    }
+    
+    .logo img {
+        width: 70px;
+        height: 45px;
+    }
+    
+    .navigation-container ul li a {
+        font-size: 11px;
+    }
+    
+    .right-navigation button {
+        width: 180px;
+        height: 30px;
+        font-size: 13px;
+    }
+    
+    .panel {
+        min-height: 320px;
+        padding: 0.6rem 12px;
+    }
+    
+    .paragraph-container {
+        font-size: 18px;
+    }
+    
+    .title-parag {
+        font-size: 20px;
+    }
+    
+    .subtitle-parag {
+        font-size: 14px;
+    }
+    
+    .btn-container button {
+        width: 180px;
+        height: 30px;
+        font-size: 13px;
+    }
+    
+    .img-header-container {
+        height: 180px;
+    }
+    
+    .hash-parag {
+        font-size: 11px;
+    }
+}
+
+  
+
+/* === MÓVIL MUY PEQUEÑO (≤360px) === */
+@media screen and (max-width: 360px) {
+    .navigation-container ul {
+        gap: 0.5rem;
+    }
+
+    .navigation-container ul li a {
+        font-size: 10px;
+    }
+
+    .title-parag {
+        font-size: 18px;
+    }
+
+    .subtitle-parag {
+        font-size: 13px;
+    }
+
+    .btn-container button {
+        width: 160px;
+        height: 36px;
+        font-size: 13px;
+    }
+
+    .img-header-container {
+        height: 160px;
+    }
+}
+
+/* === Ajustes touch devices === */
+@media (hover: none) and (pointer: coarse) {
+    .right-navigation button,
+    .btn-container button {
+        min-height: 44px;
+    }
+
+    .navigation-container ul li a {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }

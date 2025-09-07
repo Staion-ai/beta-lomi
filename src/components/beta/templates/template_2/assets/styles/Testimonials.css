@@ -1,48 +1,147 @@
-.testimony-container {
+/* ===========================
+   Testimonials (scoped, responsive y compacto)
+   =========================== */
+
+   .testimony-container {
     width: 100%;
-    height: 448px;
-  
+    padding: 32px 0;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
-    margin-bottom: 80px;
-}
-
-.re-container {
-    width: 80%;
-    height: 100%; 
-}
+    margin-bottom: 48px;
+    box-sizing: border-box;
+  }
   
-.testimony-title {
+  /* Scoped .re-container para evitar conflictos con otras secciones */
+  .testimony-container .re-container {
+    width: 100%;
+    max-width: 1200px; /* límite ancho en pantallas muy grandes */
+    padding: 0 16px;   /* deja espacio lateral sin recortar */
+    box-sizing: border-box;
+  }
+  
+  /* Título */
+  .testimony-container .testimony-title {
     width: 100%;
     font-size: 24px;
     font-weight: 400;
-    margin-bottom: 20px;
-    margin-top: 20px;
-}
+    margin: 0 0 16px 0;
+    text-align: center;
+  }
   
-.testimony-grid {
+  /* GRID: controla columnas y gaps con precisión */
+  .testimony-container .testimony-grid {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-    
-.testimony-card {
-    flex: 1 1 280px;
-    max-width: 308px;
-    height: 432px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 8px;                /* gap más compacto por defecto */
+    align-items: start;
+    box-sizing: border-box;
+  }
+  
+  /* Cards: sin max-width rígido, sin height fija */
+  .testimony-container .testimony-card {
     display: flex;
     flex-direction: column;
     border-radius: 8px;
-}
-
-.client-image img {
+    overflow: hidden;
+    background: transparent;
+    min-height: 0;           /* evita alturas forzadas */
+    height: auto;
+    box-sizing: border-box;
+    /* Si quieres sombra: uncomment -> box-shadow: 0 4px 12px rgba(0,0,0,0.06); */
+  }
+  
+  /* Imagen del cliente: control de alto pero flexible */
+  .testimony-container .client-image img {
     width: 100%;
-    height: 300px;
-    object-fit: cover; 
-    border-radius: 8px 8px 0 0;
-}
+    height: 200px;      /* buen punto de partida en desktop */
+    max-height: 40vh;   /* no crecerá más allá del 40% viewport height */
+    object-fit: cover;
+    display: block;
+  }
+  
+  /* Info del cliente */
+  .testimony-container .client-info {
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .testimony-container .client-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 6px 0 0 0;
+  }
+  
+  /* ≤1366px - laptops pequeñas */
+  @media screen and (max-width: 1366px) {
+    .testimony-container .testimony-title { 
+        font-size: 22px;
+    }
+
+    .testimony-container .client-image img {
+        height: 180px;
+    }
+
+    .testimony-container .testimony-grid {
+        gap: 7px;
+    }
+  }
+  
+  /* ≤1024px - tablets grandes */
+  @media screen and (max-width: 1024px) {
+    /* grid auto-fit ya maneja 2 columnas si cabe, pero aseguramos separación */
+    .testimony-container .testimony-grid { gap: 6px; }
+    .testimony-container .client-image img { height: 170px; }
+  }
+  
+  /* ≤770px - tablet pequeña / transición a móvil */
+  @media screen and (max-width: 770px) {
+    .testimony-container .testimony-title { font-size: 20px; }
+    .testimony-container .testimony-grid {
+      grid-template-columns: 1fr; /* UNA por fila para máxima densidad */
+      gap: 6px;
+    }
+    .testimony-container .client-image img { height: 160px; }
+    .testimony-container .re-container { padding-left: 12px; padding-right: 12px; }
+  }
+
+  /* ≤600px - móviles */
+  @media screen and (max-width: 600px) {
+    .testimony-container {
+        gap: 0.8rem;
+
+    }
+    .testimony-container .testimony-title { font-size: 18px; margin-bottom: 10px; }
+    .testimony-container .testimony-grid { gap: 4px; }
+    .testimony-container .client-image img {
+      height: auto;        /* deja que la imagen escale según su ratio */
+      max-height: 160px;   /* control para que no sea excesiva */
+    }
+    .testimony-container .testimony-card {
+      padding-bottom: 6px;
+    }
+    .testimony-container .re-container { padding: 0 8px; }
+  }
+  
+  /* ≤480px - móviles pequeños */
+  @media screen and (max-width: 480px) {
+    .testimony-container .testimony-title { font-size: 16px; }
+    .testimony-container .testimony-grid { gap: 3px; }
+    .testimony-container .client-image img { max-height: 140px; }
+    .testimony-container .client-name { font-size: 15px; }
+  }
+  
+  /* ≤360px - extra pequeños */
+  @media screen and (max-width: 360px) {
+    .testimony-container .testimony-title { font-size: 14px; }
+    .testimony-container .client-name { font-size: 14px; }
+    .testimony-container .client-image img { max-height: 120px; }
+  }
+  
+  /* Opcional: debug rápido (activar temporalmente si quieres ver cajas)
+  .testimony-container .re-container { outline: 1px dashed rgba(255,0,0,0.2); }
+  .testimony-container .testimony-card { outline: 1px dashed rgba(0,0,255,0.08); }
+  */
+  

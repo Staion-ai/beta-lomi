@@ -15,7 +15,7 @@ export function useClientsManager() {
         if (fields.length < 4) {
             const newIndex = fields.length
             append({
-                clientName: '',
+                clientCompany: '',
                 image: null
             })
             // Expandir automáticamente el nuevo cliente

@@ -1,18 +1,17 @@
+/* Estilos base para desktop - manteniendo dimensiones originales */
 .services-container {
     width: 100%;
-    height: 632px; /* Cambiado de 448px a auto para adaptarse al contenido */
+    height: 632px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     margin-bottom: 80px;
-
 }
 
 .re-container {
     width: 80%;
     height: 100%;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -34,13 +33,12 @@
     flex-wrap: wrap;
     gap: 1rem;
     max-width: 100%;
-
 }
 
 .service-card {
-    flex: 1 1 calc(50% - 0.5rem); /* 2 columnas con espacio para el gap */
+    flex: 1 1 calc(50% - 0.5rem);
     max-width: calc(50% - 0.5rem);
-    height: 280px; /* Reducida de 354px */
+    height: 280px;
     display: flex;
     flex-direction: column;
     border-radius: 8px;
@@ -49,8 +47,15 @@
 
 .service-card img {
     width: 100%;
-    height: 200px; /* Reducida de 300px */
+    height: 200px;
     object-fit: fill;
+    border-radius: 8px 8px 0 0;
+}
+
+.service-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
     border-radius: 8px 8px 0 0;
 }
 
@@ -64,17 +69,317 @@
 
 .service-info .description {
     margin: 5px 0;
-    font-size: 14px; /* Opcional: reducir tamaño de fuente si es necesario */
+    font-size: 14px;
+    line-height: 1.4;
 }
 
-/* Responsive para pantallas más pequeñas */
-@media (max-width: 768px) {
+/* TABLET GRANDE - 1024px a 1200px */
+@media screen and (max-width: 1200px) {
+    .services-container {
+        height: 580px;
+        margin-bottom: 70px;
+    }
+    
+    .re-container {
+        width: 85%;
+    }
+    
+    .services-title {
+        font-size: 22px;
+    }
+    
     .service-card {
-        flex: 1 1 100%;
-        max-width: 100%;
+        height: 260px;
+    }
+    
+    .service-card img {
+        height: 180px;
+    }
+    
+    .service-image {
+        height: 180px;
+    }
+    
+    .service-info .description {
+        font-size: 13px;
+    }
+}
+
+/* TABLET - 768px a 1024px */
+@media screen and (max-width: 1024px) {
+    .services-container {
+        height: 520px;
+        margin-bottom: 60px;
+    }
+    
+    .re-container {
+        width: 90%;
+    }
+    
+    .services-title {
+        width: 95%;
+        font-size: 20px;
+        margin-bottom: 18px;
+        margin-top: 18px;
+    }
+    
+    .services-grid {
+        width: 95%;
+        gap: 0.8rem;
+    }
+    
+    .service-card {
+        flex: 1 1 calc(50% - 0.4rem);
+        max-width: calc(50% - 0.4rem);
+        height: 240px;
+    }
+    
+    .service-card img {
+        height: 160px;
+    }
+    
+    .service-image {
+        height: 160px;
+    }
+    
+    .service-info {
+        padding: 8px;
+    }
+    
+    .service-info .description {
+        font-size: 12px;
+        margin: 4px 0;
+    }
+}
+
+/* TABLET PEQUEÑA - 600px a 768px */
+@media screen and (max-width: 768px) {
+    .services-container {
+        height: auto;
+        min-height: 480px;
+        margin-bottom: 50px;
+    }
+    
+    .re-container {
+        width: 95%;
     }
     
     .services-title {
         width: 100%;
+        font-size: 18px;
+        margin-bottom: 16px;
+        margin-top: 16px;
+        text-align: center;
+    }
+    
+    .services-grid {
+        width: 100%;
+        gap: 1rem;
+        height: auto;
+    }
+    
+    .service-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+        height: 220px;
+    }
+    
+    .service-card img {
+        height: 140px;
+    }
+    
+    .service-image {
+        height: 140px;
+    }
+    
+    .service-info {
+        padding: 10px;
+    }
+    
+    .service-info .description {
+        font-size: 13px;
+        margin: 4px 0;
+    }
+}
+
+/* MÓVIL - 480px a 600px */
+@media screen and (max-width: 600px) {
+    .services-container {
+        height: auto;
+        min-height: 420px;
+        margin-bottom: 40px;
+        padding: 0 10px;
+    }
+    
+    .re-container {
+        width: 100%;
+    }
+    
+    .services-title {
+        width: 100%;
+        font-size: 16px;
+        margin-bottom: 14px;
+        margin-top: 14px;
+        text-align: center;
+    }
+    
+    .services-grid {
+        width: 100%;
+        gap: 0.8rem;
+    }
+    
+    .service-card {
+        height: 200px;
+    }
+    
+    .service-card img {
+        height: 120px;
+    }
+    
+    .service-image {
+        height: 120px;
+    }
+    
+    .service-info {
+        padding: 8px;
+    }
+    
+    .service-info .description {
+        font-size: 12px;
+        margin: 3px 0;
+        line-height: 1.3;
+    }
+}
+
+/* MÓVIL PEQUEÑO - 400px a 480px */
+@media screen and (max-width: 480px) {
+    .services-container {
+        min-height: 380px;
+        margin-bottom: 35px;
+        padding: 0 8px;
+    }
+    
+    .services-title {
+        font-size: 15px;
+        margin-bottom: 12px;
+        margin-top: 12px;
+    }
+    
+    .services-grid {
+        gap: 0.6rem;
+    }
+    
+    .service-card {
+        height: 180px;
+    }
+    
+    .service-card img {
+        height: 110px;
+    }
+    
+    .service-image {
+        height: 110px;
+    }
+    
+    .service-info {
+        padding: 6px;
+    }
+    
+    .service-info .description {
+        font-size: 11px;
+        margin: 2px 0;
+        line-height: 1.2;
+    }
+}
+
+/* MÓVIL MUY PEQUEÑO - menos de 400px */
+@media screen and (max-width: 400px) {
+    .services-container {
+        min-height: 350px;
+        margin-bottom: 30px;
+        padding: 0 6px;
+    }
+    
+    .services-title {
+        font-size: 14px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        text-align: left;
+        align-self: flex-start;
+    }
+    
+    .services-grid {
+        gap: 0.5rem;
+    }
+    
+    .service-card {
+        height: 160px;
+    }
+    
+    .service-card img {
+        height: 100px;
+    }
+    
+    .service-image {
+        height: 100px;
+    }
+    
+    .service-info {
+        padding: 5px;
+    }
+    
+    .service-info .description {
+        font-size: 10px;
+        margin: 2px 0;
+        line-height: 1.2;
+    }
+}
+
+/* Mejoras adicionales para mejor experiencia */
+@media screen and (max-width: 768px) {
+    .service-card {
+        transition: transform 0.3s ease;
+        margin-bottom: 0;
+    }
+    
+    .service-card:hover {
+        transform: translateY(-2px);
+    }
+}
+
+/* Optimización para pantallas muy anchas */
+@media screen and (min-width: 1400px) {
+    .re-container {
+        max-width: 1200px;
+        width: 70%;
+    }
+    
+    .services-grid {
+        max-width: 1000px;
+    }
+}
+
+/* Ajustes para orientación landscape en móviles */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .services-container {
+        height: auto;
+        padding: 1rem 0;
+        margin-bottom: 20px;
+    }
+    
+    .service-card {
+        height: 160px;
+    }
+    
+    .service-card img {
+        height: 100px;
+    }
+    
+    .service-image {
+        height: 100px;
+    }
+    
+    .service-info {
+        padding: 5px;
     }
 }

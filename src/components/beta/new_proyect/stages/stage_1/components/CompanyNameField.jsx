@@ -7,7 +7,7 @@ function CompanyNameField() {
 
     return (
         <Controller
-            name="companyName"
+            name="company_name"
             control={control}
             rules={{
                 required: 'El nombre de la empresa es requerido',

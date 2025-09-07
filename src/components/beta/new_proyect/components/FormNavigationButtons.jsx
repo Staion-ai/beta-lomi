@@ -52,6 +52,7 @@ const FormNavigationButtons = ({
                 hoverColor={hoverColor}
                 buttonText={buttonText}
                 isSubmitting={isSubmitting}
+                disabled={!isStepComplete(activeStep)}
             />
         </Box>
     )
@@ -92,13 +93,14 @@ const SubmitButton = ({
     buttonTextColor,
     hoverColor,
     buttonText,
-    isSubmitting
+    isSubmitting,
+    disabled
 }) => (
     <Button
         type="submit"
         className="submit-button"
         variant="contained"
-        disabled={isSubmitting}
+        disabled={isSubmitting || disabled}
         sx={{
             backgroundColor: buttonColor,
             color: buttonTextColor,
@@ -119,7 +121,8 @@ SubmitButton.propTypes = {
     buttonTextColor: PropTypes.string.isRequired,
     hoverColor: PropTypes.string.isRequired,
     buttonText: PropTypes.string.isRequired,
-    isSubmitting: PropTypes.bool.isRequired
+    isSubmitting: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool.isRequired
 }
 
 export default FormNavigationButtons

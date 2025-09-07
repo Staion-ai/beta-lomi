@@ -58,17 +58,6 @@ const Footer = ({ content }) => {
                                             </a>
                                         </div>
                                     </div>
-
-                                    <div className='sublegal'>
-                                        <div className="legal-section">
-                                            <small>{footer.develop_by}</small>
-                                        </div>
-                                    </div>
-
-
-
-
-
                                 </div>
                             </div>
 
@@ -83,6 +72,13 @@ const Footer = ({ content }) => {
                                         ))}
                                     </ul>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="placeholder-develop">
+                        <div className="sublegal">
+                            <div className="legal-section">
+                                <small>{footer.develop_by}</small>
                             </div>
                         </div>
                     </div>

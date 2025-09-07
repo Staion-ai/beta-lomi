@@ -21,10 +21,10 @@ const AuthHeader = ({ title = 'LOMI Dashboard' }) => {
   }
 
   return (
-    <AppBar 
-      position="static" 
-      sx={{ 
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    <AppBar
+      position="static"
+      sx={{
+        background: '#8783CA ',
         boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
       }}
     >

@@ -7,7 +7,7 @@ function CompanyDescriptionField() {
 
     return (
         <Controller
-            name="companyDescription"
+            name="description"
             control={control}
             rules={{
                 required: 'La descripción es requerida',

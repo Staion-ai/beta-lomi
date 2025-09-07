@@ -40,6 +40,39 @@ function ProductForm({ index, onImageUpload }) {
             />
 
             <Controller
+                name={`products.${index}.description`}
+                control={control}
+                rules={{
+                    required: 'La descripción es requerida',
+                    minLength: { value: 10, message: 'Mínimo 10 caracteres' }
+                }}
+                render={({ field }) => (
+                    <Box className="form-field">
+                        <label className="input-label">
+                            Descripción del producto o servicio
+                        </label>
+                        <TextField
+                            {...field}
+                            variant="outlined"
+                            placeholder="Describe brevemente el producto o servicio..."
+                            fullWidth
+                            multiline
+                            rows={4}
+                            error={!!errors.products?.[index]?.description}
+                            helperText={errors.products?.[index]?.description?.message}
+                            sx={{
+                                '& .MuiFormHelperText-root': {
+                                    color: '#ff5252',
+                                    marginLeft: '15px',
+                                    fontSize: '14px'
+                                }
+                            }}
+                        />
+                    </Box>
+                )}
+            />
+
+            <Controller
                 name={`products.${index}.image`}
                 control={control}
                 rules={{

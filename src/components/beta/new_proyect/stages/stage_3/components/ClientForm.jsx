@@ -14,7 +14,7 @@ function ClientForm({ index, updateStageFiles }) {
         if (file) {
             // Almacenar el nombre del archivo en el formulario para visualización
             onChange(file.name)
-            
+
             // Almacenar el archivo real usando updateStageFiles
             if (updateStageFiles) {
                 updateStageFiles('stage3', `testimonial_${index}_image`, file)
@@ -25,25 +25,25 @@ function ClientForm({ index, updateStageFiles }) {
     return (
         <>
             <Controller
-                name={`testimonials.${index}.clientName`}
+                name={`testimonials.${index}.clientCompany`}
                 control={control}
                 rules={{
-                    required: 'El nombre del cliente es requerido',
+                    required: 'El nombre de la compañía es requerido',
                     minLength: { value: 2, message: 'Mínimo 2 caracteres' }
                 }}
                 render={({ field }) => (
                     <Box className="form-field">
                         <label className="input-label">
-                            Nombre del cliente
+                            Compañía del cliente
                         </label>
                         <TextField
                             {...field}
                             variant="outlined"
-                            placeholder="Ej: Juan Pérez, María García, etc."
+                            placeholder="Ej: Empresa XYZ, Startup ABC, etc."
                             fullWidth
                             size="small"
-                            error={!!errors.testimonials?.[index]?.clientName}
-                            helperText={errors.testimonials?.[index]?.clientName?.message}
+                            error={!!errors.testimonials?.[index]?.clientCompany}
+                            helperText={errors.testimonials?.[index]?.clientCompany?.message}
                             sx={{
                                 '& .MuiOutlinedInput-root': {
                                     borderRadius: '8px'
