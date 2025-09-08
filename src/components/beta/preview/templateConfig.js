@@ -17,6 +17,12 @@ export const AVAILABLE_TEMPLATES = [
         name: 'Template 3',
         description: 'Plantilla creativa con diseño vibrante',
         component: () => import('../templates/template_3/Template3')
+    },
+    {
+        id: 'template4',
+        name: 'Template 4',
+        description: 'Plantilla minimalista con enfoque en contenido',
+        component: () => import('../templates/template_4/Template4')
     }
 ];
 

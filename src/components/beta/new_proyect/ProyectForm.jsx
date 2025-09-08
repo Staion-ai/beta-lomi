@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Box, Container } from '@mui/material'
 
@@ -24,6 +25,7 @@ import './MultiStepForm.css'
 const steps = ['Información de la Empresa', 'Productos y Servicios', 'Clientes']
 
 function ProyectForm() {
+  const navigate = useNavigate()
   const methods = useForm({
     defaultValues: {
       company_name: '',
@@ -34,21 +36,33 @@ function ProyectForm() {
     }
   })
 
+  const handleFormComplete = () => {
+    // Solo navegar, el contenido ya está en el context
+    navigate('/preview')
+  }
+
   const {
     activeStep,
     isSubmitting,
     isUploadingImages,
+    isGeneratingContent,
     notification,
     handleCloseNotification,
     handleSubmit,
     handleBack,
     isStepComplete: checkStepComplete,
-    updateStageFiles
-  } = useMultiStepForm(steps)
+    updateStageFiles,
+    showCurrentStepErrors
+  } = useMultiStepForm(steps, handleFormComplete)
 
   const isStepComplete = (stepIndex) => {
-    const currentData = methods.getValues()
+    const currentData = methods.watch()
     return checkStepComplete ? checkStepComplete(stepIndex, currentData) : false
+  }
+
+  const handleShowErrors = () => {
+    const currentData = methods.watch()
+    showCurrentStepErrors(currentData)
   }
 
   return (
@@ -74,13 +88,20 @@ function ProyectForm() {
                   steps={steps}
                   onBack={handleBack}
                   isStepComplete={isStepComplete}
-                  isSubmitting={isSubmitting || isUploadingImages}
+                  isSubmitting={isSubmitting || isUploadingImages || isGeneratingContent}
+                  onShowErrors={handleShowErrors}
                 />
               </form>
 
               {isUploadingImages && (
                 <div style={{ textAlign: 'center', marginTop: '1rem' }}>
-                  <p>Generando URLs de imágenes...</p>
+                  <p>Subiendo imágenes...</p>
+                </div>
+              )}
+
+              {isGeneratingContent && (
+                <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+                  <p>Generando contenido personalizado...</p>
                 </div>
               )}
             </FormProvider>

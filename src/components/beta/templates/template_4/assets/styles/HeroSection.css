@@ -1,0 +1,122 @@
+/* --- Section sin fondo (no-bg) --- */
+.no-bg {
+  position: relative;
+  background-color: var(--color-secondary);
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* --- Section con fondo (section-bg) --- */
+.section-bg {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: calc(100vh - 60px);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: rgba(0, 0, 0, 0.45);
+  background-blend-mode: darken;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* --- Contenido de la sección --- */
+.section-content {
+  margin-bottom: 120px;
+  text-align: center;
+  color: white;
+  padding: 50% 16px;
+}
+
+.no-bg .section-content h1,
+.no-bg .section-content p {
+  color: var(--color-primary);
+}
+
+.section-content h1 {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 20px 0;
+}
+
+.section-content p {
+  font-size: 15.5px;
+  margin: 16px 0;
+  line-height: 1.5;
+  color: white;
+}
+
+/* --- Contenedor del botón --- */
+.container-button {
+  width: 100%;
+  background-color: var(--color-primary);
+  padding: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  margin-top: auto;
+  /* empuja hacia abajo dentro del hero */
+}
+
+.container-button .cta-button {
+  padding: 9px 48px;
+  border-radius: 12px;
+  background: var(--color-secondary);
+  color: var(--color-tertiary);
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+  max-width: 100%;
+  font-size: 14.5px;
+}
+
+/* --- Desktop (pantallas grandes) --- */
+@media (min-width: 768px) {
+  .section-content {
+    margin-bottom: 180px;
+    padding: 180px 16px;
+  }
+
+  .section-content h1 {
+    font-size: 40px;
+    margin: 0;
+  }
+
+  .section-content p {
+    font-size: 18px;
+    margin: 20px 0;
+  }
+
+  .section-content .cta-button {
+    font-size: 16px;
+    padding: 14px 36px;
+  }
+
+  .container-button .cta-button {
+    margin: 0 auto;
+    padding: 14px 36px;
+    max-width: 400px;
+    /* límite de ancho en desktop */
+    display: block;
+  }
+}
+
+/* --- Prevención de scroll lateral --- */
+html,
+body {
+  overflow-x: hidden;
+}

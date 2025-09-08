@@ -16,7 +16,7 @@ const Testimonials = ({ content }) => {
                                 <img src={item.client_image} alt={`Client ${index + 1}`} />
                             </div>
                             <div className="client-info">
-                                <p className="client-name">{item.client_name}</p>
+                                <p className="client-name"> {item.client_name} </p>
                             </div>
                         </div>
                     ))}

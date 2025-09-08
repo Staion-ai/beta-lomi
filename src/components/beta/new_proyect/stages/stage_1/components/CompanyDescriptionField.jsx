@@ -27,8 +27,8 @@ function CompanyDescriptionField() {
                         fullWidth
                         multiline
                         rows={4}
-                        error={!!errors.companyDescription}
-                        helperText={errors.companyDescription?.message}
+                        error={!!errors.description}
+                        helperText={errors.description?.message}
                         sx={{
                             '& .MuiFormHelperText-root': {
                                 color: '#ff5252',

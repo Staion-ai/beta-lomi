@@ -27,7 +27,7 @@ function Login() {
   const { login, loading } = useAuth()
   const loginMutation = useLoginUser()
 
-  const from = location.state?.from?.pathname || '/form'
+  const from = '/form'
   const isLoading = loading || loginMutation.isPending
 
   const handleInputChange = (e) => {
@@ -55,13 +55,13 @@ function Login() {
         username: formData.email,
         password: formData.password
       })
-      
+
       // If API login succeeds, navigate to the protected route
       navigate(from, { replace: true })
     } catch (apiError) {
       // If API fails, fall back to the existing mock system for demo purposes
       console.log('API login failed, trying demo credentials:', apiError.message)
-      
+
       const result = await login(formData.email, formData.password)
 
       if (result.success) {

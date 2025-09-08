@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 
 import '../assets/styles/Faqs.css'
 
-
 const Faqs = ({ title, questions, background_image: backgroundImage }) => {
 
   const [openIndex, setOpenIndex] = useState(null);

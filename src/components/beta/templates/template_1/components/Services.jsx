@@ -17,7 +17,6 @@ const Services = ({ content }) => {
                                 </div>
                                 <div className="service-info">
                                     <p className="description">{item.name}</p>
-                                    <p className="description">{item.description}</p>
                                 </div>
                             </div>
                         ))}

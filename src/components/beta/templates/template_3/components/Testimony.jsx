@@ -11,6 +11,7 @@ const Testimony = ({ title, testimonials }) => {
                     <div key={index} className="testimonial">
                         <img src={item.client_image} alt={item.client_name} />
                         <p>{item.client_name}</p>
+                        <p>{item.client_text}</p>
                     </div>
                 ))}
             </div>

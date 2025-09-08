@@ -1,7 +1,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { Box, CircularProgress, Alert } from '@mui/material';
 
-const TemplateRenderer = ({ template }) => {
+const TemplateRenderer = ({ template, data }) => {
     const [Component, setComponent] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -15,7 +15,7 @@ const TemplateRenderer = ({ template }) => {
         const loadTemplate = async () => {
             setLoading(true);
             setError(null);
-            
+
             try {
                 const module = await template.component();
                 setComponent(() => module.default);
@@ -32,11 +32,11 @@ const TemplateRenderer = ({ template }) => {
 
     if (loading) {
         return (
-            <Box 
-                className="template-loading" 
-                display="flex" 
-                justifyContent="center" 
-                alignItems="center" 
+            <Box
+                className="template-loading"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
                 minHeight="200px"
             >
                 <CircularProgress />
@@ -67,7 +67,7 @@ const TemplateRenderer = ({ template }) => {
                     <CircularProgress />
                 </Box>
             }>
-                <Component />
+                <Component data={data} />
             </Suspense>
         </Box>
     );

@@ -6,14 +6,17 @@ import Footer from './components/Footer'
 
 import content from '../../../../data/template_structure.json'
 
-function Template2() {
+function Template2({ data }) {
+    // Use dynamic data if available, otherwise fall back to static content
+    const templateData = data || content;
+
     return (
         <div>
-            <Header content={content} />
-            <Services content={content} />
-            <Faqs content={content} />
-            <Testimonials content={content} />
-            <Footer content={content} />
+            <Header content={templateData} />
+            <Services content={templateData} />
+            <Faqs content={templateData} />
+            <Testimonials content={templateData} />
+            <Footer content={templateData} />
         </div>
     )
 }

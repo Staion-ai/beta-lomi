@@ -24,8 +24,8 @@ function CompanyNameField() {
                         variant="outlined"
                         placeholder="Ingresa el nombre de tu empresa"
                         fullWidth
-                        error={!!errors.companyName}
-                        helperText={errors.companyName?.message}
+                        error={!!errors.company_name}
+                        helperText={errors.company_name?.message}
                         sx={{
                             '& .MuiFormHelperText-root': {
                                 color: '#ff5252',
