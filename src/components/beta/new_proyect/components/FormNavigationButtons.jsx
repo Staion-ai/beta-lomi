@@ -10,7 +10,8 @@ const FormNavigationButtons = ({
     steps,
     onBack,
     isStepComplete,
-    isSubmitting = false
+    isSubmitting = false,
+    onShowErrors
 }) => {
     const allStepsComplete = isStepComplete(0) && isStepComplete(1) && isStepComplete(2)
     const isLastStep = activeStep === steps.length - 1
@@ -53,6 +54,8 @@ const FormNavigationButtons = ({
                 buttonText={buttonText}
                 isSubmitting={isSubmitting}
                 disabled={!isStepComplete(activeStep)}
+                onShowErrors={onShowErrors}
+                isStepComplete={isStepComplete(activeStep)}
             />
         </Box>
     )
@@ -63,7 +66,8 @@ FormNavigationButtons.propTypes = {
     steps: PropTypes.array.isRequired,
     onBack: PropTypes.func.isRequired,
     isStepComplete: PropTypes.func.isRequired,
-    isSubmitting: PropTypes.bool
+    isSubmitting: PropTypes.bool,
+    onShowErrors: PropTypes.func
 }
 
 /**
@@ -94,27 +98,54 @@ const SubmitButton = ({
     hoverColor,
     buttonText,
     isSubmitting,
-    disabled
-}) => (
-    <Button
-        type="submit"
-        className="submit-button"
-        variant="contained"
-        disabled={isSubmitting || disabled}
-        sx={{
-            backgroundColor: buttonColor,
-            color: buttonTextColor,
-            '&:hover': {
-                backgroundColor: hoverColor
-            },
-            '&:disabled': {
-                opacity: 0.6
-            }
-        }}
-    >
-        {isSubmitting ? 'Enviando...' : buttonText}
-    </Button>
-)
+    disabled,
+    onShowErrors,
+    isStepComplete
+}) => {
+    const handleClick = (e) => {
+        if (disabled && onShowErrors) {
+            e.preventDefault()
+            onShowErrors()
+            return false
+        }
+    }
+
+    return (
+        <Button
+            type="submit"
+            className="submit-button"
+            variant="contained"
+            disabled={isSubmitting}
+            onClick={handleClick}
+            sx={{
+                backgroundColor: buttonColor,
+                color: buttonTextColor,
+                '&:hover': {
+                    backgroundColor: hoverColor
+                },
+                '&:disabled': {
+                    opacity: 0.6
+                },
+                position: 'relative'
+            }}
+        >
+            {isSubmitting ? 'Enviando...' : buttonText}
+            {disabled && !isSubmitting && (
+                <span style={{
+                    position: 'absolute',
+                    top: '-25px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    fontSize: '12px',
+                    color: '#ff5722',
+                    whiteSpace: 'nowrap'
+                }}>
+                    ⚠️ Faltan campos por completar
+                </span>
+            )}
+        </Button>
+    )
+}
 
 SubmitButton.propTypes = {
     buttonColor: PropTypes.string.isRequired,
@@ -122,7 +153,9 @@ SubmitButton.propTypes = {
     hoverColor: PropTypes.string.isRequired,
     buttonText: PropTypes.string.isRequired,
     isSubmitting: PropTypes.bool.isRequired,
-    disabled: PropTypes.bool.isRequired
+    disabled: PropTypes.bool.isRequired,
+    onShowErrors: PropTypes.func,
+    isStepComplete: PropTypes.bool.isRequired
 }
 
 export default FormNavigationButtons

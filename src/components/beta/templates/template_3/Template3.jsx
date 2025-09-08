@@ -20,8 +20,10 @@ const components = {
     footer: Footer
 };
 
-function Template3() {
-    const { styles, ...sections } = templateData;
+function Template3({ data }) {
+    // Use dynamic data if available, otherwise fall back to static content
+    const content = data || templateData;
+    const { styles, ...sections } = content;
 
     useTheme(styles);
 

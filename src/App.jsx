@@ -2,6 +2,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { AuthProvider } from './contexts/AuthContext'
+import { TemplateProvider } from './contexts/TemplateContext'
 import AppRoutes from './router/AppRoutes'
 import './assets/styles/App.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -28,9 +29,11 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AuthProvider>
-          <QueryClientProvider client={queryClient}>
-            <AppRoutes />
-          </QueryClientProvider>
+          <TemplateProvider>
+            <QueryClientProvider client={queryClient}>
+              <AppRoutes />
+            </QueryClientProvider>
+          </TemplateProvider>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>

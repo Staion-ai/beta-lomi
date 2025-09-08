@@ -4,17 +4,25 @@ import '../assets/styles/Fonts.css'
 import { useState } from "react";
 
 const Header = ({ content }) => {
-    const { navbar, hero_section, styles } = content;
+    // Add defensive checks
+    if (!content) {
+        console.warn('Header: No content provided');
+        return <div>Cargando...</div>;
+    }
 
+    const { navbar = {}, hero_section = {}, styles = {} } = content;
     const [validImage, setValidImage] = useState(true);
 
 
     return (
-        <header className="header-container" style={{ color: styles.color_tertiary, fontFamily: styles.active_font }}>
-            <div className="navigation-container" style={{ backgroundColor: styles.color_primary }}>
+        <header className="header-container" style={{
+            color: styles.color_tertiary || '#333',
+            fontFamily: styles.active_font || 'Arial, sans-serif'
+        }}>
+            <div className="navigation-container" style={{ backgroundColor: styles.color_primary || '#007bff' }}>
                 <div className="left-navigation">
                     <ul>
-                        {navbar.options.map((item, index) => (
+                        {navbar.options?.map((item, index) => (
                             <li key={index}>
                                 <a href={item.url}> {item.label} </a>
                             </li>

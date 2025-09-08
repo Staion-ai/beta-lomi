@@ -36,25 +36,33 @@ function ProyectForm() {
     }
   })
 
-  const handleFormComplete = (formData) => {
-    navigate('/preview', { state: { templateContent: formData } })
+  const handleFormComplete = () => {
+    // Solo navegar, el contenido ya está en el context
+    navigate('/preview')
   }
 
   const {
     activeStep,
     isSubmitting,
     isUploadingImages,
+    isGeneratingContent,
     notification,
     handleCloseNotification,
     handleSubmit,
     handleBack,
     isStepComplete: checkStepComplete,
-    updateStageFiles
+    updateStageFiles,
+    showCurrentStepErrors
   } = useMultiStepForm(steps, handleFormComplete)
 
   const isStepComplete = (stepIndex) => {
-    const currentData = methods.getValues()
+    const currentData = methods.watch()
     return checkStepComplete ? checkStepComplete(stepIndex, currentData) : false
+  }
+
+  const handleShowErrors = () => {
+    const currentData = methods.watch()
+    showCurrentStepErrors(currentData)
   }
 
   return (
@@ -80,13 +88,20 @@ function ProyectForm() {
                   steps={steps}
                   onBack={handleBack}
                   isStepComplete={isStepComplete}
-                  isSubmitting={isSubmitting || isUploadingImages}
+                  isSubmitting={isSubmitting || isUploadingImages || isGeneratingContent}
+                  onShowErrors={handleShowErrors}
                 />
               </form>
 
               {isUploadingImages && (
                 <div style={{ textAlign: 'center', marginTop: '1rem' }}>
-                  <p>Generando URLs de imágenes...</p>
+                  <p>Subiendo imágenes...</p>
+                </div>
+              )}
+
+              {isGeneratingContent && (
+                <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+                  <p>Generando contenido personalizado...</p>
                 </div>
               )}
             </FormProvider>

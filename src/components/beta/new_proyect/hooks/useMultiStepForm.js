@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useFormValidation } from './useFormValidation'
 import { useCreateImagesUrl } from './useFetchImages'
 import { useTemplateContent } from './useTemplateContent'
+import { useTemplate } from '../../../../contexts/TemplateContext'
 
 export const useMultiStepForm = (steps, onComplete) => {
     const [activeStep, setActiveStep] = useState(0)
@@ -15,16 +16,18 @@ export const useMultiStepForm = (steps, onComplete) => {
         stage3: {}
     })
     const [isUploadingImages, setIsUploadingImages] = useState(false)
+    const [isGeneratingContent, setIsGeneratingContent] = useState(false)
     const [notification, setNotification] = useState({ open: false, message: '', severity: 'success' })
 
+    const { updateTemplateContent, templateContent } = useTemplate()
     const { mutateAsync: createImagesUrl } = useCreateImagesUrl()
-    const { mutate: generateTemplateContent } = useTemplateContent()
+    const { mutateAsync: generateTemplateContent } = useTemplateContent()
 
     const {
         validateCurrentStep,
         validateAllSteps,
         isStepComplete,
-        // showValidationErrors - unused but kept for future use
+        showValidationErrors
     } = useFormValidation()
 
     const updateStageFiles = (stage, fileKey, file) => {
@@ -37,7 +40,7 @@ export const useMultiStepForm = (steps, onComplete) => {
         }))
     }
 
-    const createFormData = (/* formData */) => {
+    const createFormData = () => {
         const finalFormData = new FormData()
 
         // Agregar user_id ficticio
@@ -82,43 +85,7 @@ export const useMultiStepForm = (steps, onComplete) => {
         setIsSubmitting(true)
 
         try {
-            if (activeStep === steps.length - 1) {
-                const allErrors = validateAllSteps(data)
-                if (allErrors.length > 0) {
-                    const errorMessage = "Por favor, completa todos los campos requeridos:\n\n" +
-                        allErrors.map(error => `• ${error}`).join('\n')
-                    setNotification({ open: true, message: errorMessage, severity: 'error' })
-                    return
-                }
-
-                const updatedData = { ...formData, ...data, country: "Colombia" }
-                setFormData(updatedData)
-
-                const finalFormData = createFormData(updatedData)
-
-                setIsUploadingImages(true)
-                try {
-                    const response = await createImagesUrl(finalFormData)
-                    const updatedDataWithUrls = updateImagesWithUrls(updatedData, response)
-                    setFormData(updatedDataWithUrls)
-                    // const templateContent = generateTemplateContent(updatedDataWithUrls) // Generated but handled by callback
-                    generateTemplateContent(updatedDataWithUrls)
-                    setNotification({ open: true, message: 'Proyecto creado exitosamente. Las imágenes han sido subidas.', severity: 'success' })
-                    
-                    // Navigate to preview with template content after successful completion
-                    if (onComplete) {
-                        setTimeout(() => {
-                            onComplete(updatedDataWithUrls)
-                        }, 2000) // Wait 2 seconds to show success message
-                    }
-                } catch (error) {
-                    console.error('Error uploading images:', error)
-                    setNotification({ open: true, message: 'Error al subir las imágenes. Inténtalo de nuevo.', severity: 'error' })
-                } finally {
-                    setIsUploadingImages(false)
-                }
-            }
-
+            // Validar el paso actual antes de continuar
             const currentStepErrors = validateCurrentStep(activeStep, data)
             console.log('Current step:', activeStep)
             console.log('Form data:', data)
@@ -133,7 +100,54 @@ export const useMultiStepForm = (steps, onComplete) => {
 
             const updatedData = { ...formData, ...data }
             setFormData(updatedData)
-            setActiveStep(activeStep + 1)
+
+            if (activeStep === steps.length - 1) {
+                // Final step - validate all steps
+                const allErrors = validateAllSteps(updatedData)
+                if (allErrors.length > 0) {
+                    const errorMessage = "Por favor, completa todos los campos requeridos:\n\n" +
+                        allErrors.map(error => `• ${error}`).join('\n')
+                    setNotification({ open: true, message: errorMessage, severity: 'error' })
+                    return
+                }
+
+                // Add default country
+                updatedData.country = "Colombia"
+
+                const finalFormData = createFormData()
+
+                setIsUploadingImages(true)
+                try {
+                    const response = await createImagesUrl(finalFormData)
+                    const updatedDataWithUrls = updateImagesWithUrls(updatedData, response)
+                    setFormData(updatedDataWithUrls)
+
+                    setIsUploadingImages(false)
+                    setIsGeneratingContent(true)
+
+                    const content = await generateTemplateContent(updatedDataWithUrls)
+                    console.log('Generated content:', content)
+                    updateTemplateContent(content) // Actualizar el context con el contenido generado
+
+                    setNotification({ open: true, message: 'Proyecto creado exitosamente. Contenido generado.', severity: 'success' })
+
+                    // Navigate to preview with template content after successful completion
+                    if (onComplete) {
+                        setTimeout(() => {
+                            onComplete(content) // Pasar el contenido generado por la API
+                        }, 2000) // Wait 2 seconds to show success message
+                    }
+                } catch (error) {
+                    console.error('Error uploading images or generating content:', error)
+                    setNotification({ open: true, message: 'Error al procesar el proyecto. Inténtalo de nuevo.', severity: 'error' })
+                } finally {
+                    setIsUploadingImages(false)
+                    setIsGeneratingContent(false)
+                }
+            } else {
+                // Move to next step
+                setActiveStep(activeStep + 1)
+            }
         } finally {
             setIsSubmitting(false)
         }
@@ -147,12 +161,22 @@ export const useMultiStepForm = (steps, onComplete) => {
 
     const handleCloseNotification = () => setNotification({ ...notification, open: false })
 
+    const showCurrentStepErrors = (data) => {
+        const currentStepErrors = validateCurrentStep(activeStep, data)
+        if (currentStepErrors.length > 0) {
+            const errorMessage = "Para continuar al siguiente paso, completa:\n\n" +
+                currentStepErrors.map(error => `• ${error}`).join('\n')
+            setNotification({ open: true, message: errorMessage, severity: 'warning' })
+        }
+    }
+
     return {
         activeStep,
         formData,
         filesData,
         isSubmitting,
         isUploadingImages,
+        isGeneratingContent,
         notification,
         handleCloseNotification,
         handleSubmit,
@@ -160,6 +184,8 @@ export const useMultiStepForm = (steps, onComplete) => {
         isStepComplete,
         updateStageFiles,
         setActiveStep,
-        setFormData
+        setFormData,
+        showCurrentStepErrors,
+        templateContent
     }
 }
