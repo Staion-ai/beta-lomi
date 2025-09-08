@@ -1,28 +1,30 @@
+/* ===== CONTENEDORES BASE ===== */
 .testimony-container {
     width: 100%;
-    height: 448px;
-  
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
     margin-bottom: 80px;
 }
 
 .re-container {
     width: 80%;
-    height: 100%; 
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-  
+
 .testimony-title {
-    width: 50%;
+    width: 100%;
     font-size: 24px;
     font-weight: 400;
-    margin-bottom: 20px;
-    margin-top: 20px;
+    text-align: center;
+    margin: 20px 0;
 }
-  
+
+/* ===== GRID DE TESTIMONIOS ===== */
 .testimony-grid {
     width: 100%;
     display: flex;
@@ -30,19 +32,124 @@
     gap: 1rem;
     flex-wrap: wrap;
 }
-    
+
 .testimony-card {
-    flex: 1 1 280px;
-    max-width: 308px;
-    height: 432px;
+    flex: 1 1 220px; 
+    max-width: 220px;
+    height: 100px;
     display: flex;
     flex-direction: column;
     border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.client-image img {
+.testimony-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.testimony-card img {
     width: 100%;
-    height: 300px;
-    object-fit: cover; 
+    height: 100%px; /* imagen proporcional a la nueva altura */
+    object-fit: cover;
     border-radius: 8px 8px 0 0;
+}
+
+.testimony-info {
+    padding: 10px 12px 10px 18px; /* padding-left aumentado para desplazar texto */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.testimony-info .description {
+    margin: 4px 0;
+    font-size: 13px;
+    color: inherit;
+}
+.client-info {
+    padding: 10px 12px;
+}
+
+/* ===== MEDIA QUERIES ===== */
+
+/* Pantallas extra grandes (1400px y más) */
+@media (min-width: 1400px) {
+    .testimony-title { font-size: 30px; }
+    .testimony-card {
+        flex: 1 1 200px;
+        max-width: 240px;
+        height: 190px;
+    }
+    .testimony-card img { height: 110px; }
+}
+
+/* Pantallas grandes (1200px - 1399px) */
+@media (max-width: 1399px) and (min-width: 1200px) {
+    .testimony-title { font-size: 28px; }
+    .testimony-card {
+        flex: 1 1 200px;
+        max-width: 240px;
+        height: 185px;
+    }
+    .testimony-card img { height: 105px; }
+}
+
+/* Pantallas medianas (992px - 1199px) */
+@media (max-width: 1199px) and (min-width: 992px) {
+    .testimony-title { width: 60%; font-size: 26px; }
+    .testimony-card {
+        flex: 1 1 45%;
+        max-width: 45%;
+        height: 180px;
+    }
+    .testimony-card img { height: 100px; }
+}
+
+/* Tablets (768px - 991px) */
+@media (max-width: 991px) and (min-width: 768px) {
+    .testimony-title { width: 70%; font-size: 24px; }
+    .testimony-card {
+        flex: 1 1 48%;
+        max-width: 48%;
+        height: 170px;
+    }
+    .testimony-card img { height: 95px; }
+}
+
+/* Móviles grandes (576px - 767px) */
+@media (max-width: 767px) and (min-width: 576px) {
+    .testimony-title { width: 80%; font-size: 22px; }
+    .testimony-card {
+        flex: 1 1 50%; /* más ancho que antes */
+        max-width: 50%;
+        height: 170px; /* un poco más alto */
+    }
+    .testimony-card img { height: 95px; }
+}
+
+/* Móviles pequeños (hasta 575px) */
+@media (max-width: 575px) {
+    .testimony-title { width: 90%; font-size: 20px; }
+    .testimony-grid { justify-content: center; gap: 0.8rem; }
+    .testimony-card {
+        flex: 1 1 95%; /* más ancho */
+        max-width: 95%;
+        height: auto;
+    }
+    .testimony-card img { height: 90px; }
+}
+
+/* Móviles muy pequeños (hasta 390px) */
+@media (max-width: 390px) {
+    .testimony-title { font-size: 18px; }
+    .testimony-card { 
+        flex: 1 1 100%; /* ocupa casi todo el ancho */
+        height: auto; 
+    }
+    .testimony-card img { height: 80px; }
+    .testimony-info .description { font-size: 12px; }
 }

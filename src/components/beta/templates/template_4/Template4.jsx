@@ -1,4 +1,9 @@
-import { useTheme } from './hooks/useTheme'
+import './assets/styles/App.css'
+
+/* HOOK PARA TOMAR LOS COLORES DEL JSON */
+import { useTheme } from './hooks/useTheme.js';
+import content from '../../../../data/template_structure.json'
+
 
 import NavBar from './components/NavBar.jsx';
 import HeroSection from './components/HeroSection.jsx';
@@ -6,12 +11,6 @@ import ValueProposition from './components/ValueProposition.jsx';
 import Faqs from './components/Faqs.jsx';
 import Testimony from './components/Testimony.jsx';
 import Footer from './components/Footer.jsx';
-
-import './assets/styles/App.css'
-import './assets/styles/index.css'
-
-import content_data from '../../../../data/template_structure.json'
-
 
 const components = {
     navbar: NavBar,
@@ -22,10 +21,9 @@ const components = {
     footer: Footer
 };
 
-function Template3({ data }) {
-    // Use dynamic data if available, otherwise fall back to static content
-    const content = data || content_data;
-    const { styles, ...sections } = content;
+function Template4({ data }) {
+
+    const { styles, ...sections } = data || content;
 
     useTheme(styles);
 
@@ -33,7 +31,7 @@ function Template3({ data }) {
         if (!components[key]) return false;
         if (key === "faqs") return (props)?.questions?.length > 0;
         if (key === "testimony") return (props)?.testimonials?.length > 0;
-        // Para otras secciones siempre mostrar
+
         return true;
     });
 
@@ -47,4 +45,4 @@ function Template3({ data }) {
     )
 }
 
-export default Template3
+export default Template4
