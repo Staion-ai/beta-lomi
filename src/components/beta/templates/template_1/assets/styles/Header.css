@@ -21,6 +21,7 @@
     font-weight: 400;
     padding: 0 20px;
     box-sizing: border-box;
+    position: relative; /* 👈 Agregado para el menú absoluto */
 }
 
 .left-navigation, .logo, .right-navigation {
@@ -170,6 +171,77 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
+/* ====== HAMBURGER MENU ====== */
+
+/* Oculto por defecto en escritorio */
+.hamburger {
+    display: none;
+    font-size: 20px;
+    cursor: pointer;
+    user-select: none;
+    padding: 6px;
+    transition: font-size 0.2s ease;
+}
+
+/* Aún más pequeño cuando está abierto */
+.hamburger.open {
+    font-size: 16px;
+}
+
+/* Menú oculto inicialmente en móviles */
+.left-navigation {
+    transition: all 0.3s ease-in-out;
+}
+
+.left-navigation.open {
+    display: flex !important;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    flex-direction: column !important;
+    align-items: center;   /* centra horizontal */
+    justify-content: flex-start; /* 👈 cambia de center a flex-start */
+    gap: 0; /* 👈 quitar espacio entre contenedor y lista */
+    padding: 0; /* 👈 quitar padding */
+    box-sizing: border-box;
+    z-index: 999;
+    overflow-y: auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.left-navigation.open ul {
+    flex-direction: column !important;
+    gap: 0; /* 👈 quitar gap entre items si quieres pegado */
+    margin: 0;
+    padding: 0;
+    width: auto;
+    justify-content: flex-start !important;
+    align-items: center;
+}
+
+.left-navigation.open ul li {
+    width: auto;
+    text-align: center;
+    padding: 0; /* 👈 quitar padding */
+    margin: 0;  /* 👈 quitar margen si hay */
+}
+
+.left-navigation.open ul li a {
+    display: block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    margin: 0; /* 👈 fuera margen lateral */
+    transition: background-color 0.2s ease;
+}
+
+.left-navigation.open ul li a:hover {
+    background-color: rgba(255,255,255,0.15);
+}
+
 /* MEDIA QUERIES PARA RESPONSIVE DESIGN */
 
 /* Pantallas extra grandes (1400px y más) */
@@ -278,7 +350,6 @@
         gap: 15px;
     }
     
-    /* Orden: Logo > Menu > Botón */
     .logo {
         order: 1;
         width: auto;
@@ -342,42 +413,45 @@
         padding: 0 10px;
         gap: 10px;
     }
-    
-    /* Orden: Logo > Menu > Botón */
-    .logo {
+
+    /* Mostrar hamburguesa */
+    .hamburger {
+        display: block;
         order: 1;
-        width: auto;
-        flex: 0 0 auto;
+    }
+
+    /* Ocultar logo en móviles */
+    .logo {
+        display: none !important;
+    }
+
+    /* Ocultar navegación hasta que se abra */
+    .left-navigation {
+        display: none;
     }
     
-    .left-navigation {
-        order: 2;
-        width: auto;
-        flex: 1;
-        justify-content: center;
+    /* Menú hamburguesa específico para móviles pequeños */
+    .left-navigation.open {
+        top: 50px; /* 👈 Ajuste para móviles pequeños */
+        height: 200px; /* 👈 Altura menor para móviles pequeños */
+        max-height: 200px;
+        padding: 15px 0;
+        gap: 0.6rem;
+    }
+    
+    .left-navigation.open ul {
+        gap: 0.8rem;
+    }
+    
+    .left-navigation.open ul li a {
+        padding: 8px 15px;
+        font-size: 14px;
     }
     
     .right-navigation {
-        order: 3;
+        order: 2;
         width: auto;
         flex: 0 0 auto;
-    }
-    
-    .navigation-container ul {
-        gap: 0.5rem;
-        font-size: 12px;
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .navigation-container ul li {
-        padding: 0;
-        white-space: nowrap;
-    }
-    
-    .logo img {
-        width: 60px;
-        max-height: 35px;
     }
     
     .right-navigation button {
@@ -418,77 +492,6 @@
 }
 
 /* Móviles muy pequeños (hasta 390px) */
-@media (max-width: 390px) {
-    .navigation-container {
-        height: 70px;
-        padding: 0 5px;
-        gap: 5px;
-    }
-    
-    /* Orden: Logo > Menu > Botón */
-    .logo {
-        order: 1;
-        width: auto;
-        flex: 0 0 auto;
-    }
-    
-    .left-navigation {
-        order: 2;
-        width: auto;
-        flex: 1;
-        justify-content: center;
-    }
-    
-    .right-navigation {
-        order: 3;
-        width: auto;
-        flex: 0 0 auto;
-    }
-    
-    .navigation-container ul {
-        font-size: 9px;
-        gap: 0.2rem;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .navigation-container ul li {
-        padding: 0;
-        white-space: nowrap;
-        flex-shrink: 1;
-    }
-    
-    .logo img {
-        width: 45px;
-        max-height: 25px;
-    }
-    
-    .right-navigation button {
-        min-width: 60px;
-        font-size: 9px;
-        height: 26px;
-        padding: 2px 4px;
-    }
-    
-    .img-header-container {
-        height: 200px;
-    }
-    
-    .paragraph-container {
-        font-size: 15px;
-    }
-    
-    .hash-parag {
-        font-size: 13px;
-    }
-    
-    .btn-container button {
-        font-size: 15px;
-        height: 38px;
-    }
-}
 
 /* Orientación horizontal en móviles */
 @media (max-height: 500px) and (orientation: landscape) {
@@ -509,9 +512,24 @@
     .paragraph-container {
         font-size: 16px;
     }
+    
+    /* Menú hamburguesa más compacto en landscape */
+    .left-navigation.open {
+        height: 150px;
+        max-height: 150px;
+        padding: 10px 0;
+    }
+    
+    .left-navigation.open ul {
+        gap: 0.4rem;
+    }
+    
+    .left-navigation.open ul li a {
+        padding: 5px 15px;
+        font-size: 13px;
+    }
 }
 
-/* Ajustes para impresión */
 @media print {
     .header-container {
         height: auto;
@@ -525,8 +543,6 @@
     
     .right-navigation button,
     .btn-container button {
-        border: 1px solid #333;
         background: transparent !important;
-        color: #333 !important;
     }
 }

@@ -1,15 +1,22 @@
 import { useState } from "react";
+import chroma from "chroma-js";
+
 import '../assets/styles/Header.css'
 import '../assets/styles/Fonts.css'
 
 const Header = ({ content }) => {
     const { navbar, hero_section, styles } = content;
-
     const [validImage, setValidImage] = useState(true);
+
+    const textColor = (color, fallback = "#FFFFFF") => {
+        const bg = color ? chroma(color) : chroma(fallback);
+        return bg.luminance() > 0.5 ? "#000000" : "#FFFFFF"
+    }
+
 
     return (
         <>
-            <header className="header-container" style={{ color: styles.color_tertiary, fontFamily: styles.active_font }}>
+            <header className="header-container" style={{ color: textColor(styles.color_primary), fontFamily: styles.active_font }}>
                 <div className="navigation-container" style={{ backgroundColor: styles.color_primary }}>
                     <div className="left-navigation">
 
@@ -17,7 +24,6 @@ const Header = ({ content }) => {
                             <a href={navbar.logo.link_url}>
                                 <img src={navbar.logo.image_url} alt={navbar.logo.alt_text} />
                             </a>
-
                         </div>
 
                         <ul>
@@ -31,7 +37,7 @@ const Header = ({ content }) => {
 
                     <div className="right-navigation">
                         <a href={navbar.cta_button.url}>
-                            <button style={{ backgroundColor: styles.color_secondary, color: styles.color_tertiary }}> {navbar.cta_button.label} </button>
+                            <button style={{ backgroundColor: styles.color_secondary, color: textColor(styles.color_secondary) }}> {navbar.cta_button.label} </button>
                         </a>
                     </div>
                 </div>
@@ -39,7 +45,7 @@ const Header = ({ content }) => {
                 <div className="panel">
 
                     <div className="left-panel">
-                        <div className="paragraph-container">
+                        <div className="paragraph-container" style={{ color: textColor() }}>
                             <p className="title-parag">
                                 {hero_section.title}
                             </p>
@@ -51,12 +57,12 @@ const Header = ({ content }) => {
                         <div className="btn-container"  >
                             {hero_section.cta_button && (
                                 <a href={hero_section.cta_button.url} >
-                                    <button style={{ backgroundColor: styles.color_secondary, color: styles.color_tertiary }}>{hero_section.cta_button.label}</button>
+                                    <button style={{ backgroundColor: styles.color_secondary, color: textColor(styles.color_secondary) }}>{hero_section.cta_button.label}</button>
                                 </a>
                             )}
                         </div>
 
-                        <div className='hash-parag'>
+                        <div className='hash-parag' style={{ color: textColor() }}>
                             <p>
                                 {hero_section.social_proof.text}
                             </p>

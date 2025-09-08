@@ -27,7 +27,7 @@ function Login() {
   const { login, loading } = useAuth()
   const loginMutation = useLoginUser()
 
-  const from = '/form'
+  const from = '/dashboard'
   const isLoading = loading || loginMutation.isPending
 
   const handleInputChange = (e) => {
@@ -103,7 +103,7 @@ function Login() {
             <Box sx={{ textAlign: 'center', mb: 4 }}>
               <Box sx={{ mb: 2 }}>
                 <img
-                  src="/favicon.ico"
+                  src="/src/assets/images/icono.png"
                   alt="LOMI Logo"
                   style={{
                     width: '60px',

@@ -1,6 +1,7 @@
 import '../assets/styles/Footer.css'
 import '../assets/styles/Fonts.css'
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube, FaTiktok } from "react-icons/fa";
+import chroma from "chroma-js";
 
 const iconMap = {
     Facebook: FaFacebook,
@@ -19,10 +20,14 @@ const Footer = ({ activePlatforms = [], content }) => {
         social_media_section.active.map(p => p.toLowerCase()).includes(link.platform.toLowerCase())
     );
 
+    const textColor = (color, fallback = "#FFFFFF") => {
+        const bg = color ? chroma(color) : chroma(fallback);
+        return bg.luminance() > 0.5 ? "#000000" : "#FFFFFF"
+    }
 
     return (
         <>
-            <footer className='footer-container' style={{ backgroundColor: styles.color_primary, color: styles.color_tertiary, fontFamily: styles.active_font }}>
+            <footer className='footer-container' style={{ backgroundColor: styles.color_primary, color: textColor(styles.color_primary), fontFamily: styles.active_font }}>
                 <div className='content-container'>
 
                     <div className='footer-logo'>

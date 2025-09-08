@@ -13,8 +13,6 @@ function Preview() {
     const [selectedTemplate, setSelectedTemplate] = useState(DEFAULT_TEMPLATE);
     const { templateContent } = useTemplate();
 
-    console.log('Template content from context:', templateContent);
-
     useEffect(() => {
         // Check if template content was passed from form completion (fallback)
         if (location.state?.templateContent && !templateContent) {

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import chroma from "chroma-js";
 import '../assets/styles/Faqs.css'
 import '../assets/styles/Fonts.css'
 
@@ -10,10 +11,16 @@ const Faqs = ({ content }) => {
         setOpenIndex(openIndex === index ? null : index);
     };
 
+    const textColor = (color, fallback = "#FFFFFF") => {
+        const bg = color ? chroma(color) : chroma(fallback);
+        return bg.luminance() > 0.5 ? "#000000" : "#FFFFFF"
+    }
+
+
     return (
         <>
             <div className="placeholder-faqs">
-                <div className="faqs-container" style={{ color: styles.color_tertiary, fontFamily: styles.active_font }}>
+                <div className="faqs-container" style={{ color: textColor(), fontFamily: styles.active_font, }}>
                     <div className="question-container">
                         <h2 className="faqs-title"> {faqs.title} </h2>
                         {faqs.questions.map((item, index) => (

@@ -1,4 +1,4 @@
-import { base_api_url } from "../constants"
+import { base_api_url, base_auth_url } from "../constants"
 
 export const createImagesUrl = async (image_files) => {
     if (!image_files || image_files.length === 0) return []
@@ -47,7 +47,7 @@ export const registerUser = async (userData) => {
     const { username, email, password1, password2 } = userData
 
     try {
-        const response = await fetch(`${base_api_url}/dj-rest-auth/registration/`, {
+        const response = await fetch(`${base_auth_url}/dj-rest-auth/registration/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -76,7 +76,7 @@ export const loginUser = async (credentials) => {
     const { username, password } = credentials
 
     try {
-        const response = await fetch(`${base_api_url}/dj-rest-auth/login/`, {
+        const response = await fetch(`${base_auth_url}/dj-rest-auth/login/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
