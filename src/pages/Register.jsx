@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate, useLocation, Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import {
   Box,
   Container,
@@ -12,23 +12,19 @@ import {
   Card,
   CardContent
 } from '@mui/material'
-import { Login as LoginIcon } from '@mui/icons-material'
-import { useAuth } from '../contexts/useAuth'
-import { useLoginUser } from '../hooks/useLoginUser'
+import { PersonAdd as RegisterIcon } from '@mui/icons-material'
+import { useRegisterUser } from '../hooks/useRegisterUser'
 
-function Login() {
+function Register() {
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password1: '',
+    password2: ''
   })
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
   const navigate = useNavigate()
-  const location = useLocation()
-  const { login, loading } = useAuth()
-  const loginMutation = useLoginUser()
-
-  const from = location.state?.from?.pathname || '/form'
-  const isLoading = loading || loginMutation.isPending
+  const registerMutation = useRegisterUser()
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -36,54 +32,52 @@ function Login() {
       ...prev,
       [name]: value
     }))
-    // Limpiar error al escribir
+    // Limpiar mensajes al escribir
     if (error) setError('')
+    if (success) setSuccess('')
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+    setSuccess('')
 
-    if (!formData.email || !formData.password) {
+    if (!formData.email || !formData.password1 || !formData.password2) {
       setError('Por favor complete todos los campos')
       return
     }
 
+    if (formData.password1 !== formData.password2) {
+      setError('Las contraseñas no coinciden')
+      return
+    }
+
+    if (formData.password1.length < 8) {
+      setError('La contraseña debe tener al menos 8 caracteres')
+      return
+    }
+
     try {
-      // Try to login with the real API first
-      const apiResult = await loginMutation.mutateAsync({
-        username: formData.email,
-        password: formData.password
+      await registerMutation.mutateAsync({
+        email: formData.email,
+        password1: formData.password1,
+        password2: formData.password2
       })
       
-      // If API login succeeds, navigate to the protected route
-      navigate(from, { replace: true })
-    } catch (apiError) {
-      // If API fails, fall back to the existing mock system for demo purposes
-      console.log('API login failed, trying demo credentials:', apiError.message)
-      
-      const result = await login(formData.email, formData.password)
-
-      if (result.success) {
-        navigate(from, { replace: true })
-      } else {
-        setError(`Error de conexión con el servidor. ${result.error}`)
-      }
+      setSuccess('Registro exitoso. Redirigiendo al login...')
+      setTimeout(() => {
+        navigate('/login')
+      }, 2000)
+    } catch (err) {
+      setError(err.message || 'Error al registrar usuario')
     }
-  }
-
-  const handleDemoCredentials = () => {
-    setFormData({
-      email: 'admin@lomi.com',
-      password: 'admin123'
-    })
   }
 
   return (
     <Box
       sx={{
         minHeight: '100vh',
-        background: 'linear-gradient(180deg,#F9DCB8, #8783CA 100%)',
+        background: 'linear-gradient(135deg, #F9DCB8 0%, #8783CA 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -92,26 +86,17 @@ function Login() {
     >
       <Container maxWidth="sm">
         <Card
-          elevation={8}
+          elevation={24}
           sx={{
-            borderRadius: 3,
-            overflow: 'hidden'
+            borderRadius: 4,
+            overflow: 'hidden',
+            backdropFilter: 'blur(20px)',
+            backgroundColor: 'rgba(255, 255, 255, 0.95)'
           }}
         >
           <CardContent sx={{ p: 4 }}>
-            {/* Logo y titulo */}
+            {/* Header */}
             <Box sx={{ textAlign: 'center', mb: 4 }}>
-              <Box sx={{ mb: 2 }}>
-                <img
-                  src="/favicon.ico"
-                  alt="LOMI Logo"
-                  style={{
-                    width: '60px',
-                    height: '60px',
-                    borderRadius: '12px'
-                  }}
-                />
-              </Box>
               <Typography
                 variant="h4"
                 component="h1"
@@ -127,7 +112,7 @@ function Login() {
                 variant="body1"
                 color="text.secondary"
               >
-                Ingresa a tu cuenta para continuar
+                Crea tu cuenta para comenzar
               </Typography>
             </Box>
 
@@ -140,6 +125,12 @@ function Login() {
                   </Alert>
                 )}
 
+                {success && (
+                  <Alert severity="success" sx={{ borderRadius: 2 }}>
+                    {success}
+                  </Alert>
+                )}
+
                 <TextField
                   fullWidth
                   label="Correo electrónico"
@@ -148,7 +139,7 @@ function Login() {
                   value={formData.email}
                   onChange={handleInputChange}
                   variant="outlined"
-                  disabled={isLoading}
+                  disabled={registerMutation.isPending}
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       borderRadius: 2
@@ -159,12 +150,28 @@ function Login() {
                 <TextField
                   fullWidth
                   label="Contraseña"
-                  name="password"
+                  name="password1"
                   type="password"
-                  value={formData.password}
+                  value={formData.password1}
                   onChange={handleInputChange}
                   variant="outlined"
-                  disabled={isLoading}
+                  disabled={registerMutation.isPending}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2
+                    }
+                  }}
+                />
+
+                <TextField
+                  fullWidth
+                  label="Confirmar contraseña"
+                  name="password2"
+                  type="password"
+                  value={formData.password2}
+                  onChange={handleInputChange}
+                  variant="outlined"
+                  disabled={registerMutation.isPending}
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       borderRadius: 2
@@ -177,8 +184,8 @@ function Login() {
                   fullWidth
                   variant="contained"
                   size="large"
-                  disabled={isLoading}
-                  startIcon={isLoading ? <CircularProgress size={20} /> : <LoginIcon />}
+                  disabled={registerMutation.isPending}
+                  startIcon={registerMutation.isPending ? <CircularProgress size={20} /> : <RegisterIcon />}
                   sx={{
                     borderRadius: 2,
                     py: 1.5,
@@ -191,42 +198,10 @@ function Login() {
                     fontWeight: 'medium'
                   }}
                 >
-                  {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+                  {registerMutation.isPending ? 'Registrando...' : 'Crear cuenta'}
                 </Button>
 
-                {/* Credenciales de demo */}
-                <Paper
-                  sx={{
-                    p: 2,
-                    bgcolor: '#f8f9fa',
-                    borderRadius: 2,
-                    border: '1px dashed #dee2e6'
-                  }}
-                >
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                    <strong>Credenciales de demostración:</strong>
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                    Email: admin@lomi.com
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                    Contraseña: admin123
-                  </Typography>
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    onClick={handleDemoCredentials}
-                    disabled={isLoading}
-                    sx={{
-                      textTransform: 'none',
-                      borderRadius: 1.5
-                    }}
-                  >
-                    Usar credenciales de demo
-                  </Button>
-                </Paper>
-
-                {/* Link to Register */}
+                {/* Link to Login */}
                 <Paper
                   elevation={0}
                   sx={{
@@ -237,16 +212,16 @@ function Login() {
                   }}
                 >
                   <Typography variant="body2" color="text.secondary">
-                    ¿No tienes cuenta?{' '}
+                    ¿Ya tienes cuenta?{' '}
                     <Link
-                      to="/register"
+                      to="/login"
                       style={{
                         color: '#8783CA',
                         textDecoration: 'none',
                         fontWeight: 'medium'
                       }}
                     >
-                      Regístrate aquí
+                      Inicia sesión aquí
                     </Link>
                   </Typography>
                 </Paper>
@@ -259,4 +234,4 @@ function Login() {
   )
 }
 
-export default Login
+export default Register
