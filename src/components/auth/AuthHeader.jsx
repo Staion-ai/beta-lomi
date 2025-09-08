@@ -15,9 +15,29 @@ const AuthHeader = ({ title = 'LOMI Dashboard' }) => {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
 
-  const handleLogout = () => {
-    logout()
+  const handleLogout = async () => {
+    await logout()
     navigate('/login')
+  }
+
+  const getUserDisplayName = () => {
+    if (!user) return 'Usuario'
+    
+    // Try to get name from first_name/last_name, then username, then email
+    const firstName = user.first_name || ''
+    const lastName = user.last_name || ''
+    const fullName = `${firstName} ${lastName}`.trim()
+    
+    if (fullName) return fullName
+    if (user.username && user.username !== user.email) return user.username
+    if (user.email) return user.email.split('@')[0]
+    
+    return 'Usuario'
+  }
+
+  const getUserInitial = () => {
+    const displayName = getUserDisplayName()
+    return displayName.charAt(0).toUpperCase()
   }
 
   return (
@@ -38,7 +58,7 @@ const AuthHeader = ({ title = 'LOMI Dashboard' }) => {
               height: 40
             }}
           >
-            L
+            {getUserInitial()}
           </Avatar>
           <Typography variant="h6" component="div">
             {title}
@@ -48,7 +68,7 @@ const AuthHeader = ({ title = 'LOMI Dashboard' }) => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           {user && (
             <Typography variant="body2" sx={{ opacity: 0.9 }}>
-              Hola, {user.name}
+              Hola, {getUserDisplayName()}
             </Typography>
           )}
           <Button

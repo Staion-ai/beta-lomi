@@ -1,4 +1,14 @@
-import React, { createContext, useState, useEffect } from 'react'
+import React, { createContext, useState, useEffect, useCallback } from 'react'
+import { 
+  storeAuthData, 
+  getStoredUserData, 
+  isAuthenticated as checkIsAuthenticated,
+  clearAuthData,
+  getRefreshToken,
+  shouldRefreshToken,
+  getAccessToken
+} from '../lib/tokenStorage'
+import { refreshToken } from '../lib'
 
 const AuthContext = createContext({})
 
@@ -7,71 +17,147 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    // Verificar si hay un usuario autenticado en localStorage al cargar la app
-    const savedAuth = localStorage.getItem('lomi_auth')
-    const savedUser = localStorage.getItem('lomi_user')
-    
-    if (savedAuth === 'true' && savedUser) {
-      setIsAuthenticated(true)
-      setUser(JSON.parse(savedUser))
+  // Token refresh function
+  const refreshAccessToken = useCallback(async () => {
+    try {
+      const refreshTokenValue = getRefreshToken()
+      if (!refreshTokenValue) {
+        throw new Error('No refresh token available')
+      }
+
+      const response = await refreshToken(refreshTokenValue)
+      
+      if (response.access) {
+        // Update only the access token
+        localStorage.setItem('lomi_access_token', response.access)
+        return response.access
+      } else {
+        throw new Error('Invalid refresh response')
+      }
+    } catch (error) {
+      console.error('Token refresh failed:', error)
+      // If refresh fails, logout user
+      clearAuthData()
+      setIsAuthenticated(false)
+      setUser(null)
+      throw error
     }
-    
-    setLoading(false)
   }, [])
 
-  const login = async (email, password) => {
+  // Initialize authentication state
+  useEffect(() => {
+    const initializeAuth = async () => {
+      try {
+        setLoading(true)
+        
+        // Check if user has valid stored authentication
+        const authenticated = checkIsAuthenticated()
+        
+        if (authenticated) {
+          const userData = getStoredUserData()
+          setIsAuthenticated(true)
+          setUser(userData)
+          
+          // Check if token needs refresh
+          if (shouldRefreshToken()) {
+            try {
+              await refreshAccessToken()
+            } catch (error) {
+              console.error('Failed to refresh token on init:', error)
+              // If refresh fails, user will be logged out by refreshAccessToken
+            }
+          }
+        } else {
+          setIsAuthenticated(false)
+          setUser(null)
+        }
+      } catch (error) {
+        console.error('Error initializing auth:', error)
+        setIsAuthenticated(false)
+        setUser(null)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    initializeAuth()
+  }, [refreshAccessToken])
+
+  // Set up token refresh interval
+  useEffect(() => {
+    if (!isAuthenticated) return
+
+    const interval = setInterval(async () => {
+      if (shouldRefreshToken()) {
+        try {
+          await refreshAccessToken()
+        } catch (error) {
+          console.error('Automatic token refresh failed:', error)
+        }
+      }
+    }, 60000) // Check every minute
+
+    return () => clearInterval(interval)
+  }, [isAuthenticated, refreshAccessToken])
+
+  const login = useCallback(async (authResponse) => {
     try {
       setLoading(true)
       
-      // Simulación de llamada a API
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      // Store the complete auth response (access, refresh, user)
+      const stored = storeAuthData(authResponse)
       
-      // Validación simple para demo
-      if (email === 'admin@lomi.com' && password === 'admin123') {
-        const userData = {
-          email: email,
-          name: 'Administrador LOMI',
-          role: 'admin'
-        }
-        
+      if (stored) {
         setIsAuthenticated(true)
-        setUser(userData)
-        
-        // Guardar en localStorage
-        localStorage.setItem('lomi_auth', 'true')
-        localStorage.setItem('lomi_user', JSON.stringify(userData))
-        
+        setUser(authResponse.user)
         return { success: true }
       } else {
-        return { 
-          success: false, 
-          error: 'Credenciales incorrectas. Use admin@lomi.com / admin123' 
-        }
+        throw new Error('Failed to store authentication data')
       }
-    } catch {
+    } catch (error) {
+      console.error('Login error:', error)
       return { 
         success: false, 
-        error: 'Error de conexión. Intente nuevamente.' 
+        error: error.message || 'Error al procesar la autenticación' 
       }
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
-  const logout = () => {
-    setIsAuthenticated(false)
-    setUser(null)
-    localStorage.removeItem('lomi_auth')
-    localStorage.removeItem('lomi_user')
-  }
+  const logout = useCallback(async () => {
+    try {
+      setLoading(true)
+      
+      // Clear all stored auth data
+      clearAuthData()
+      
+      // Update state
+      setIsAuthenticated(false)
+      setUser(null)
+      
+      return { success: true }
+    } catch (error) {
+      console.error('Logout error:', error)
+      return { success: false, error: 'Error al cerrar sesión' }
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  // Get current access token (useful for API calls)
+  const getToken = useCallback(() => {
+    return getAccessToken()
+  }, [])
 
   const value = {
     isAuthenticated,
     user,
     loading,
     login,
-    logout
+    logout,
+    getToken,
+    refreshAccessToken
   }
 
   return (

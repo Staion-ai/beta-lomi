@@ -98,3 +98,27 @@ export const loginUser = async (credentials) => {
         throw new Error(error.message || 'Error al iniciar sesión')
     }
 }
+
+export const refreshToken = async (refreshToken) => {
+    try {
+        const response = await fetch(`${base_auth_url}/dj-rest-auth/token/refresh/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                refresh: refreshToken
+            })
+        })
+
+        if (!response.ok) {
+            const errorData = await response.json()
+            throw new Error(errorData.detail || 'Error refreshing token')
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        throw new Error(error.message || 'Error al refrescar token')
+    }
+}

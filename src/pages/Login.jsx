@@ -24,11 +24,11 @@ function Login() {
   const [error, setError] = useState('')
   const navigate = useNavigate()
   const location = useLocation()
-  const { login, loading } = useAuth()
+  const { login, loading: authLoading } = useAuth()
   const loginMutation = useLoginUser()
 
-  const from = '/dashboard'
-  const isLoading = loading || loginMutation.isPending
+  const from = location.state?.from?.pathname || '/dashboard'
+  const isLoading = authLoading || loginMutation.isPending
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -50,33 +50,23 @@ function Login() {
     }
 
     try {
-      // Try to login with the real API first
+      // Call the API to authenticate user
       const apiResult = await loginMutation.mutateAsync({
         username: formData.email,
         password: formData.password
       })
 
-      // If API login succeeds, navigate to the protected route
-      navigate(from, { replace: true })
-    } catch (apiError) {
-      // If API fails, fall back to the existing mock system for demo purposes
-      console.log('API login failed, trying demo credentials:', apiError.message)
-
-      const result = await login(formData.email, formData.password)
+      // Process the authentication response through context
+      const result = await login(apiResult)
 
       if (result.success) {
         navigate(from, { replace: true })
       } else {
-        setError(`Error de conexión con el servidor. ${result.error}`)
+        setError(result.error || 'Error al procesar la autenticación')
       }
+    } catch (apiError) {
+      setError(apiError.message || 'Error al iniciar sesión. Verifique sus credenciales.')
     }
-  }
-
-  const handleDemoCredentials = () => {
-    setFormData({
-      email: 'admin@lomi.com',
-      password: 'admin123'
-    })
   }
 
   return (
@@ -193,38 +183,6 @@ function Login() {
                 >
                   {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
                 </Button>
-
-                {/* Credenciales de demo */}
-                <Paper
-                  sx={{
-                    p: 2,
-                    bgcolor: '#f8f9fa',
-                    borderRadius: 2,
-                    border: '1px dashed #dee2e6'
-                  }}
-                >
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                    <strong>Credenciales de demostración:</strong>
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                    Email: admin@lomi.com
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                    Contraseña: admin123
-                  </Typography>
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    onClick={handleDemoCredentials}
-                    disabled={isLoading}
-                    sx={{
-                      textTransform: 'none',
-                      borderRadius: 1.5
-                    }}
-                  >
-                    Usar credenciales de demo
-                  </Button>
-                </Paper>
 
                 {/* Link to Register */}
                 <Paper

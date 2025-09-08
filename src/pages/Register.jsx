@@ -14,6 +14,7 @@ import {
 } from '@mui/material'
 import { PersonAdd as RegisterIcon } from '@mui/icons-material'
 import { useRegisterUser } from '../hooks/useRegisterUser'
+import { useAuth } from '../contexts/useAuth'
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -25,6 +26,7 @@ function Register() {
   const [success, setSuccess] = useState('')
   const navigate = useNavigate()
   const registerMutation = useRegisterUser()
+  const { login } = useAuth()
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -58,16 +60,37 @@ function Register() {
     }
 
     try {
-      await registerMutation.mutateAsync({
+      // Register user with the API
+      const registerResult = await registerMutation.mutateAsync({
         email: formData.email,
         password1: formData.password1,
         password2: formData.password2
       })
       
-      setSuccess('Registro exitoso. Redirigiendo al login...')
-      setTimeout(() => {
-        navigate('/login')
-      }, 2000)
+      // If registration returns tokens (auto-login), use them
+      if (registerResult.access && registerResult.refresh && registerResult.user) {
+        setSuccess('Registro exitoso. Iniciando sesión...')
+        
+        // Process the authentication response through context
+        const loginResult = await login(registerResult)
+        
+        if (loginResult.success) {
+          setTimeout(() => {
+            navigate('/dashboard')
+          }, 1500)
+        } else {
+          setError('Registro exitoso pero error al iniciar sesión automáticamente. Por favor inicie sesión manualmente.')
+          setTimeout(() => {
+            navigate('/login')
+          }, 2000)
+        }
+      } else {
+        // If registration doesn't return tokens, redirect to login
+        setSuccess('Registro exitoso. Redirigiendo al login...')
+        setTimeout(() => {
+          navigate('/login')
+        }, 2000)
+      }
     } catch (err) {
       setError(err.message || 'Error al registrar usuario')
     }
