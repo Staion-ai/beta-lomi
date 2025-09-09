@@ -93,8 +93,22 @@ export const loginUser = async (credentials) => {
         }
 
         const data = await response.json()
+        console.log('=== LOGIN API RESPONSE ===')
+        console.log('Full response:', data)
+        console.log('Response keys:', Object.keys(data || {}))
+        console.log('Access token:', data.access ? `Present (${data.access.length} chars)` : 'Missing/Empty')
+        console.log('Refresh token:', data.refresh ? `Present (${data.refresh.length} chars)` : 'Missing/Empty')
+        console.log('User data:', data.user ? 'Present' : 'Missing/Empty')
+
+        // Log individual field values for debugging
+        console.log('Field values:')
+        console.log('- access:', JSON.stringify(data.access))
+        console.log('- refresh:', JSON.stringify(data.refresh))
+        console.log('- user:', JSON.stringify(data.user))
+
         return data
     } catch (error) {
+        console.error('Login API error:', error)
         throw new Error(error.message || 'Error al iniciar sesión')
     }
 }

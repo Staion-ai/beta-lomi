@@ -27,7 +27,7 @@ function Login() {
   const { login, loading: authLoading } = useAuth()
   const loginMutation = useLoginUser()
 
-  const from = location.state?.from?.pathname || '/dashboard'
+  const from = '/dashboard'
   const isLoading = authLoading || loginMutation.isPending
 
   const handleInputChange = (e) => {
@@ -51,10 +51,15 @@ function Login() {
 
     try {
       // Call the API to authenticate user
+      console.log('Calling login API with:', { username: formData.email, password: '***' })
       const apiResult = await loginMutation.mutateAsync({
         username: formData.email,
         password: formData.password
       })
+
+      console.log('API Result received:', apiResult)
+      console.log('API Result type:', typeof apiResult)
+      console.log('API Result keys:', Object.keys(apiResult || {}))
 
       // Process the authentication response through context
       const result = await login(apiResult)
@@ -65,6 +70,7 @@ function Login() {
         setError(result.error || 'Error al procesar la autenticación')
       }
     } catch (apiError) {
+      console.error('API Error:', apiError)
       setError(apiError.message || 'Error al iniciar sesión. Verifique sus credenciales.')
     }
   }

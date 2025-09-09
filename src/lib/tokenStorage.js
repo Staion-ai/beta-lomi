@@ -8,6 +8,40 @@ const TOKEN_KEYS = {
 }
 
 /**
+ * Normalize authentication response to ensure consistent structure
+ * Handles both login and registration responses
+ */
+const normalizeAuthResponse = (authResponse) => {
+  if (!authResponse || typeof authResponse !== 'object') {
+    return null
+  }
+
+  // Handle different possible response structures
+  let access, refresh, user
+
+  // Direct response (login case)
+  if (authResponse.access && authResponse.refresh && authResponse.user) {
+    access = authResponse.access
+    refresh = authResponse.refresh
+    user = authResponse.user
+  }
+  // Registration might have different structure - adapt as needed
+  else if (authResponse.token && authResponse.refresh_token && authResponse.user) {
+    access = authResponse.token
+    refresh = authResponse.refresh_token
+    user = authResponse.user
+  }
+  // Handle other possible structures
+  else if (authResponse.accessToken && authResponse.refreshToken && authResponse.user) {
+    access = authResponse.accessToken
+    refresh = authResponse.refreshToken
+    user = authResponse.user
+  }
+
+  return access && refresh && user ? { access, refresh, user } : null
+}
+
+/**
  * Decode JWT token to get payload (without verification)
  * Only used for extracting expiration time and basic info
  */
@@ -16,7 +50,7 @@ export const decodeJWTPayload = (token) => {
     if (!token) return null
     const parts = token.split('.')
     if (parts.length !== 3) return null
-    
+
     const payload = JSON.parse(atob(parts[1]))
     return payload
   } catch (error) {
@@ -31,7 +65,7 @@ export const decodeJWTPayload = (token) => {
 export const isTokenExpired = (token) => {
   const payload = decodeJWTPayload(token)
   if (!payload || !payload.exp) return true
-  
+
   const now = Math.floor(Date.now() / 1000)
   return payload.exp < now
 }
@@ -41,23 +75,94 @@ export const isTokenExpired = (token) => {
  */
 export const storeAuthData = (authResponse) => {
   try {
-    const { access, refresh, user } = authResponse
-    
-    if (!access || !refresh || !user) {
-      throw new Error('Invalid authentication response')
+    // Log the received response for debugging
+    console.log('=== STORING AUTH DATA ===')
+    console.log('Raw response:', authResponse)
+    console.log('Response type:', typeof authResponse)
+    console.log('Response keys:', Object.keys(authResponse || {}))
+
+    if (!authResponse || typeof authResponse !== 'object') {
+      throw new Error('No valid authentication response provided')
+    }
+
+    // Direct extraction without normalization first
+    const access = authResponse.access
+    const refresh = authResponse.refresh
+    const user = authResponse.user
+
+    // Detailed logging for each field
+    console.log('=== FIELD ANALYSIS ===')
+    console.log('access field:', {
+      value: access,
+      type: typeof access,
+      length: access?.length,
+      truthy: !!access,
+      hasProperty: authResponse.hasOwnProperty('access')
+    })
+    console.log('refresh field:', {
+      value: refresh,
+      type: typeof refresh,
+      length: refresh?.length,
+      truthy: !!refresh,
+      hasProperty: authResponse.hasOwnProperty('refresh')
+    })
+    console.log('user field:', {
+      value: user,
+      type: typeof user,
+      truthy: !!user,
+      hasProperty: authResponse.hasOwnProperty('user')
+    })
+
+    // Specific validation with detailed error messages
+    if (!access || access.trim() === '') {
+      throw new Error(`Invalid access token: ${JSON.stringify(access)}`)
+    }
+
+    // Special handling for refresh token - might be empty in some login responses
+    if (!refresh || refresh.trim() === '') {
+      console.warn('Refresh token is empty or missing. This might be a backend configuration issue.')
+      console.warn('Attempting to proceed with access token only. Token refresh will not be available.')
+
+      // For now, let's proceed but note this issue
+      // In production, you should fix the backend to return proper refresh tokens
+    }
+
+    if (!user || typeof user !== 'object') {
+      throw new Error(`Invalid user data: ${JSON.stringify(user)}`)
+    }
+
+    // Validate access token format (basic JWT structure check)
+    if (typeof access !== 'string' || access.split('.').length !== 3) {
+      throw new Error('Invalid access token format - not a valid JWT')
+    }
+
+    // Validate refresh token format if present
+    if (refresh && refresh.trim() !== '') {
+      if (typeof refresh !== 'string' || refresh.split('.').length !== 3) {
+        throw new Error('Invalid refresh token format - not a valid JWT')
+      }
     }
 
     // Store tokens
     localStorage.setItem(TOKEN_KEYS.ACCESS_TOKEN, access)
-    localStorage.setItem(TOKEN_KEYS.REFRESH_TOKEN, refresh)
+
+    // Only store refresh token if it's valid
+    if (refresh && refresh.trim() !== '') {
+      localStorage.setItem(TOKEN_KEYS.REFRESH_TOKEN, refresh)
+    } else {
+      // Clear any existing refresh token
+      localStorage.removeItem(TOKEN_KEYS.REFRESH_TOKEN)
+    }
+
     localStorage.setItem(TOKEN_KEYS.USER_DATA, JSON.stringify(user))
-    
+
     // Calculate and store expiration time
     const payload = decodeJWTPayload(access)
     if (payload && payload.exp) {
       localStorage.setItem(TOKEN_KEYS.TOKEN_EXPIRES_AT, payload.exp.toString())
     }
-    
+
+    console.log('Auth data stored successfully')
     return true
   } catch (error) {
     console.error('Error storing auth data:', error)
@@ -72,13 +177,13 @@ export const getAccessToken = () => {
   try {
     const token = localStorage.getItem(TOKEN_KEYS.ACCESS_TOKEN)
     if (!token) return null
-    
+
     // Check if token is expired
     if (isTokenExpired(token)) {
       console.warn('Access token is expired')
       return null
     }
-    
+
     return token
   } catch (error) {
     console.error('Error getting access token:', error)
@@ -115,11 +220,18 @@ export const getStoredUserData = () => {
  * Check if user is authenticated (has valid tokens)
  */
 export const isAuthenticated = () => {
-  const accessToken = getAccessToken()
-  const refreshToken = getRefreshToken()
-  const userData = getStoredUserData()
-  
-  return !!(accessToken && refreshToken && userData)
+  try {
+    const accessToken = localStorage.getItem(TOKEN_KEYS.ACCESS_TOKEN)
+    const refreshToken = getRefreshToken()
+    const userData = getStoredUserData()
+
+    // Need at least access token and user data
+    // Refresh token is optional (might not be provided by some login endpoints)
+    return !!(accessToken && userData)
+  } catch (error) {
+    console.error('Error checking authentication status:', error)
+    return false
+  }
 }
 
 /**
@@ -151,13 +263,13 @@ export const getAuthHeader = () => {
 export const shouldRefreshToken = () => {
   const token = getAccessToken()
   if (!token) return false
-  
+
   const payload = decodeJWTPayload(token)
   if (!payload || !payload.exp) return false
-  
+
   const now = Math.floor(Date.now() / 1000)
   const expiresIn = payload.exp - now
-  
+
   // Refresh if expires in less than 5 minutes (300 seconds)
   return expiresIn < 300
 }

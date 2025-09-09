@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react'
-import { 
-  storeAuthData, 
-  getStoredUserData, 
+import {
+  storeAuthData,
+  getStoredUserData,
   isAuthenticated as checkIsAuthenticated,
   clearAuthData,
   getRefreshToken,
@@ -22,11 +22,12 @@ export const AuthProvider = ({ children }) => {
     try {
       const refreshTokenValue = getRefreshToken()
       if (!refreshTokenValue) {
+        console.warn('No refresh token available - user will need to login again when access token expires')
         throw new Error('No refresh token available')
       }
 
       const response = await refreshToken(refreshTokenValue)
-      
+
       if (response.access) {
         // Update only the access token
         localStorage.setItem('lomi_access_token', response.access)
@@ -49,17 +50,18 @@ export const AuthProvider = ({ children }) => {
     const initializeAuth = async () => {
       try {
         setLoading(true)
-        
+
         // Check if user has valid stored authentication
         const authenticated = checkIsAuthenticated()
-        
+
         if (authenticated) {
           const userData = getStoredUserData()
           setIsAuthenticated(true)
           setUser(userData)
-          
-          // Check if token needs refresh
-          if (shouldRefreshToken()) {
+
+          // Check if token needs refresh (only if refresh token is available)
+          const refreshTokenValue = getRefreshToken()
+          if (refreshTokenValue && shouldRefreshToken()) {
             try {
               await refreshAccessToken()
             } catch (error) {
@@ -88,7 +90,8 @@ export const AuthProvider = ({ children }) => {
     if (!isAuthenticated) return
 
     const interval = setInterval(async () => {
-      if (shouldRefreshToken()) {
+      const refreshTokenValue = getRefreshToken()
+      if (refreshTokenValue && shouldRefreshToken()) {
         try {
           await refreshAccessToken()
         } catch (error) {
@@ -103,22 +106,31 @@ export const AuthProvider = ({ children }) => {
   const login = useCallback(async (authResponse) => {
     try {
       setLoading(true)
-      
+
+      // Log the response for debugging
+      console.log('Processing login with response:', authResponse)
+      console.log('Response type:', typeof authResponse)
+      console.log('Response keys:', Object.keys(authResponse || {}))
+      console.log('Access token:', authResponse?.access ? 'Present' : 'Missing')
+      console.log('Refresh token:', authResponse?.refresh ? 'Present' : 'Missing')
+      console.log('User data:', authResponse?.user ? 'Present' : 'Missing')
+
       // Store the complete auth response (access, refresh, user)
       const stored = storeAuthData(authResponse)
-      
+
       if (stored) {
         setIsAuthenticated(true)
         setUser(authResponse.user)
+        console.log('Login successful, user authenticated')
         return { success: true }
       } else {
         throw new Error('Failed to store authentication data')
       }
     } catch (error) {
       console.error('Login error:', error)
-      return { 
-        success: false, 
-        error: error.message || 'Error al procesar la autenticación' 
+      return {
+        success: false,
+        error: error.message || 'Error al procesar la autenticación'
       }
     } finally {
       setLoading(false)
@@ -128,14 +140,14 @@ export const AuthProvider = ({ children }) => {
   const logout = useCallback(async () => {
     try {
       setLoading(true)
-      
+
       // Clear all stored auth data
       clearAuthData()
-      
+
       // Update state
       setIsAuthenticated(false)
       setUser(null)
-      
+
       return { success: true }
     } catch (error) {
       console.error('Logout error:', error)
