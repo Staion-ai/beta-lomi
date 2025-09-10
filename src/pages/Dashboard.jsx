@@ -177,7 +177,7 @@ function Dashboard() {
                                     }}
                                     disabled={user?.free_attemps == 0}
                                 >
-                                    {user?.free_attemps == 0 ? 'Límite de intentos alcanzado' : ':Crear Nuevo Proyecto'}
+                                    {user?.free_attemps == 0 ? 'Límite de intentos alcanzado' : 'Crear Nuevo Proyecto'}
                                 </Button>
                             </CardActions>
                         </Card>
