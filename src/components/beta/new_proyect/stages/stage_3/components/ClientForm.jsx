@@ -12,10 +12,8 @@ function ClientForm({ index, updateStageFiles }) {
     const handleImageUpload = (index, event, onChange, updateStageFiles) => {
         const file = event.target.files[0]
         if (file) {
-            // Almacenar el nombre del archivo en el formulario para visualización
             onChange(file.name)
 
-            // Almacenar el archivo real usando updateStageFiles
             if (updateStageFiles) {
                 updateStageFiles('stage3', `testimonial_${index}_image`, file)
             }

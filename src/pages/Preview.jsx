@@ -1,42 +1,123 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Container, Typography, Box, Alert } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Container, Typography, Box, Alert, Button } from '@mui/material';
 import TemplateSelector from '../components/beta/preview/components/TemplateSelector';
 import TemplateRenderer from '../components/beta/preview/components/TemplateRenderer';
 import { DEFAULT_TEMPLATE } from '../components/beta/preview/templateConfig';
 import { useTemplate } from '../contexts/TemplateContext';
+import { useAuth } from '../contexts/useAuth';
 import AuthHeader from '../components/auth/AuthHeader';
+import MessageSnackbar from '../components/common/MessageSnackbar';
+import { useMessage } from '../hooks/useMessage';
 import '../components/beta/preview/styles/Preview.css';
+import { useCreateTemplate } from '../hooks/useCreateTemplate';
+import { getAccessToken } from '../lib/tokenStorage';
 
 function Preview() {
     const location = useLocation();
     const [selectedTemplate, setSelectedTemplate] = useState(DEFAULT_TEMPLATE);
-    const { templateContent } = useTemplate();
+    const { templateContent, formData } = useTemplate();
+    const { user, getToken } = useAuth();
+    const { message, showError, showSuccess, showInfo, hideMessage } = useMessage();
+
+    const { mutateAsync: createTemplate } = useCreateTemplate();
+
+    const token = getAccessToken()
+    const navigate = useNavigate()
 
     useEffect(() => {
-        // Check if template content was passed from form completion (fallback)
         if (location.state?.templateContent && !templateContent) {
-            // This is a fallback in case the context was not used
             console.warn('Template content received via location state instead of context');
+            showInfo('Contenido del template recibido desde navegación');
         }
     }, [location.state, templateContent]);
 
     const handleTemplateChange = (template) => {
         setSelectedTemplate(template);
+        showInfo(`Plantilla "${template.name}" seleccionada`);
+    };
+
+    const handleButtonClick = async () => {
+        if (!templateContent) {
+            console.error('❌ Error: No hay contenido del template disponible');
+            showError('Debes completar el formulario primero para generar el contenido del template.');
+            return;
+        }
+
+        if (!user?.email) {
+            console.error('❌ Error: No se encontró el email del usuario');
+            showError('Usuario no autenticado correctamente.');
+            return;
+        }
+
+        if (!formData?.company_name) {
+            console.error('❌ Error: No se encontró el nombre de la compañía');
+            showError('No se pudo obtener el nombre de la empresa del formulario.');
+            return;
+        }
+
+        const companyName = formData?.company_name || 'Compañía no especificada';
+
+        const webCreationData = {
+            ...templateContent,
+            client_name: companyName,
+            repo_url: selectedTemplate.id,
+        };
+
+        try {
+            showInfo('Creando tu sitio web...');
+
+            await createTemplate({
+                templateData: webCreationData,
+                token: getToken()
+            });
+
+            showSuccess('¡Tu sitio web ha sido creado exitosamente!');
+            navigate('/dashboard');
+        } catch (error) {
+            console.error('❌ Error al crear la web:', error);
+            showError('Error al crear el sitio web. Por favor, inténtalo de nuevo.');
+        }
     };
 
     return (
         <>
-            <AuthHeader title="Preview - Vista de Plantillas" />
+            <AuthHeader title="Preview - Vista de Plantillas" showBackButton={true} />
             <div className="preview-container">
                 <div className="preview-header">
                     <Container maxWidth="lg">
-                        <Typography variant="h4" component="h1" gutterBottom>
-                            Vista Previa de Plantillas
-                        </Typography>
-                        <Typography variant="body1" color="text.secondary">
-                            Selecciona una plantilla para ver cómo se ve tu proyecto.
-                        </Typography>
+                        <Box display="flex" justifyContent="space-between" alignItems="center">
+                            <Box>
+                                <Typography variant="h4" component="h1" color='#000' gutterBottom>
+                                    Vista Previa de Plantillas
+                                </Typography>
+                                <Typography variant="body1" color="text.secondary">
+                                    Selecciona una plantilla para ver cómo se ve tu proyecto.
+                                </Typography>
+                            </Box>
+                            <Button
+                                variant="contained"
+                                onClick={handleButtonClick}
+                                sx={{
+                                    backgroundColor: '#8783CA',
+                                    color: '#FFFFFF',
+                                    fontWeight: 'bold',
+                                    padding: '12px 24px',
+                                    borderRadius: '8px',
+                                    textTransform: 'none',
+                                    fontSize: '16px',
+                                    '&:hover': {
+                                        backgroundColor: '#6B66B8',
+                                        color: '#FFFFFF',
+                                    },
+                                    '&:active': {
+                                        backgroundColor: '#5A549F',
+                                    }
+                                }}
+                            >
+                                Crea tu web
+                            </Button>
+                        </Box>
                     </Container>
                 </div>
 
@@ -55,7 +136,7 @@ function Preview() {
                                     }
                                 }}
                             >
-                                ¡Excelente! Tu proyecto "{templateContent.company_name}" ha sido procesado correctamente.
+                                ¡Excelente! Tu proyecto ha sido procesado correctamente.
                                 Ahora puedes ver cómo se verá en diferentes plantillas.
                             </Alert>
                         )}
@@ -72,6 +153,13 @@ function Preview() {
                     </Container>
                 </div>
             </div>
+
+            <MessageSnackbar
+                open={message.open}
+                message={message.text}
+                severity={message.severity}
+                onClose={hideMessage}
+            />
         </>
     );
 }

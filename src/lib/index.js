@@ -93,18 +93,6 @@ export const loginUser = async (credentials) => {
         }
 
         const data = await response.json()
-        console.log('=== LOGIN API RESPONSE ===')
-        console.log('Full response:', data)
-        console.log('Response keys:', Object.keys(data || {}))
-        console.log('Access token:', data.access ? `Present (${data.access.length} chars)` : 'Missing/Empty')
-        console.log('Refresh token:', data.refresh ? `Present (${data.refresh.length} chars)` : 'Missing/Empty')
-        console.log('User data:', data.user ? 'Present' : 'Missing/Empty')
-
-        // Log individual field values for debugging
-        console.log('Field values:')
-        console.log('- access:', JSON.stringify(data.access))
-        console.log('- refresh:', JSON.stringify(data.refresh))
-        console.log('- user:', JSON.stringify(data.user))
 
         return data
     } catch (error) {
@@ -134,5 +122,74 @@ export const refreshToken = async (refreshToken) => {
         return data
     } catch (error) {
         throw new Error(error.message || 'Error al refrescar token')
+    }
+}
+
+export const logoutUser = async (token) => {
+    try {
+        const response = await fetch(`${base_auth_url}/dj-rest-auth/logout/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+
+        if (!response.ok) {
+            let errorMessage = 'Error al cerrar sesión'
+            try {
+                const errorData = await response.json()
+                errorMessage = errorData.detail || errorData.message || errorMessage
+            } catch (parseError) {
+                console.warn('Could not parse error response:', parseError)
+            }
+            throw new Error(errorMessage)
+        }
+
+        // Handle successful response
+        let data = null
+        try {
+            // Some logout endpoints return empty responses, which is valid
+            const responseText = await response.text()
+            if (responseText) {
+                data = JSON.parse(responseText)
+            } else {
+                data = { success: true }
+            }
+        } catch (parseError) {
+            // If we can't parse the response but status was OK, assume success
+            console.warn('Could not parse logout response, but status was OK:', parseError)
+            data = { success: true }
+        }
+
+        return data
+    } catch (error) {
+        console.error('Logout API error:', error)
+        throw new Error(error.message || 'Error al cerrar sesión')
+    }
+}
+
+export const createUserTemplate = async (templateData, token) => {
+    if (!templateData) return {}
+    try {
+        const response = await fetch(`${base_auth_url}/api/v1/create-user-template/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(templateData)
+        })
+
+        if (!response.ok) {
+            const errorData = await response.json()
+            throw new Error(errorData.detail || 'Error al crear plantilla de usuario')
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Create User Template API error:', error)
+        throw new Error(error.message || 'Error al crear plantilla de usuario')
     }
 }

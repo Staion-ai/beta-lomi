@@ -8,40 +8,6 @@ const TOKEN_KEYS = {
 }
 
 /**
- * Normalize authentication response to ensure consistent structure
- * Handles both login and registration responses
- */
-const normalizeAuthResponse = (authResponse) => {
-  if (!authResponse || typeof authResponse !== 'object') {
-    return null
-  }
-
-  // Handle different possible response structures
-  let access, refresh, user
-
-  // Direct response (login case)
-  if (authResponse.access && authResponse.refresh && authResponse.user) {
-    access = authResponse.access
-    refresh = authResponse.refresh
-    user = authResponse.user
-  }
-  // Registration might have different structure - adapt as needed
-  else if (authResponse.token && authResponse.refresh_token && authResponse.user) {
-    access = authResponse.token
-    refresh = authResponse.refresh_token
-    user = authResponse.user
-  }
-  // Handle other possible structures
-  else if (authResponse.accessToken && authResponse.refreshToken && authResponse.user) {
-    access = authResponse.accessToken
-    refresh = authResponse.refreshToken
-    user = authResponse.user
-  }
-
-  return access && refresh && user ? { access, refresh, user } : null
-}
-
-/**
  * Decode JWT token to get payload (without verification)
  * Only used for extracting expiration time and basic info
  */
@@ -75,11 +41,6 @@ export const isTokenExpired = (token) => {
  */
 export const storeAuthData = (authResponse) => {
   try {
-    // Log the received response for debugging
-    console.log('=== STORING AUTH DATA ===')
-    console.log('Raw response:', authResponse)
-    console.log('Response type:', typeof authResponse)
-    console.log('Response keys:', Object.keys(authResponse || {}))
 
     if (!authResponse || typeof authResponse !== 'object') {
       throw new Error('No valid authentication response provided')
@@ -89,29 +50,6 @@ export const storeAuthData = (authResponse) => {
     const access = authResponse.access
     const refresh = authResponse.refresh
     const user = authResponse.user
-
-    // Detailed logging for each field
-    console.log('=== FIELD ANALYSIS ===')
-    console.log('access field:', {
-      value: access,
-      type: typeof access,
-      length: access?.length,
-      truthy: !!access,
-      hasProperty: authResponse.hasOwnProperty('access')
-    })
-    console.log('refresh field:', {
-      value: refresh,
-      type: typeof refresh,
-      length: refresh?.length,
-      truthy: !!refresh,
-      hasProperty: authResponse.hasOwnProperty('refresh')
-    })
-    console.log('user field:', {
-      value: user,
-      type: typeof user,
-      truthy: !!user,
-      hasProperty: authResponse.hasOwnProperty('user')
-    })
 
     // Specific validation with detailed error messages
     if (!access || access.trim() === '') {
@@ -162,7 +100,6 @@ export const storeAuthData = (authResponse) => {
       localStorage.setItem(TOKEN_KEYS.TOKEN_EXPIRES_AT, payload.exp.toString())
     }
 
-    console.log('Auth data stored successfully')
     return true
   } catch (error) {
     console.error('Error storing auth data:', error)
@@ -239,9 +176,32 @@ export const isAuthenticated = () => {
  */
 export const clearAuthData = () => {
   try {
+
+    // Log what's currently stored before clearing
+    Object.entries(TOKEN_KEYS).forEach(([name, key]) => {
+      const value = localStorage.getItem(key)
+    })
+
+    // Clear all authentication-related data
     Object.values(TOKEN_KEYS).forEach(key => {
       localStorage.removeItem(key)
     })
+
+    // Also clear any other potential auth-related items
+    // that might have been stored with different keys
+    const authRelatedKeys = Object.keys(localStorage).filter(key =>
+      key.startsWith('lomi_') ||
+      key.includes('auth') ||
+      key.includes('token') ||
+      key.includes('user')
+    )
+
+    authRelatedKeys.forEach(key => {
+      if (!Object.values(TOKEN_KEYS).includes(key)) {
+        localStorage.removeItem(key)
+      }
+    })
+
     return true
   } catch (error) {
     console.error('Error clearing auth data:', error)

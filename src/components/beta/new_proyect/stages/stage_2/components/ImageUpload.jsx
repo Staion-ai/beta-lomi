@@ -11,7 +11,6 @@ function ImageUpload({
     const handleImageUpload = (event) => {
         const file = event.target.files[0]
         if (file) {
-            // For now, we'll store the file name. In a real app, you'd upload to a server
             onChange(file.name)
             if (onImageUpload) {
                 onImageUpload(index, file)

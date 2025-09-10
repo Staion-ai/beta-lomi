@@ -22,7 +22,6 @@
   font-size: 28px;
 }
 .faqs-section h2 {
-  color: white;
   text-align: center;
   margin-bottom: 24px;
   line-height: 1.2;
@@ -65,7 +64,6 @@
 
 .faq-answer {
   background: rgba(0, 0, 0, 0.6);
-  color: white;
   margin-top: 5px;
   padding: 16px;
   font-size: 14px;

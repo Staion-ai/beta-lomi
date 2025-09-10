@@ -19,7 +19,6 @@
   font-weight: 600;
   line-height: 1.4;
   margin: 8px;
-  color: var(--color-tertiary);
 }
 
 .footer-social {
@@ -33,7 +32,6 @@
   font-size: 14px;
   font-weight: 400;
   margin: 0;
-  color: var(--color-secondary) !important;
 }
 
 .footer-social .social-icons {
@@ -46,10 +44,6 @@
   transform: scale(1.15);
 }
 
-.footer-social .social-icons .social-icon {
-  color: var(--color-tertiary);
-}
-
 .footer-contact {
   display: flex;
   flex-direction: column;
@@ -59,12 +53,10 @@
   font-size: 14px;
   font-weight: 400;
   margin-bottom: 6px;
-  color: var(--color-secondary) !important;
 }
 .contact-info {
   font-size: 14px;
   margin: 6px 0;
-  color: var(--color-tertiary) !important;
 }
 
 .footer-legal {
@@ -72,13 +64,9 @@
   padding-top: 16px;
   text-align: center;
   font-size: 12px;
-  color: var(--color-tertiary);
 }
 .footer-terms {
   margin-bottom: 8px;
-}
-.footer-dev small {
-  color: var(--color-tertiary);
 }
 
 /* ---------- Desktop ---------- */
@@ -115,7 +103,6 @@
   .footer-social p {
     font-size: 16px;
     font-weight: 400;
-    color: var(--color-tertiary);
     text-align: right !important;
   }
 
@@ -128,7 +115,6 @@
   .footer-contact p {
     font-size: 16px;
     font-weight: 400;
-    color: var(--color-tertiary);
   }
 
   .footer-contact .contact-subtitle {
@@ -137,11 +123,6 @@
 
   .contact-info {
     font-size: 16px;
-    color: var(--color-secondary);
-  }
-
-  .contact-info strong {
-    color: var(--color-tertiary);
   }
 
   .footer-logo {
@@ -167,7 +148,6 @@
   justify-content: center;
   width: 48px;
   height: 48px;
-  color: var(--color-secondary);
   font-size: 32px;
   transition: all 0.3s ease;
   text-decoration: none;

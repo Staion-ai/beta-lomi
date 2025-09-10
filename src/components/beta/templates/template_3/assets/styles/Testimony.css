@@ -9,7 +9,6 @@
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 2rem;
-  color: #222;
 }
 
 .testimonials {
@@ -46,12 +45,10 @@
 .testimonial p:first-of-type {
   font-weight: 600;
   font-size: 1.1rem;
-  color: #111;
   margin-bottom: 0.5rem;
 }
 
 .testimonial p:last-of-type {
   font-size: 0.95rem;
   line-height: 1.5;
-  color: #555;
 }

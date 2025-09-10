@@ -14,7 +14,7 @@ export const useTheme = (styles) => {
       root.style.setProperty("--font-family", styles.active_font);
 
       const linkId = "dynamic-font";
-      let link = document.getElementById(linkId)
+      let link = document.getElementById(linkId);
 
       if (!link) {
         link = document.createElement("link");

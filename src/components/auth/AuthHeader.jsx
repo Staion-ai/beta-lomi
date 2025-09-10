@@ -1,37 +1,45 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
 import {
   AppBar,
   Toolbar,
   Typography,
   Button,
   Box,
-  Avatar
+  Avatar,
+  CircularProgress,
+  IconButton
 } from '@mui/material'
-import { Logout as LogoutIcon } from '@mui/icons-material'
+import {
+  Logout as LogoutIcon,
+  ArrowBack as ArrowBackIcon
+} from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/useAuth'
+import { useLogout } from '../../hooks'
 
-const AuthHeader = ({ title = 'LOMI Dashboard' }) => {
-  const { user, logout } = useAuth()
+const AuthHeader = ({ title = 'LOMI Dashboard', showBackButton = false }) => {
+  const { user } = useAuth()
+  const { logout, isLoading: logoutLoading } = useLogout()
   const navigate = useNavigate()
 
   const handleLogout = async () => {
-    await logout()
-    navigate('/login')
+    await logout('/login')
+  }
+
+  const handleBackToDashboard = () => {
+    navigate('/dashboard')
   }
 
   const getUserDisplayName = () => {
     if (!user) return 'Usuario'
-    
-    // Try to get name from first_name/last_name, then username, then email
+
     const firstName = user.first_name || ''
     const lastName = user.last_name || ''
     const fullName = `${firstName} ${lastName}`.trim()
-    
+
     if (fullName) return fullName
     if (user.username && user.username !== user.email) return user.username
     if (user.email) return user.email.split('@')[0]
-    
+
     return 'Usuario'
   }
 
@@ -50,6 +58,20 @@ const AuthHeader = ({ title = 'LOMI Dashboard' }) => {
     >
       <Toolbar>
         <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+          {showBackButton && (
+            <IconButton
+              color="inherit"
+              onClick={handleBackToDashboard}
+              sx={{
+                mr: 1,
+                '&:hover': {
+                  backgroundColor: 'rgba(255,255,255,0.1)'
+                }
+              }}
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          )}
           <Avatar
             sx={{
               bgcolor: 'rgba(255,255,255,0.2)',
@@ -74,16 +96,20 @@ const AuthHeader = ({ title = 'LOMI Dashboard' }) => {
           <Button
             color="inherit"
             onClick={handleLogout}
-            startIcon={<LogoutIcon />}
+            disabled={logoutLoading}
+            startIcon={logoutLoading ? <CircularProgress size={16} color="inherit" /> : <LogoutIcon />}
             sx={{
               textTransform: 'none',
               borderRadius: 2,
               '&:hover': {
                 backgroundColor: 'rgba(255,255,255,0.1)'
+              },
+              '&:disabled': {
+                color: 'rgba(255,255,255,0.5)'
               }
             }}
           >
-            Cerrar Sesión
+            {logoutLoading ? 'Cerrando...' : 'Cerrar Sesión'}
           </Button>
         </Box>
       </Toolbar>

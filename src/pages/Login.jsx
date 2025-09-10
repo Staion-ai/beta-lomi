@@ -36,7 +36,6 @@ function Login() {
       ...prev,
       [name]: value
     }))
-    // Limpiar error al escribir
     if (error) setError('')
   }
 
@@ -50,18 +49,11 @@ function Login() {
     }
 
     try {
-      // Call the API to authenticate user
-      console.log('Calling login API with:', { username: formData.email, password: '***' })
       const apiResult = await loginMutation.mutateAsync({
         username: formData.email,
         password: formData.password
       })
 
-      console.log('API Result received:', apiResult)
-      console.log('API Result type:', typeof apiResult)
-      console.log('API Result keys:', Object.keys(apiResult || {}))
-
-      // Process the authentication response through context
       const result = await login(apiResult)
 
       if (result.success) {

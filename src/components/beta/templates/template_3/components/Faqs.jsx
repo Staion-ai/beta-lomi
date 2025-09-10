@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 
 import '../assets/styles/Faqs.css'
 
+import { useCSSVar } from '../hooks/useCSSVar';
+import chroma from "chroma-js";
 
 const Faqs = ({ title, questions, background_image: backgroundImage }) => {
 
@@ -11,6 +13,13 @@ const Faqs = ({ title, questions, background_image: backgroundImage }) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+  const primaryColor = useCSSVar("--color-primary", "#FFFFFF");
+
+  const textColor = (color, fallback = "#FFFFFF") => {
+    const bg = color ? chroma(color) : chroma(fallback);
+    return bg.luminance() > 0.5 ? "#000000" : "#FFFFFF";
+  };
+
   return (
     <div className={`${backgroundImage ? "faqs-section " : "faqs-no-bg"}`}
       id="/contact"
@@ -18,7 +27,7 @@ const Faqs = ({ title, questions, background_image: backgroundImage }) => {
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : "none"
       }}
     >
-      <h2>{title}</h2>
+      <h2 style={{ color: textColor(primaryColor) }}>{title}</h2>
       <ul className="faqs-list">
         {questions.map((q, index) => (
           <li key={index} className="faq-item">
@@ -30,7 +39,7 @@ const Faqs = ({ title, questions, background_image: backgroundImage }) => {
               <span>{openIndex === index ? "▲" : "▼"}</span>
             </button>
             {openIndex === index && (
-              <p className="faq-answer">{q.answer}</p>
+              <p className="faq-answer" style={{ color: textColor(primaryColor) }}>{q.answer}</p>
             )}
           </li>
         ))}

@@ -3,7 +3,6 @@
  */
 
 export const useFormValidation = () => {
-    // Validación para el paso actual
     const validateCurrentStep = (activeStep, data) => {
         const errors = []
 
@@ -13,23 +12,38 @@ export const useFormValidation = () => {
         }
 
         switch (activeStep) {
-            case 0: // Stage 1 - Información de la empresa
+            case 0:
                 if (!data.company_name || typeof data.company_name !== 'string' || data.company_name.trim().length < 2) {
                     errors.push('El nombre de la empresa es requerido (mínimo 2 caracteres)')
                 }
                 if (!data.description || typeof data.description !== 'string' || data.description.trim().length < 10) {
                     errors.push('La descripción de la empresa es requerida (mínimo 10 caracteres)')
                 }
+                if (!data.logo) {
+                    errors.push('El logo de la empresa es obligatorio')
+                }
                 if (!data.colors || !Array.isArray(data.colors) || data.colors.length === 0) {
                     errors.push('Debes seleccionar al menos un color para tu marca')
                 }
+                if (!data.socialNetworks || !Array.isArray(data.socialNetworks) || data.socialNetworks.length < 2) {
+                    errors.push('Debes seleccionar al menos 2 redes sociales')
+                }
+                if (data.socialNetworks && Array.isArray(data.socialNetworks)) {
+                    data.socialNetworks.forEach(network => {
+                        const link = data.socialNetworkLinks?.[network]
+                        if (!link || typeof link !== 'string' || link.trim().length === 0) {
+                            errors.push(`El enlace de ${network} es requerido`)
+                        } else if (!/^https?:\/\/.+/.test(link)) {
+                            errors.push(`El enlace de ${network} debe ser una URL válida`)
+                        }
+                    })
+                }
                 break
 
-            case 1: // Stage 2 - Productos y servicios
+            case 1:
                 if (!data.products || !Array.isArray(data.products) || data.products.length === 0) {
                     errors.push('Debes agregar al menos un producto o servicio')
                 } else {
-                    // Validar que cada producto tenga los campos requeridos
                     data.products.forEach((product, index) => {
                         if (!product) {
                             errors.push(`Producto ${index + 1}: Datos del producto no encontrados`)
@@ -48,11 +62,10 @@ export const useFormValidation = () => {
                 }
                 break
 
-            case 2: // Stage 3 - Clientes
+            case 2:
                 if (!data.testimonials || !Array.isArray(data.testimonials) || data.testimonials.length === 0) {
                     errors.push('Debes agregar al menos un cliente')
                 } else {
-                    // Validar que cada cliente tenga los campos requeridos
                     data.testimonials.forEach((client, index) => {
                         if (!client) {
                             errors.push(`Cliente ${index + 1}: Datos del cliente no encontrados`)
@@ -72,22 +85,33 @@ export const useFormValidation = () => {
         return errors
     }
 
-    // Validación completa de todos los pasos
     const validateAllSteps = (data) => {
         const errors = []
 
-        // Validar Stage 1
         if (!data.company_name || data.company_name.trim().length < 2) {
             errors.push('Etapa 1: El nombre de la empresa es requerido')
         }
         if (!data.description || data.description.trim().length < 10) {
             errors.push('Etapa 1: La descripción de la empresa es requerida')
         }
+        if (!data.logo) {
+            errors.push('Etapa 1: El logo de la empresa es obligatorio')
+        }
         if (!data.colors || data.colors.length === 0) {
             errors.push('Etapa 1: Debes seleccionar al menos un color')
         }
+        if (!data.socialNetworks || data.socialNetworks.length < 2) {
+            errors.push('Etapa 1: Debes seleccionar al menos 2 redes sociales')
+        }
+        if (data.socialNetworks && data.socialNetworks.length > 0) {
+            data.socialNetworks.forEach(network => {
+                const link = data.socialNetworkLinks?.[network]
+                if (!link || !/^https?:\/\/.+/.test(link)) {
+                    errors.push(`Etapa 1: Enlace de ${network} inválido o faltante`)
+                }
+            })
+        }
 
-        // Validar Stage 2
         if (!data.products || data.products.length === 0) {
             errors.push('Etapa 2: Debes agregar al menos un producto o servicio')
         } else {
@@ -97,7 +121,6 @@ export const useFormValidation = () => {
             }
         }
 
-        // Validar Stage 3
         if (!data.testimonials || data.testimonials.length === 0) {
             errors.push('Etapa 3: Debes agregar al menos un cliente')
         } else {
@@ -110,7 +133,6 @@ export const useFormValidation = () => {
         return errors
     }
 
-    // Verificar si un paso específico está completo
     const isStepComplete = (stepIndex, data) => {
         if (!data) return false
 
@@ -157,7 +179,6 @@ export const useFormValidation = () => {
         }
     }
 
-    // Mostrar errores en alert
     const showValidationErrors = (errors) => {
         if (errors.length > 0) {
             const errorMessage = "Por favor, completa los siguientes campos:\n\n" +

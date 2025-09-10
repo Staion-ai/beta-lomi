@@ -40,13 +40,15 @@ export const useMultiStepForm = (steps, onComplete) => {
         }))
     }
 
-    const createFormData = () => {
+    const createFormData = (currentFormData = {}) => {
         const finalFormData = new FormData()
 
-        // Agregar user_id ficticio
         finalFormData.append('user_id', 'user_12345')
 
-        // Agregar archivos de cada stage
+        if (currentFormData.logo && currentFormData.logo instanceof File) {
+            finalFormData.append('files', currentFormData.logo)
+        }
+
         Object.entries(filesData).forEach(([/* stage */, files]) => {
             Object.entries(files).forEach(([/* fileKey */, file]) => {
                 if (file) {
@@ -64,6 +66,11 @@ export const useMultiStepForm = (steps, onComplete) => {
             urlMap[item.original_filename] = item.file_url;
         });
 
+        let updatedLogo = data.logo;
+        if (data.logo && data.logo instanceof File && urlMap[data.logo.name]) {
+            updatedLogo = urlMap[data.logo.name];
+        }
+
         const updatedProducts = data.products.map(product => ({
             ...product,
             image: urlMap[product.image] || product.image
@@ -76,20 +83,89 @@ export const useMultiStepForm = (steps, onComplete) => {
 
         return {
             ...data,
+            logo: updatedLogo,
             products: updatedProducts,
             testimonials: updatedTestimonials
         };
+    }
+
+    const updateHeroBackgroundWithProductImage = (templateContent, formData) => {
+        if (!templateContent) {
+            console.warn('No template content available to update hero background')
+            return templateContent
+        }
+
+        let imageUrl = null
+
+        if (formData?.products && formData.products.length > 0) {
+            const productWithImage = formData.products.find(product =>
+                product.image &&
+                (product.image.startsWith('http') || product.image.startsWith('https'))
+            )
+            if (productWithImage) {
+                imageUrl = productWithImage.image
+            }
+        }
+
+        if (!imageUrl && formData?.testimonials && formData.testimonials.length > 0) {
+            const testimonialWithImage = formData.testimonials.find(testimonial =>
+                testimonial.image &&
+                (testimonial.image.startsWith('http') || testimonial.image.startsWith('https'))
+            )
+            if (testimonialWithImage) {
+                imageUrl = testimonialWithImage.image
+            }
+        }
+
+        if (imageUrl && templateContent.hero_section) {
+            return {
+                ...templateContent,
+                hero_section: {
+                    ...templateContent.hero_section,
+                    background_image: imageUrl
+                }
+            }
+        }
+
+        return templateContent
+    }
+
+    const updateNavbarLogoWithUrl = (templateContent, formData) => {
+        if (!templateContent || !formData?.logo) {
+            console.warn('No template content or logo available to update navbar')
+            return templateContent
+        }
+
+        if (typeof formData.logo === 'string' &&
+            (formData.logo.startsWith('http') || formData.logo.startsWith('https'))) {
+
+            return {
+                ...templateContent,
+                navbar: {
+                    ...templateContent.navbar,
+                    logo: {
+                        ...templateContent.navbar?.logo,
+                        image_url: formData.logo
+                    }
+                },
+                footer: {
+                    ...templateContent.footer,
+                    logo: {
+                        ...templateContent.footer?.logo,
+                        image_url: formData.logo
+                    }
+                }
+            }
+        }
+
+        return templateContent
     }
 
     const handleSubmit = async (data) => {
         setIsSubmitting(true)
 
         try {
-            // Validar el paso actual antes de continuar
             const currentStepErrors = validateCurrentStep(activeStep, data)
-            console.log('Current step:', activeStep)
-            console.log('Form data:', data)
-            console.log('Validation errors:', currentStepErrors)
 
             if (currentStepErrors.length > 0) {
                 const errorMessage = "Por favor, completa los siguientes campos:\n\n" +
@@ -102,7 +178,16 @@ export const useMultiStepForm = (steps, onComplete) => {
             setFormData(updatedData)
 
             if (activeStep === steps.length - 1) {
-                // Final step - validate all steps
+                if (updatedData.socialNetworks && updatedData.socialNetworkLinks) {
+                    const cleanedLinks = {}
+                    updatedData.socialNetworks.forEach(network => {
+                        if (updatedData.socialNetworkLinks[network]) {
+                            cleanedLinks[network] = updatedData.socialNetworkLinks[network]
+                        }
+                    })
+                    updatedData.socialNetworkLinks = cleanedLinks
+                }
+
                 const allErrors = validateAllSteps(updatedData)
                 if (allErrors.length > 0) {
                     const errorMessage = "Por favor, completa todos los campos requeridos:\n\n" +
@@ -111,10 +196,9 @@ export const useMultiStepForm = (steps, onComplete) => {
                     return
                 }
 
-                // Add default country
                 updatedData.country = "Colombia"
 
-                const finalFormData = createFormData()
+                const finalFormData = createFormData(updatedData)
 
                 setIsUploadingImages(true)
                 try {
@@ -126,16 +210,17 @@ export const useMultiStepForm = (steps, onComplete) => {
                     setIsGeneratingContent(true)
 
                     const content = await generateTemplateContent(updatedDataWithUrls)
-                    console.log('Generated content:', content)
-                    updateTemplateContent(content) // Actualizar el context con el contenido generado
 
-                    setNotification({ open: true, message: 'Proyecto creado exitosamente. Contenido generado.', severity: 'success' })
+                    let updatedContent = updateHeroBackgroundWithProductImage(content, updatedDataWithUrls)
 
-                    // Navigate to preview with template content after successful completion
+                    updatedContent = updateNavbarLogoWithUrl(updatedContent, updatedDataWithUrls)
+
+                    updateTemplateContent(updatedContent, updatedDataWithUrls) // Actualizar el context con el contenido y los datos originales                    setNotification({ open: true, message: 'Proyecto creado exitosamente. Contenido generado.', severity: 'success' })
+
                     if (onComplete) {
                         setTimeout(() => {
-                            onComplete(content) // Pasar el contenido generado por la API
-                        }, 2000) // Wait 2 seconds to show success message
+                            onComplete(updatedContent)
+                        }, 2000)
                     }
                 } catch (error) {
                     console.error('Error uploading images or generating content:', error)
@@ -145,7 +230,6 @@ export const useMultiStepForm = (steps, onComplete) => {
                     setIsGeneratingContent(false)
                 }
             } else {
-                // Move to next step
                 setActiveStep(activeStep + 1)
             }
         } finally {

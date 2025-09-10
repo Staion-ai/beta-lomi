@@ -3,6 +3,9 @@ import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube, FaTiktok } f
 
 import '../assets/styles/Footer.css'
 
+import { useCSSVar } from '../hooks/useCSSVar';
+import chroma from "chroma-js";
+
 const iconMap = {
   Facebook: FaFacebook,
   Twitter: FaTwitter,
@@ -12,12 +15,20 @@ const iconMap = {
   TikTok: FaTiktok
 };
 
+
 const Footer = ({ engaging_subtitles, social_media_section: sms, contact, logo, develop_by }) => {
 
   // Filtrar solo los links activos
   const filteredLinks = sms.social_links.filter((link) =>
     sms.active.includes(link.platform)
   );
+
+  const primaryColor = useCSSVar("--color-primary", "#FFFFFF");
+
+  const textColor = (color, fallback = "#FFFFFF") => {
+    const bg = color ? chroma(color) : chroma(fallback);
+    return bg.luminance() > 0.5 ? "#000000" : "#FFFFFF";
+  };
 
   return (
     <footer className="footer">
@@ -27,14 +38,14 @@ const Footer = ({ engaging_subtitles, social_media_section: sms, contact, logo, 
             <img src={logo.image_url} alt={logo.alt_text} />
           </a>
           <div className="engaging-subtitles">
-            <h2>{engaging_subtitles[0]}</h2>
-            <h3>{engaging_subtitles[1]}</h3>
+            <h2 style={{ color: textColor(primaryColor) }}>{engaging_subtitles[0]}</h2>
+            <h3 style={{ color: textColor(primaryColor) }}>{engaging_subtitles[1]}</h3>
           </div>
         </div>
 
         <div className="footer-info">
           <div className="footer-social">
-            <p>{sms.subtitle}</p>
+            <p style={{ color: textColor(primaryColor) }}>{sms.subtitle}</p>
             <div className="social-icons">
               {filteredLinks.map((link, idx) => {
                 const Icon = iconMap[link.platform];
@@ -45,6 +56,7 @@ const Footer = ({ engaging_subtitles, social_media_section: sms, contact, logo, 
                     target="_blank"
                     rel="noopener noreferrer"
                     className="social-icon"
+                    style={{ color: textColor(primaryColor) }}
                   >
                     {Icon && <Icon />}
                   </a>
@@ -54,19 +66,19 @@ const Footer = ({ engaging_subtitles, social_media_section: sms, contact, logo, 
           </div>
 
           <div className="footer-contact">
-            <p className='contact-subtitle'>{contact.subtitle}</p>
+            <p className='contact-subtitle' style={{ color: textColor(primaryColor) }}>{contact.subtitle}</p>
             {contact.contact_info.map((info, index) => (
-              <div key={index} className="contact-info">
-                <strong>{info.type}:</strong> {info.value}
+              <div key={index} className="contact-info" style={{ color: textColor(primaryColor) }}>
+                <strong style={{ color: textColor(primaryColor) }}>{info.type}:</strong> {info.value}
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="footer-legal">
+      <div className="footer-legal" style={{ color: textColor(primaryColor) }}>
         <div className="footer-dev">
-          <small>Developed by {develop_by}</small>
+          <small style={{ color: textColor(primaryColor) }}>Developed by {develop_by}</small>
         </div>
       </div>
     </footer>

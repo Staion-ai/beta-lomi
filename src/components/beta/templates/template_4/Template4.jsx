@@ -2,7 +2,7 @@ import './assets/styles/App.css'
 
 /* HOOK PARA TOMAR LOS COLORES DEL JSON */
 import { useTheme } from './hooks/useTheme.js';
-import content from '../../../../data/template_structure.json'
+import content from '../../../../data//template_structure.json'
 
 
 import NavBar from './components/NavBar.jsx';

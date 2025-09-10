@@ -1,11 +1,11 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { 
-    Container, 
-    Typography, 
-    Button, 
-    Box, 
-    Paper, 
+import {
+    Container,
+    Typography,
+    Button,
+    Box,
+    Paper,
     Grid,
     Card,
     CardContent,
@@ -13,6 +13,7 @@ import {
 } from '@mui/material'
 import { Add, Assignment, Visibility } from '@mui/icons-material'
 import AuthHeader from '../components/auth/AuthHeader'
+import { useAuth } from '../contexts/useAuth'
 
 function Dashboard() {
     const navigate = useNavigate()
@@ -21,17 +22,19 @@ function Dashboard() {
         navigate('/form')
     }
 
+    const { user } = useAuth()
+
     return (
         <>
             <AuthHeader title="Dashboard - Gestión de Proyectos" />
             <Container maxWidth="lg" sx={{ py: 4 }}>
                 {/* Header Section */}
                 <Box sx={{ mb: 4, textAlign: 'center' }}>
-                    <Typography 
-                        variant="h3" 
-                        component="h1" 
+                    <Typography
+                        variant="h3"
+                        component="h1"
                         gutterBottom
-                        sx={{ 
+                        sx={{
                             fontWeight: 'bold',
                             color: '#333',
                             mb: 2
@@ -39,8 +42,8 @@ function Dashboard() {
                     >
                         Bienvenido a LOMI
                     </Typography>
-                    <Typography 
-                        variant="h6" 
+                    <Typography
+                        variant="h6"
                         color="text.secondary"
                         sx={{ mb: 4 }}
                     >
@@ -50,9 +53,76 @@ function Dashboard() {
 
                 {/* Action Cards */}
                 <Grid container spacing={3} sx={{ mb: 4 }}>
-                    <Grid item xs={12} md={4}>
-                        <Card 
-                            sx={{ 
+
+                    <Grid item xs={12} md={6}>
+                        <Card
+                            sx={{
+                                height: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                borderRadius: 3,
+                                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                                border: '2px solid #8783CA',
+                                background: 'linear-gradient(135deg, #F9DCB8 0%, #ffffff 100%)',
+                                position: 'relative',
+                                overflow: 'hidden'
+                            }}
+                        >
+                            {/* Beta Badge */}
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    right: 0,
+                                    backgroundColor: '#8783CA',
+                                    color: 'white',
+                                    px: 2,
+                                    py: 0.5,
+                                    fontSize: '0.75rem',
+                                    fontWeight: 'bold',
+                                    borderBottomLeftRadius: 8,
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.5px'
+                                }}
+                            >
+                                BETA
+                            </Box>
+                            <CardContent sx={{ flexGrow: 1, textAlign: 'center', p: 3, pt: 4 }}>
+                                <Box
+                                    sx={{
+                                        width: 80,
+                                        height: 80,
+                                        borderRadius: '50%',
+                                        backgroundColor: '#8783CA',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        mx: 'auto',
+                                        mb: 2,
+                                        color: 'white',
+                                        fontWeight: 'bold',
+                                        fontSize: '2rem',
+                                        boxShadow: '0 4px 12px rgba(135, 131, 202, 0.3)'
+                                    }}
+                                >
+                                    1
+                                </Box>
+                                <Typography variant="h5" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
+                                    Proyecto Gratuito
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                                    Durante la beta puedes crear <strong>1 proyecto completamente gratis</strong>
+                                </Typography>
+                                <Typography variant="caption" color="primary" sx={{ fontWeight: 'medium' }}>
+                                    ¡Aprovecha esta oportunidad limitada!
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                        <Card
+                            sx={{
                                 height: '100%',
                                 display: 'flex',
                                 flexDirection: 'column',
@@ -105,16 +175,17 @@ function Dashboard() {
                                             backgroundColor: '#6f6ba3'
                                         }
                                     }}
+                                    disabled={user?.free_attemps == 0}
                                 >
-                                    Crear Nuevo Proyecto
+                                    {user?.free_attemps == 0 ? 'Límite de intentos alcanzado' : ':Crear Nuevo Proyecto'}
                                 </Button>
                             </CardActions>
                         </Card>
                     </Grid>
 
-                    <Grid item xs={12} md={4}>
-                        <Card 
-                            sx={{ 
+                    <Grid item xs={12} md={6}>
+                        <Card
+                            sx={{
                                 height: '100%',
                                 display: 'flex',
                                 flexDirection: 'column',
@@ -137,7 +208,7 @@ function Dashboard() {
                                         mb: 2
                                     }}
                                 >
-                                    <Assignment sx={{ fontSize: 40, color: '#8783CA' }} />
+                                    <Visibility sx={{ fontSize: 40, color: '#8783CA' }} />
                                 </Box>
                                 <Typography variant="h5" component="h2" gutterBottom>
                                     Mis Proyectos
@@ -165,9 +236,9 @@ function Dashboard() {
                         </Card>
                     </Grid>
 
-                    <Grid item xs={12} md={4}>
-                        <Card 
-                            sx={{ 
+                    <Grid item xs={12} md={6}>
+                        <Card
+                            sx={{
                                 height: '100%',
                                 display: 'flex',
                                 flexDirection: 'column',
@@ -220,10 +291,10 @@ function Dashboard() {
                 </Grid>
 
                 {/* Instructions Section */}
-                <Paper 
-                    elevation={1} 
-                    sx={{ 
-                        p: 4, 
+                <Paper
+                    elevation={1}
+                    sx={{
+                        p: 4,
                         borderRadius: 3,
                         backgroundColor: '#F9DCB8',
                         border: '1px solid #e0e0e0'

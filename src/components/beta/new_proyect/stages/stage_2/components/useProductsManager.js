@@ -24,7 +24,6 @@ export function useProductsManager(updateStageFiles) {
                 name: '',
                 image: null
             })
-            // Expandir automáticamente la nueva card
             setCollapsedCards(prev => ({
                 ...prev,
                 [newIndex]: false
@@ -34,11 +33,9 @@ export function useProductsManager(updateStageFiles) {
 
     const removeProduct = (index) => {
         remove(index)
-        // Limpiar el estado de colapso para evitar índices incorrectos
         setCollapsedCards(prev => {
             const newState = { ...prev }
             delete newState[index]
-            // Reajustar índices superiores
             const updatedState = {}
             Object.keys(newState).forEach(key => {
                 const numKey = parseInt(key)
@@ -50,17 +47,14 @@ export function useProductsManager(updateStageFiles) {
             })
             return updatedState
         })
-        
-        // Limpiar archivo asociado si existe la función de actualización
+
         if (updateStageFiles) {
             updateStageFiles('stage2', `product_${index}_image`, null)
         }
     }
 
     const handleImageUpload = (index, file) => {
-        console.log(`Image uploaded for product ${index}:`, file)
-        
-        // Almacenar el archivo usando updateStageFiles
+
         if (updateStageFiles && file) {
             updateStageFiles('stage2', `product_${index}_image`, file)
         }

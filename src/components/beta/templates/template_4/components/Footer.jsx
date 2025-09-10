@@ -3,6 +3,9 @@ import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube, FaTiktok } f
 
 import '../assets/styles/Footer.css'
 
+import { useCSSVar } from '../hooks/useCSSVar';
+import chroma from "chroma-js";
+
 const iconMap = {
   Facebook: FaFacebook,
   Twitter: FaTwitter,
@@ -19,8 +22,15 @@ const Footer = ({ engaging_subtitles, social_media_section: sms, contact, logo, 
     sms.active.includes(link.platform)
   );
 
+  const primaryColor = useCSSVar("--color-primary", "#FFFFFF");
+
+  const textColor = (color, fallback = "#FFFFFF") => {
+    const bg = color ? chroma(color) : chroma(fallback);
+    return bg.luminance() > 0.5 ? "#000000" : "#FFFFFF";
+  };
+
   return (
-    <footer className="footer">
+    <footer className="footer" style={{ color: textColor(primaryColor) }}>
       <div className="footer-top">
         <a href={logo.link_url} className="footer-logo">
           <img src={logo.image_url} alt={logo.alt_text} />
@@ -28,7 +38,7 @@ const Footer = ({ engaging_subtitles, social_media_section: sms, contact, logo, 
 
         <div className="footer-subtitles">
           {engaging_subtitles.map((subtitle, idx) => (
-            <p key={idx}>{subtitle}</p>
+            <p key={idx} style={{ color: textColor(primaryColor) }}>{subtitle}</p>
           ))}
         </div>
       </div>
@@ -46,6 +56,7 @@ const Footer = ({ engaging_subtitles, social_media_section: sms, contact, logo, 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="social-icon"
+                  style={{ color: textColor(primaryColor) }}
                 >
                   {Icon && <Icon />}
                 </a>
@@ -66,7 +77,7 @@ const Footer = ({ engaging_subtitles, social_media_section: sms, contact, logo, 
         </div>
       </div>
 
-      <div className="footer-bottom">
+      <div className="footer-bottom" style={{ color: textColor(primaryColor) }}>
         <p>{develop_by}</p>
       </div>
     </footer>

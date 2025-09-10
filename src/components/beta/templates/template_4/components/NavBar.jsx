@@ -2,7 +2,18 @@ import '../assets/styles/NavBar.css'
 
 import React from 'react'
 
+import { useCSSVar } from '../hooks/useCSSVar';
+import chroma from "chroma-js";
+
 const NavBar = ({ logo, options: links, cta_button: cta }) => {
+
+  const primaryColor = useCSSVar("--color-primary", "#FFFFFF");
+
+  const textColor = (color, fallback = "#FFFFFF") => {
+    const bg = color ? chroma(color) : chroma(fallback);
+    return bg.luminance() > 0.5 ? "#000000" : "#FFFFFF";
+  };
+
   return (
     <nav className="navbar">
       {/* Logo */}
@@ -21,13 +32,13 @@ const NavBar = ({ logo, options: links, cta_button: cta }) => {
         <ul className="options">
           {links.map((link, index) => (
             <li key={index} className='option'>
-              <a href={`#${link.url}`}>
+              <a href={`#${link.url}`} style={{ color: textColor(primaryColor) }}>
                 {link.label}
               </a>
             </li>
           ))}
           {/* CTA Button */}
-          <a href={cta.url} className='cta-button'>
+          <a href={cta.url} className='cta-button' style={{ color: textColor(primaryColor) }}>
             {cta.label}
           </a>
         </ul>

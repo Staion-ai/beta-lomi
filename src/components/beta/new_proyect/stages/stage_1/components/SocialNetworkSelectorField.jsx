@@ -12,7 +12,8 @@ import {
 import { socialNetworkOptions } from '../constants/stage1Constants'
 
 function SocialNetworkSelectorField() {
-    const { control, formState: { errors } } = useFormContext()
+    const { control, formState: { errors }, setValue, watch } = useFormContext()
+    const currentSocialNetworkLinks = watch('socialNetworkLinks') || {}
 
     const renderSocialChips = (selected) => (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
@@ -44,53 +45,77 @@ function SocialNetworkSelectorField() {
                     return true
                 }
             }}
-            render={({ field: { value = [], onChange } }) => (
-                <Box className="form-field">
-                    <label htmlFor="socialNetworks" className="input-label">
-                        Selecciona las redes sociales de tu empresa (mínimo 2, máximo 3)
-                    </label>
-                    <FormControl fullWidth error={!!errors.socialNetworks}>
-                        <Select
-                            multiple
-                            value={value}
-                            onChange={onChange}
-                            input={<OutlinedInput />}
-                            renderValue={renderSocialChips}
-                            sx={{
-                                '& .MuiSelect-select': {
-                                    padding: '0.6rem 1rem'
-                                }
-                            }}
-                        >
-                            {socialNetworkOptions.map((network) => (
-                                <MenuItem
-                                    key={network}
-                                    value={network}
-                                    disabled={value.length >= 3 && !value.includes(network)}
-                                    sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 1
-                                    }}
-                                >
-                                    {network}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                        {errors.socialNetworks && (
-                            <Typography variant="caption" sx={{
-                                color: '#ff5252',
-                                marginLeft: '15px',
-                                fontSize: '14px',
-                                display: 'block',
-                                marginTop: '4px'
-                            }}>
-                                {errors.socialNetworks.message}
-                            </Typography>
-                        )}
-                    </FormControl>
-                </Box>
-            )}
+            render={({ field: { value = [], onChange } }) => {
+                const handleSocialNetworkChange = (newValue) => {
+                    onChange(newValue)
+
+                    const updatedLinks = { ...currentSocialNetworkLinks }
+
+                    Object.keys(updatedLinks).forEach(network => {
+                        if (!newValue.includes(network)) {
+                            delete updatedLinks[network]
+                        }
+                    })
+
+                    setValue('socialNetworkLinks', updatedLinks)
+                }
+
+                return (
+                    <Box className="form-field">
+                        <label htmlFor="socialNetworks" className="input-label">
+                            Selecciona las redes sociales de tu empresa (mínimo 2, máximo 3)
+                        </label>
+                        <Typography variant="caption" sx={{
+                            color: '#666',
+                            fontSize: '0.75rem',
+                            display: 'block',
+                            marginBottom: '8px'
+                        }}>
+                            Después podrás agregar los enlaces específicos de cada red social
+                        </Typography>
+                        <FormControl fullWidth error={!!errors.socialNetworks}>
+                            <Select
+                                multiple
+                                value={value}
+                                onChange={handleSocialNetworkChange}
+                                input={<OutlinedInput />}
+                                renderValue={renderSocialChips}
+                                sx={{
+                                    '& .MuiSelect-select': {
+                                        padding: '0.6rem 1rem'
+                                    }
+                                }}
+                            >
+                                {socialNetworkOptions.map((network) => (
+                                    <MenuItem
+                                        key={network}
+                                        value={network}
+                                        disabled={value.length >= 3 && !value.includes(network)}
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 1
+                                        }}
+                                    >
+                                        {network}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                            {errors.socialNetworks && (
+                                <Typography variant="caption" sx={{
+                                    color: '#ff5252',
+                                    marginLeft: '15px',
+                                    fontSize: '14px',
+                                    display: 'block',
+                                    marginTop: '4px'
+                                }}>
+                                    {errors.socialNetworks.message}
+                                </Typography>
+                            )}
+                        </FormControl>
+                    </Box>
+                )
+            }}
         />
     )
 }

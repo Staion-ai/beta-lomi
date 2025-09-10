@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Snackbar, Alert } from '@mui/material'
 
 const NotificationSnackbar = ({ open, message, severity, onClose }) => {
-    // Aumentar el tiempo de auto-hide para mensajes largos o de error/warning
     const getAutoHideDuration = () => {
         if (severity === 'error' || severity === 'warning') {
             return message.length > 100 ? 10000 : 8000

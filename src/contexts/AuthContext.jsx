@@ -17,7 +17,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  // Token refresh function
   const refreshAccessToken = useCallback(async () => {
     try {
       const refreshTokenValue = getRefreshToken()
@@ -45,7 +44,6 @@ export const AuthProvider = ({ children }) => {
     }
   }, [])
 
-  // Initialize authentication state
   useEffect(() => {
     const initializeAuth = async () => {
       try {
@@ -85,7 +83,6 @@ export const AuthProvider = ({ children }) => {
     initializeAuth()
   }, [refreshAccessToken])
 
-  // Set up token refresh interval
   useEffect(() => {
     if (!isAuthenticated) return
 
@@ -107,21 +104,12 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true)
 
-      // Log the response for debugging
-      console.log('Processing login with response:', authResponse)
-      console.log('Response type:', typeof authResponse)
-      console.log('Response keys:', Object.keys(authResponse || {}))
-      console.log('Access token:', authResponse?.access ? 'Present' : 'Missing')
-      console.log('Refresh token:', authResponse?.refresh ? 'Present' : 'Missing')
-      console.log('User data:', authResponse?.user ? 'Present' : 'Missing')
-
       // Store the complete auth response (access, refresh, user)
       const stored = storeAuthData(authResponse)
 
       if (stored) {
         setIsAuthenticated(true)
         setUser(authResponse.user)
-        console.log('Login successful, user authenticated')
         return { success: true }
       } else {
         throw new Error('Failed to store authentication data')
@@ -141,7 +129,22 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true)
 
-      // Clear all stored auth data
+      // Get current access token for logout API call
+      const currentToken = getAccessToken()
+
+      // Try to call logout API if we have a token
+      if (currentToken) {
+        try {
+          // Import logoutUser function
+          const { logoutUser } = await import('../lib')
+          await logoutUser(currentToken)
+        } catch (apiError) {
+          // Log the error but continue with local logout
+          console.warn('Server logout failed, proceeding with local logout:', apiError.message)
+        }
+      }
+
+      // Always clear local auth data regardless of API call result
       clearAuthData()
 
       // Update state
@@ -151,13 +154,22 @@ export const AuthProvider = ({ children }) => {
       return { success: true }
     } catch (error) {
       console.error('Logout error:', error)
+
+      // Even if there's an error, try to clear local data as fallback
+      try {
+        clearAuthData()
+        setIsAuthenticated(false)
+        setUser(null)
+      } catch (clearError) {
+        console.error('Failed to clear auth data:', clearError)
+      }
+
       return { success: false, error: 'Error al cerrar sesión' }
     } finally {
       setLoading(false)
     }
   }, [])
 
-  // Get current access token (useful for API calls)
   const getToken = useCallback(() => {
     return getAccessToken()
   }, [])

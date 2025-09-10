@@ -30,7 +30,10 @@ function ProyectForm() {
     defaultValues: {
       company_name: '',
       description: '',
+      logo: null,
       colors: [],
+      socialNetworks: [],
+      socialNetworkLinks: {},
       products: [],
       testimonials: []
     }
@@ -67,7 +70,7 @@ function ProyectForm() {
 
   return (
     <>
-      <AuthHeader title="Dashboard - Crear Proyecto" />
+      <AuthHeader title="Dashboard - Crear Proyecto" showBackButton={true} />
       <div className="form-section">
         <FormHeader />
 

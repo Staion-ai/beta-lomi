@@ -1,6 +1,5 @@
 .footer {
   background: var(--color-primary);
-  color: var(--color-tertiary);
   padding: 40px 20px;
   text-align: center;
 }
@@ -17,7 +16,6 @@
 .footer-subtitles p {
   margin: 4px 0;
   font-size: 1rem;
-  color: var(--color-tertiary);
 }
 
 .footer-middle {
@@ -41,7 +39,6 @@
 }
 
 .social-icon {
-  color: var(--color-tertiary);
   transition: color 0.3s;
 }
 
@@ -55,8 +52,7 @@
 }
 
 .footer-bottom {
-  border-top: 1px solid var(--color-tertiary);
+  border-top: 1px solid;
   padding-top: 15px;
   font-size: 0.9rem;
-  color: var(--color-tertiary);
 }

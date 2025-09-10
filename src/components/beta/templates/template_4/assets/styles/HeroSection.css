@@ -16,7 +16,7 @@
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: calc(100vh - 60px);
+  min-height: calc(80vh - 60px);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -34,7 +34,6 @@
 .section-content {
   margin-bottom: 120px;
   text-align: center;
-  color: white;
   padding: 50% 16px;
 }
 
@@ -54,7 +53,6 @@
   font-size: 15.5px;
   margin: 16px 0;
   line-height: 1.5;
-  color: white;
 }
 
 /* --- Contenedor del botón --- */
@@ -66,7 +64,6 @@
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  margin-top: auto;
   /* empuja hacia abajo dentro del hero */
 }
 
@@ -74,7 +71,6 @@
   padding: 9px 48px;
   border-radius: 12px;
   background: var(--color-secondary);
-  color: var(--color-tertiary);
   font-weight: 700;
   text-align: center;
   text-decoration: none;

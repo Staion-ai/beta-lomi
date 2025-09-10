@@ -7,7 +7,6 @@
 .value-section h2 {
     font-size: 2rem;
     margin-bottom: 20px;
-    color: #222;
 }
 
 /* Contenedor principal */
@@ -46,7 +45,6 @@
 
 .value-item p {
     font-size: 1rem;
-    color: #333;
     margin: 0;
 }
 

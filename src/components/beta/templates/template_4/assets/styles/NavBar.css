@@ -107,14 +107,9 @@
 }
 
 .options li a {
-    color: var(--color-tertiary);
     text-decoration: none;
     display: block;
     transition: color 0.2s ease;
-}
-
-.options li a:hover {
-    color: var(--color-secondary);
 }
 
 /*Show Menu*/
@@ -131,7 +126,6 @@
     padding: 12px 16px;
     border-radius: 12px;
     background: var(--color-secondary);
-    color: var(--color-tertiary);
     font-weight: 700;
     text-align: center;
     text-decoration: none;

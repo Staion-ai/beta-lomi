@@ -3,7 +3,6 @@
   padding: 60px 20px;
   background-size: cover;
   background-position: center;
-  color: #fff;
 }
 
 .faqs-section::before {
@@ -22,7 +21,6 @@
   font-size: 2rem;
   margin-bottom: 40px;
   font-weight: 700;
-  color: #f1f1f1;
 }
 
 .faqs-list {
@@ -58,7 +56,6 @@
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -73,11 +70,7 @@
   padding: 0 20px 18px;
   font-size: 1rem;
   line-height: 1.5;
-  color: var(--color-tertiary);
   animation: fadeIn 0.4s ease;
-}
-.faqs-section .faq-answer {
-    color: white;
 }
 
 @keyframes fadeIn {
@@ -95,18 +88,9 @@
 .faqs-no-bg {
   padding: 60px 20px;
   background: var(--color-primary);
-  color: var(--color-tertiary);
-}
-
-.faqs-no-bg h2 {
-  color: var(--color-tertiary);
 }
 
 .faqs-no-bg .faq-item {
   background: #fff;
-  color: var(--color-tertiary);
 }
 
-.faqs-no-bg .faq-question {
-  color: var(--color-tertiary);
-}

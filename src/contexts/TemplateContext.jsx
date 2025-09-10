@@ -5,24 +5,29 @@ const TemplateContext = createContext({})
 
 export const TemplateProvider = ({ children }) => {
     const [templateContent, setTemplateContent] = useState(null)
+    const [formData, setFormData] = useState(null)
     const [isGenerating, setIsGenerating] = useState(false)
 
-    const updateTemplateContent = (content) => {
-        console.log('TemplateContext - Updating content:', content)
+    const updateTemplateContent = (content, originalFormData = null) => {
         setTemplateContent(content)
+        if (originalFormData) {
+            setFormData(originalFormData)
+        }
     }
 
     const clearTemplateContent = () => {
         setTemplateContent(null)
+        setFormData(null)
     }
 
     const value = useMemo(() => ({
         templateContent,
+        formData,
         isGenerating,
         setIsGenerating,
         updateTemplateContent,
         clearTemplateContent
-    }), [templateContent, isGenerating])
+    }), [templateContent, formData, isGenerating])
 
     return (
         <TemplateContext.Provider value={value}>

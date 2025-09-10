@@ -4,13 +4,18 @@ import {
   StageHeader,
   CompanyNameField,
   CompanyDescriptionField,
+  CompanyLogoField,
   ColorSelectorField,
   TypographySelectorField,
-  SocialNetworkSelectorField
+  SocialNetworkSelectorField,
+  SocialNetworkLinksField
 } from './components'
 import { stage1Config } from './constants/stage1Constants'
+import { useSocialNetworksCleaner } from '../../hooks'
 
 function Stage1() {
+  useSocialNetworksCleaner()
+
   return (
     <Box className="stage-container">
       <StageHeader
@@ -21,9 +26,11 @@ function Stage1() {
       <Box>
         <CompanyNameField />
         <CompanyDescriptionField />
+        <CompanyLogoField />
         <ColorSelectorField />
         <TypographySelectorField />
         <SocialNetworkSelectorField />
+        <SocialNetworkLinksField />
       </Box>
     </Box>
   )

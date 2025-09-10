@@ -61,7 +61,7 @@ const Footer = ({ activePlatforms = [], content }) => {
                     <div className="contact-section">
                         <p>{footer.contact.subtitle}</p>
                         <ul>
-                            {footer.contact.contact_info.map((info, index) => (
+                            {footer?.contact?.contact_info?.map((info, index) => (
                                 <li key={index}>
                                     <strong>{info.type}:</strong> {info.value}
                                 </li>

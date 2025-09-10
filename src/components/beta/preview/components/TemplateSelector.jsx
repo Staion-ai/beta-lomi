@@ -10,7 +10,7 @@ const TemplateSelector = ({ selectedTemplate, onTemplateChange }) => {
 
     return (
         <Box className="template-selector" sx={{ minWidth: 300, mb: 3 }}>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" color='#000' gutterBottom>
                 Seleccionar Plantilla
             </Typography>
             <FormControl fullWidth>
