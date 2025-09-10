@@ -7,7 +7,7 @@ import { DEFAULT_TEMPLATE } from '../components/beta/preview/templateConfig';
 import { useTemplate } from '../contexts/TemplateContext';
 import { useAuth } from '../contexts/useAuth';
 import AuthHeader from '../components/auth/AuthHeader';
-import MessageSnackbar from '../components/common/MessageSnackbar';
+import MessageSnackbar from '../components/common/MessageSnackBar';
 import { useMessage } from '../hooks/useMessage';
 import '../components/beta/preview/styles/Preview.css';
 import { useCreateTemplate } from '../hooks/useCreateTemplate';
@@ -22,7 +22,6 @@ function Preview() {
 
     const { mutateAsync: createTemplate } = useCreateTemplate();
 
-    const token = getAccessToken()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -36,6 +35,8 @@ function Preview() {
         setSelectedTemplate(template);
         showInfo(`Plantilla "${template.name}" seleccionada`);
     };
+
+
 
     const handleButtonClick = async () => {
         if (!templateContent) {
