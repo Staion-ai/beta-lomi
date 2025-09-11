@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import {
   Box,
   Container,
@@ -10,7 +10,10 @@ import {
   Alert,
   CircularProgress,
   Card,
-  CardContent
+  CardContent,
+  FormControlLabel,
+  Checkbox,
+  Link
 } from '@mui/material'
 import { PersonAdd as RegisterIcon } from '@mui/icons-material'
 import { useRegisterUser } from '../hooks/useRegisterUser'
@@ -23,7 +26,9 @@ function Register() {
     celphone: '',
     email: '',
     password1: '',
-    password2: ''
+    password2: '',
+    privacyPolicy: false,
+    marketingConsent: false
   })
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
@@ -32,14 +37,26 @@ function Register() {
   const { login } = useAuth()
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
+    const { name, value, type, checked } = e.target
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'checkbox' ? checked : value
     }))
     // Limpiar mensajes al escribir
     if (error) setError('')
     if (success) setSuccess('')
+  }
+
+  // Función para verificar si todos los campos están completos
+  const isFormComplete = () => {
+    return formData.first_name.trim() !== '' &&
+      formData.last_name.trim() !== '' &&
+      formData.celphone.trim() !== '' &&
+      formData.email.trim() !== '' &&
+      formData.password1.trim() !== '' &&
+      formData.password2.trim() !== '' &&
+      formData.privacyPolicy &&
+      formData.marketingConsent
   }
 
   const handleSubmit = async (e) => {
@@ -48,7 +65,17 @@ function Register() {
     setSuccess('')
 
     if (!formData.first_name || !formData.last_name || !formData.celphone || !formData.email || !formData.password1 || !formData.password2) {
-      setError('Por favor complete todos los campos')
+      setError('Por favor complete todos los campos obligatorios')
+      return
+    }
+
+    if (!formData.privacyPolicy) {
+      setError('Debes aceptar la política de privacidad para continuar')
+      return
+    }
+
+    if (!formData.marketingConsent) {
+      setError('Debes autorizar el envío de novedades para continuar')
       return
     }
 
@@ -110,10 +137,10 @@ function Register() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        py: 3
+        py: 2
       }}
     >
-      <Container maxWidth="sm">
+      <Container maxWidth="sm" sx={{ px: { xs: 2, sm: 3 } }}>
         <Card
           elevation={24}
           sx={{
@@ -123,16 +150,16 @@ function Register() {
             backgroundColor: 'rgba(255, 255, 255, 0.95)'
           }}
         >
-          <CardContent sx={{ p: 4 }}>
+          <CardContent sx={{ p: 3 }}>
             {/* Header */}
-            <Box sx={{ textAlign: 'center', mb: 4 }}>
+            <Box sx={{ textAlign: 'center', mb: 3 }}>
               <Typography
                 variant="h4"
                 component="h1"
                 sx={{
                   fontWeight: 'bold',
                   color: '#333',
-                  mb: 1
+                  mb: 0.5
                 }}
               >
                 LOMI
@@ -140,6 +167,7 @@ function Register() {
               <Typography
                 variant="body1"
                 color="text.secondary"
+                sx={{ fontSize: '0.95rem' }}
               >
                 Crea tu cuenta para comenzar
               </Typography>
@@ -147,7 +175,7 @@ function Register() {
 
             {/* Formulario */}
             <form onSubmit={handleSubmit}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
                 {error && (
                   <Alert severity="error" sx={{ borderRadius: 2 }}>
                     {error}
@@ -160,53 +188,49 @@ function Register() {
                   </Alert>
                 )}
 
-                <TextField
-                  fullWidth
-                  label="Nombre"
-                  name="first_name"
-                  type="text"
-                  value={formData.first_name}
-                  onChange={handleInputChange}
-                  variant="outlined"
-                  disabled={registerMutation.isPending}
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      borderRadius: 2
-                    }
-                  }}
-                />
+                {/* Información Personal */}
+                <Typography variant="h6" sx={{ color: '#333', fontWeight: 600, fontSize: '1.1rem', mb: -1 }}>
+                  Información Personal
+                </Typography>
 
-                <TextField
-                  fullWidth
-                  label="Apellido"
-                  name="last_name"
-                  type="text"
-                  value={formData.last_name}
-                  onChange={handleInputChange}
-                  variant="outlined"
-                  disabled={registerMutation.isPending}
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      borderRadius: 2
-                    }
-                  }}
-                />
+                {/* Nombre y Apellido en la misma fila */}
+                <Box sx={{ display: 'flex', gap: 2 }}>
+                  <TextField
+                    fullWidth
+                    label="Nombre"
+                    name="first_name"
+                    type="text"
+                    value={formData.first_name}
+                    onChange={handleInputChange}
+                    variant="outlined"
+                    disabled={registerMutation.isPending}
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: 2
+                      }
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    label="Apellido"
+                    name="last_name"
+                    type="text"
+                    value={formData.last_name}
+                    onChange={handleInputChange}
+                    variant="outlined"
+                    disabled={registerMutation.isPending}
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: 2
+                      }
+                    }}
+                  />
+                </Box>
 
-                <TextField
-                  fullWidth
-                  label="Número de celular"
-                  name="celphone"
-                  type="tel"
-                  value={formData.celphone}
-                  onChange={handleInputChange}
-                  variant="outlined"
-                  disabled={registerMutation.isPending}
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      borderRadius: 2
-                    }
-                  }}
-                />
+                {/* Contacto */}
+                <Typography variant="h6" sx={{ color: '#333', fontWeight: 600, fontSize: '1.1rem', mb: -1, mt: 1 }}>
+                  Información de Contacto
+                </Typography>
 
                 <TextField
                   fullWidth
@@ -226,10 +250,11 @@ function Register() {
 
                 <TextField
                   fullWidth
-                  label="Contraseña"
-                  name="password1"
-                  type="password"
-                  value={formData.password1}
+                  label="Número de celular"
+                  name="celphone"
+                  type="tel"
+                  placeholder="Ej: +57 300 123 4567"
+                  value={formData.celphone}
                   onChange={handleInputChange}
                   variant="outlined"
                   disabled={registerMutation.isPending}
@@ -240,28 +265,151 @@ function Register() {
                   }}
                 />
 
-                <TextField
-                  fullWidth
-                  label="Confirmar contraseña"
-                  name="password2"
-                  type="password"
-                  value={formData.password2}
-                  onChange={handleInputChange}
-                  variant="outlined"
-                  disabled={registerMutation.isPending}
+                {/* Seguridad */}
+                <Typography variant="h6" sx={{ color: '#333', fontWeight: 600, fontSize: '1.1rem', mb: -1, mt: 1 }}>
+                  Seguridad
+                </Typography>
+
+                {/* Contraseñas en la misma fila */}
+                <Box sx={{ display: 'flex', gap: 2 }}>
+                  <TextField
+                    fullWidth
+                    label="Contraseña"
+                    name="password1"
+                    type="password"
+                    value={formData.password1}
+                    onChange={handleInputChange}
+                    variant="outlined"
+                    disabled={registerMutation.isPending}
+                    helperText="Mínimo 8 caracteres"
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: 2
+                      }
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    label="Confirmar contraseña"
+                    name="password2"
+                    type="password"
+                    value={formData.password2}
+                    onChange={handleInputChange}
+                    variant="outlined"
+                    disabled={registerMutation.isPending}
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: 2
+                      }
+                    }}
+                  />
+                </Box>
+
+                {/* Términos y Condiciones */}
+                <Typography variant="h6" sx={{ color: '#333', fontWeight: 600, fontSize: '1.1rem', mb: -0.5, mt: 1 }}>
+                  Términos y Condiciones
+                </Typography>
+
+                <Paper
+                  elevation={0}
                   sx={{
-                    '& .MuiOutlinedInput-root': {
-                      borderRadius: 2
-                    }
+                    p: 2.5,
+                    backgroundColor: 'rgba(135, 131, 202, 0.05)',
+                    borderRadius: 2,
+                    border: '1px solid rgba(135, 131, 202, 0.2)'
                   }}
-                />
+                >
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name="privacyPolicy"
+                          checked={formData.privacyPolicy}
+                          onChange={handleInputChange}
+                          disabled={registerMutation.isPending}
+                          size="small"
+                          sx={{
+                            color: '#8783CA',
+                            '&.Mui-checked': {
+                              color: '#8783CA',
+                            },
+                            '&:hover': {
+                              backgroundColor: 'rgba(135, 131, 202, 0.1)',
+                            }
+                          }}
+                        />
+                      }
+                      label={
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontSize: '0.875rem',
+                            lineHeight: 1.4,
+                            color: '#555',
+                            fontWeight: 400
+                          }}
+                        >
+                          Acepto el tratamiento de mis datos personales según la política de privacidad.
+                        </Typography>
+                      }
+                      sx={{
+                        alignItems: 'flex-start',
+                        margin: 0,
+                        '& .MuiFormControlLabel-label': {
+                          paddingLeft: 0.5
+                        }
+                      }}
+                    />
+
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name="marketingConsent"
+                          checked={formData.marketingConsent}
+                          onChange={handleInputChange}
+                          disabled={registerMutation.isPending}
+                          size="small"
+                          sx={{
+                            color: '#8783CA',
+                            '&.Mui-checked': {
+                              color: '#8783CA',
+                            },
+                            '&:hover': {
+                              backgroundColor: 'rgba(135, 131, 202, 0.1)',
+                            }
+                          }}
+                        />
+                      }
+                      label={
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontSize: '0.875rem',
+                            lineHeight: 1.4,
+                            color: '#555',
+                            fontWeight: 400
+                          }}
+                        >
+                          Autorizo el envío de novedades y actualizaciones sobre el producto.
+                        </Typography>
+                      }
+                      sx={{
+                        alignItems: 'flex-start',
+                        margin: 0,
+                        '& .MuiFormControlLabel-label': {
+                          paddingLeft: 0.5
+                        }
+                      }}
+                    />
+                  </Box>
+                </Paper>
 
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   size="large"
-                  disabled={registerMutation.isPending}
+                  disabled={registerMutation.isPending || !isFormComplete()}
                   startIcon={registerMutation.isPending ? <CircularProgress size={20} /> : <RegisterIcon />}
                   sx={{
                     borderRadius: 2,
@@ -278,11 +426,53 @@ function Register() {
                   {registerMutation.isPending ? 'Registrando...' : 'Crear cuenta'}
                 </Button>
 
+                {/* Enlace a políticas - más compacto */}
+                <Box sx={{ textAlign: 'center', mt: 0.5, mb: 0.5 }}>
+                  <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.8rem', lineHeight: 1.3 }}>
+                    Consulta nuestra{' '}
+                    <Link
+                      component="a"
+                      href="/docs/Politicas_Lomi.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{
+                        color: '#8783CA',
+                        textDecoration: 'underline',
+                        fontSize: '0.8rem',
+                        '&:hover': {
+                          textDecoration: 'none',
+                          color: '#6a4190'
+                        }
+                      }}
+                    >
+                      Política de Privacidad
+                    </Link>
+                    {' y '}
+                    <Link
+                      component="a"
+                      href="/docs/Politicas_Lomi.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{
+                        color: '#8783CA',
+                        textDecoration: 'underline',
+                        fontSize: '0.8rem',
+                        '&:hover': {
+                          textDecoration: 'none',
+                          color: '#6a4190'
+                        }
+                      }}
+                    >
+                      Términos y Condiciones
+                    </Link>
+                  </Typography>
+                </Box>
+
                 {/* Link to Login */}
                 <Paper
                   elevation={0}
                   sx={{
-                    p: 2,
+                    p: 1.5,
                     backgroundColor: 'rgba(249, 220, 184, 0.1)',
                     borderRadius: 2,
                     textAlign: 'center'
@@ -290,7 +480,7 @@ function Register() {
                 >
                   <Typography variant="body2" color="text.secondary">
                     ¿Ya tienes cuenta?{' '}
-                    <Link
+                    <RouterLink
                       to="/login"
                       style={{
                         color: '#8783CA',
@@ -299,7 +489,7 @@ function Register() {
                       }}
                     >
                       Inicia sesión aquí
-                    </Link>
+                    </RouterLink>
                   </Typography>
                 </Paper>
               </Box>

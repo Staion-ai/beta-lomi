@@ -15,6 +15,8 @@ const Form = () => {
     const [showError, setShowError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formKey, setFormKey] = useState(Date.now());
+    const [successMessage, setSuccessMessage] = useState('');
 
     //e: event
     const handleInputChange = (e) => {
@@ -23,6 +25,18 @@ const Form = () => {
             ...prev,
             [name]: type === 'checkbox' ? checked : value
         }));
+    };
+
+    const clearForm = () => {
+        setFormData({
+            businessName: "",
+            businessType: "",
+            userName: "",
+            whatsapp: "",
+            privacyPolicy: false,
+            marketingConsent: false
+        });
+        setFormKey(Date.now());
     };
 
     const handleSubmit = async (e) => {
@@ -60,32 +74,36 @@ const Form = () => {
 
             const result = await response.json();
 
-            if (result.success) {
-                // Mostrar mensaje de éxito
-                setShowSuccess(true);
-                setErrorMessage('');
-                setFormData({
-                    businessName: '',
-                    businessType: '',
-                    userName: '',
-                    whatsapp: '',
-                    privacyPolicy: false,
-                    marketingConsent: false
-                });
 
-                // Ocultar mensaje después de 8 segundos
+            if (result.message === '¡Tu registro ha sido confirmado! Pronto recibirás mas información.') {
+                setSuccessMessage(` ${result.message}`);
+                setShowSuccess(true);
+                setShowError(false);
+                setErrorMessage('');
                 setTimeout(() => setShowSuccess(false), 8000);
+
+                setTimeout(() => {
+                    window.open('https://chat.whatsapp.com/HPKs6il6tTZBnvDuTwvXIw?mode=r_t', '_blank');
+                }, 1000);
+
+
             } else {
-                // Mostrar mensaje de error del servidor
                 setErrorMessage(result.message || 'Error al enviar el formulario.');
                 setShowError(true);
                 setTimeout(() => setShowError(false), 5000);
             }
+
+            // Limpiar formulario independientemente del resultado
+            clearForm();
+
         } catch (error) {
             console.error('Error:', error);
             setErrorMessage('Error de conexión. Por favor, verifica tu conexión a internet.');
             setShowError(true);
             setTimeout(() => setShowError(false), 5000);
+            setTimeout(() => {
+                clearForm();
+            }, 3000);
         } finally {
             setIsSubmitting(false);
         }
@@ -95,28 +113,18 @@ const Form = () => {
     return (
         <>
             <div className="form-section" id="formulario">
-                <h2 className="form-title">Asegura tu lugar ahora</h2>
-                <p className="form-subtitle">Solo los primeros acceden antes.</p>
+                <h2 className="form-title">Lista de espera</h2>
+                <p className="form-subtitle">Sé de los primeros en acceder.</p>
 
-                <form className="form-container" id="businessForm" onSubmit={handleSubmit}>
-
-                    {showSuccess && (
-                        <div className="success-message">
-                            ¡Gracias por registrarte! Nos pondremos en contacto contigo pronto.
-                        </div>
-                    )}
-
-                    {showError && (
-                        <div className="error-message">
-                            {errorMessage}
-                        </div>
-                    )}
+                <form key={formKey} className="form-container" id="businessForm" onSubmit={handleSubmit}>
 
                     <label>
                         <span className="input-label">Nombre del negocio</span>
                         <input
                             type="text"
                             name="businessName"
+                            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+"
+                            title="Solo se permiten letras y espacios"
                             value={formData.businessName}
                             onChange={handleInputChange}
                             disabled={isSubmitting}
@@ -129,6 +137,8 @@ const Form = () => {
                         <input
                             type="text"
                             name="businessType"
+                            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+"
+                            title="Solo se permiten letras y espacios"
                             value={formData.businessType}
                             onChange={handleInputChange}
                             disabled={isSubmitting}
@@ -141,6 +151,8 @@ const Form = () => {
                         <input
                             type="text"
                             name="userName"
+                            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+"
+                            title="Solo se permiten letras y espacios"
                             value={formData.userName}
                             onChange={handleInputChange}
                             disabled={isSubmitting}
@@ -153,6 +165,8 @@ const Form = () => {
                         <input
                             type="text"
                             name="whatsapp"
+                            pattern="[\+\-\s\(\)0-9]+"
+                            title="Ingresa solo números (mínimo 7, máximo 15)"
                             value={formData.whatsapp}
                             onChange={handleInputChange}
                             disabled={isSubmitting}
@@ -182,7 +196,7 @@ const Form = () => {
                                 disabled={isSubmitting}
                                 required
                             />
-                            Autorizo a Lomi contactarme con información y novedades sobre el producto.
+                            Autorizo a Lomi a enviarme novedades, actualizaciones e información sobre el producto.
                         </label>
                     </div>
 
@@ -194,18 +208,32 @@ const Form = () => {
                         {isSubmitting ? 'Enviando...' : 'Registrarme ahora'}
                     </button>
 
+                    {showSuccess && (
+                        <div className="success-message">
+                            {successMessage}
+                        </div>
+                    )}
+
+                    {showError && (
+                        <div className="error-message">
+                            {errorMessage}
+                        </div>
+                    )}
+
                     <a
                         href="/docs/Politicas_Lomi.pdf"
                         className="form-legal"
                         target="_blank"
                         rel="noopener noreferrer">
-                        Consulta nuestra Política de Privacidad y Términos y Condiciones
+
+                        Consulta nuestra{" "}
+                        <span className="underline-text">Política de Privacidad</span> y{" "}
+                        <span className="underline-text">Términos y Condiciones</span>
                     </a>
                 </form>
             </div>
         </>
     )
 }
-
 
 export default Form
