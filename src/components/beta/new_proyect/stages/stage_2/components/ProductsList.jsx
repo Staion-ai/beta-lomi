@@ -22,7 +22,9 @@ function ProductsList({
                 </Typography>
 
                 <Typography sx={{
+                    backgroundColor: '#fff',
                     color: 'rgba(255, 82, 82, 0.8)',
+                    borderRadius: '10px',
                     fontSize: '14px',
                     textAlign: 'center',
                     marginTop: '1rem'

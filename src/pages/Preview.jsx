@@ -62,6 +62,7 @@ function Preview() {
         const webCreationData = {
             ...templateContent,
             client_name: companyName,
+            user_id: user.pk,
             repo_url: selectedTemplate.id,
         };
 
@@ -71,13 +72,19 @@ function Preview() {
             await createTemplate({
                 templateData: webCreationData,
                 token: getToken()
-            });
+            }, {
+                onError: (error) => {
+                    console.error('❌ Error al crear la plantilla de usuario:', error);
+                    showError(`Error al crear la plantilla: ${error?.detail || error?.message}`);
+                }
+            }
+            );
 
             showSuccess('¡Tu sitio web ha sido creado exitosamente!');
             navigate('/dashboard');
         } catch (error) {
             console.error('❌ Error al crear la web:', error);
-            showError('Error al crear el sitio web. Por favor, inténtalo de nuevo.');
+            showError(`${error?.detail || error?.message}`);
         }
     };
 

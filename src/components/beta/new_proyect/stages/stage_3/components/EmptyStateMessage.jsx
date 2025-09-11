@@ -12,7 +12,7 @@ function EmptyStateMessage({ show }) {
             textAlign: 'center',
             marginTop: '2rem',
             padding: '20px',
-            backgroundColor: 'rgba(255, 152, 0, 0.1)',
+            backgroundColor: '#fff',
             border: '1px solid rgba(255, 152, 0, 0.3)',
             borderRadius: '12px',
             maxWidth: '500px',
@@ -27,7 +27,7 @@ function EmptyStateMessage({ show }) {
                 💡 Tip: Mostrar clientes da credibilidad a tu marca
             </Typography>
             <Typography sx={{
-                color: 'rgba(255, 255, 255, 0.8)',
+                color: '#FF9800',
                 fontSize: '13px',
                 lineHeight: 1.5
             }}>

@@ -13,7 +13,7 @@ import {
     Image as ImageIcon
 } from '@mui/icons-material'
 
-function CompanyLogoField() {
+function HeroImageField() {
     const { control, formState: { errors } } = useFormContext()
     const [preview, setPreview] = useState(null)
 
@@ -44,7 +44,7 @@ function CompanyLogoField() {
     const handleRemoveFile = (onChange) => () => {
         onChange(null)
         setPreview(null)
-        const fileInput = document.getElementById('logo-upload')
+        const fileInput = document.getElementById('hero-upload')
         if (fileInput) {
             fileInput.value = ''
         }
@@ -52,15 +52,15 @@ function CompanyLogoField() {
 
     return (
         <Controller
-            name="logo"
+            name="heroImage"
             control={control}
             rules={{
-                required: 'El logo de la empresa es obligatorio'
+                required: 'La imagen del hero es obligatoria'
             }}
             render={({ field: { value, onChange } }) => (
                 <Box className="form-field image-field">
-                    <label htmlFor="logo-upload" className="input-label">
-                        Logo de la Empresa *
+                    <label htmlFor="hero-upload" className="input-label">
+                        Imagen del Hero *
                     </label>
                     <Typography variant="caption" sx={{
                         color: 'rgba(255, 255, 255, 0.7)',
@@ -68,10 +68,10 @@ function CompanyLogoField() {
                         display: 'block',
                         marginBottom: '12px'
                     }}>
-                        Sube el logo de tu empresa (PNG, JPG, SVG - máx. 5MB)
+                        Imagen principal para la sección hero (PNG, JPG - máx. 5MB)
                     </Typography>
 
-                    {/* Preview del logo o área de carga */}
+                    {/* Preview de la imagen o área de carga */}
                     <Paper
                         variant="outlined"
                         className="image-upload-area"
@@ -79,7 +79,7 @@ function CompanyLogoField() {
                             padding: 2,
                             textAlign: 'center',
                             backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                            border: errors.logo ? '2px solid #ff5252' : '2px dashed rgba(255, 255, 255, 0.3)',
+                            border: errors.heroImage ? '2px solid #ff5252' : '2px dashed rgba(255, 255, 255, 0.3)',
                             borderRadius: '20px',
                             minHeight: '120px',
                             display: 'flex',
@@ -99,7 +99,7 @@ function CompanyLogoField() {
                                 }}>
                                     <img
                                         src={preview || (typeof value === 'string' ? value : '')}
-                                        alt="Preview del logo"
+                                        alt="Preview de imagen hero"
                                         style={{
                                             maxWidth: '100%',
                                             maxHeight: '80px',
@@ -109,7 +109,7 @@ function CompanyLogoField() {
                                     />
                                 </Box>
                                 <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.7)', marginBottom: 1 }}>
-                                    {value?.name || 'Logo seleccionado'}
+                                    {value?.name || 'Imagen hero seleccionada'}
                                 </Typography>
                                 <Box sx={{ display: 'flex', gap: 1 }}>
                                     <Button
@@ -129,7 +129,7 @@ function CompanyLogoField() {
                                     >
                                         Cambiar
                                         <input
-                                            id="logo-upload"
+                                            id="hero-upload"
                                             type="file"
                                             hidden
                                             accept="image/*"
@@ -156,7 +156,7 @@ function CompanyLogoField() {
                             <>
                                 <ImageIcon sx={{ fontSize: 40, color: 'rgba(255, 255, 255, 0.5)', marginBottom: 1 }} />
                                 <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)', marginBottom: 2 }}>
-                                    Arrastra tu logo aquí o haz clic para seleccionar
+                                    Arrastra tu imagen aquí o haz clic para seleccionar
                                 </Typography>
                                 <Button
                                     variant="contained"
@@ -171,9 +171,9 @@ function CompanyLogoField() {
                                         }
                                     }}
                                 >
-                                    Seleccionar Logo
+                                    Seleccionar Imagen
                                     <input
-                                        id="logo-upload"
+                                        id="hero-upload"
                                         type="file"
                                         hidden
                                         accept="image/*"
@@ -184,7 +184,7 @@ function CompanyLogoField() {
                         )}
                     </Paper>
 
-                    {errors.logo && (
+                    {errors.heroImage && (
                         <Typography variant="caption" sx={{
                             color: '#ff5252',
                             fontSize: '14px',
@@ -192,7 +192,7 @@ function CompanyLogoField() {
                             marginTop: '4px',
                             marginLeft: '15px'
                         }}>
-                            {errors.logo.message}
+                            {errors.heroImage.message}
                         </Typography>
                     )}
                 </Box>
@@ -201,4 +201,4 @@ function CompanyLogoField() {
     )
 }
 
-export default CompanyLogoField
+export default HeroImageField

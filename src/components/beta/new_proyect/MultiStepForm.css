@@ -500,3 +500,68 @@
     font-size: 11px;
   }
 }
+
+/* Image Upload Fields Styles */
+.image-field {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.image-field .input-label {
+  display: block;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.image-upload-area {
+  min-height: 120px;
+  transition: all 0.3s ease;
+}
+
+.image-upload-area:hover {
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Responsive adjustments for image fields */
+@media (max-width: 768px) {
+  .image-upload-area {
+    min-height: 100px;
+  }
+
+  .image-field .input-label {
+    font-size: 15px;
+  }
+
+  .image-field {
+    margin-bottom: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .image-upload-area {
+    min-height: 90px;
+    padding: 1rem !important;
+  }
+
+  .image-field .input-label {
+    font-size: 14px;
+  }
+
+  .image-field {
+    margin-bottom: 1rem;
+  }
+
+  /* Adjust buttons for mobile */
+  .image-upload-area .MuiButton-root {
+    font-size: 0.75rem !important;
+    padding: 6px 12px !important;
+  }
+
+  .image-upload-area .MuiTypography-body2 {
+    font-size: 0.8rem !important;
+  }
+}

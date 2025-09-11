@@ -1,5 +1,9 @@
 import { base_api_url, base_auth_url } from "../constants"
 
+
+/*
+    Solicitudes de API de IA para generacion de links y contenido de los templates
+*/
 export const createImagesUrl = async (image_files) => {
     if (!image_files || image_files.length === 0) return []
 
@@ -43,6 +47,9 @@ export const templateContent = async (template_data) => {
     }
 }
 
+
+/*    Solicitudes de API de Autenticación y Gestión de Usuarios
+*/
 export const registerUser = async (userData) => {
     const { username, email, password1, password2 } = userData
 
@@ -169,6 +176,9 @@ export const logoutUser = async (token) => {
     }
 }
 
+
+/*    Solicitudes de API para desplegar plantillas de usuario
+*/
 export const createUserTemplate = async (templateData, token) => {
     if (!templateData) return {}
     try {
@@ -183,6 +193,10 @@ export const createUserTemplate = async (templateData, token) => {
 
         if (!response.ok) {
             const errorData = await response.json()
+
+            if (response.status === 400) {
+                throw new Error(errorData.detail)
+            }
             throw new Error(errorData.detail || 'Error al crear plantilla de usuario')
         }
 
@@ -191,5 +205,47 @@ export const createUserTemplate = async (templateData, token) => {
     } catch (error) {
         console.error('Create User Template API error:', error)
         throw new Error(error.message || 'Error al crear plantilla de usuario')
+    }
+}
+
+/*    Solicitudes de API para obtener los intentos restantes del usuario
+*/
+export const getUserAttempts = async (user_id) => {
+    try {
+        const response = await fetch(`${base_auth_url}/api/v1/user-attempts/?user_id=${user_id}`, {
+            method: 'GET',
+        })
+
+        if (!response.ok) {
+            const errorData = await response.json()
+            throw new Error(errorData.detail || 'Error al obtener los intentos del usuario')
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Get User Attempts API error:', error)
+        throw new Error(error.message || 'Error al obtener los intentos del usuario')
+    }
+}
+/*
+ Solciitud para validar si ya existe un proyecto con el mismo nombre
+*/
+export const checkProjectNameExists = async (projectName, user_id) => {
+    try {
+        const response = await fetch(`${base_auth_url}/api/v1/check_name_projects/?name_project=${encodeURIComponent(projectName)}&user_id=${user_id}`, {
+            method: 'GET',
+        })
+
+        if (!response.ok) {
+            const errorData = await response.json()
+            throw new Error(errorData.detail || 'Error al verificar la existencia del proyecto')
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        console.error('Check Project Name Exists API error:', error)
+        throw new Error(error.message || 'Error al verificar la existencia del proyecto')
     }
 }

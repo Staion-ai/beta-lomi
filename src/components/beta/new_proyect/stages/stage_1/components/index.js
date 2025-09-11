@@ -2,6 +2,7 @@
 export { default as CompanyNameField } from './CompanyNameField'
 export { default as CompanyDescriptionField } from './CompanyDescriptionField'
 export { default as CompanyLogoField } from './CompanyLogoField'
+export { default as HeroImageField } from './HeroImageField'
 export { default as ColorSelectorField } from './ColorSelectorField'
 export { default as TypographySelectorField } from './TypographySelectorField'
 export { default as SocialNetworkSelectorField } from './SocialNetworkSelectorField'

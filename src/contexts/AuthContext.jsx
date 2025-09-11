@@ -28,7 +28,6 @@ export const AuthProvider = ({ children }) => {
       const response = await refreshToken(refreshTokenValue)
 
       if (response.access) {
-        // Update only the access token
         localStorage.setItem('lomi_access_token', response.access)
         return response.access
       } else {
@@ -36,7 +35,6 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('Token refresh failed:', error)
-      // If refresh fails, logout user
       clearAuthData()
       setIsAuthenticated(false)
       setUser(null)
@@ -49,22 +47,19 @@ export const AuthProvider = ({ children }) => {
       try {
         setLoading(true)
 
-        // Check if user has valid stored authentication
         const authenticated = checkIsAuthenticated()
 
         if (authenticated) {
           const userData = getStoredUserData()
           setIsAuthenticated(true)
           setUser(userData)
-
-          // Check if token needs refresh (only if refresh token is available)
+          // 
           const refreshTokenValue = getRefreshToken()
           if (refreshTokenValue && shouldRefreshToken()) {
             try {
               await refreshAccessToken()
             } catch (error) {
               console.error('Failed to refresh token on init:', error)
-              // If refresh fails, user will be logged out by refreshAccessToken
             }
           }
         } else {
@@ -95,7 +90,7 @@ export const AuthProvider = ({ children }) => {
           console.error('Automatic token refresh failed:', error)
         }
       }
-    }, 60000) // Check every minute
+    }, 600000)
 
     return () => clearInterval(interval)
   }, [isAuthenticated, refreshAccessToken])

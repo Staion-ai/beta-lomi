@@ -133,11 +133,15 @@ const SubmitButton = ({
             {disabled && !isSubmitting && (
                 <span style={{
                     position: 'absolute',
-                    top: '-25px',
+                    top: '-33px',
                     left: '50%',
                     transform: 'translateX(-50%)',
                     fontSize: '12px',
-                    color: '#ff5722',
+                    backgroundColor: '#fff',
+                    padding: '4px 8px',
+                    borderRadius: '4px',
+                    border: '1px solid #ec1212ff',
+                    color: '#ec1212ff',
                     whiteSpace: 'nowrap'
                 }}>
                     ⚠️ Faltan campos por completar

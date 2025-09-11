@@ -16,7 +16,7 @@ function CompanyNameField() {
             render={({ field }) => (
                 <Box className="form-field">
                     <label htmlFor="companyName" className="input-label">
-                        ¿Cómo se llama tu empresa o marca?
+                        ¿Cómo se llama tu empresa o marca? *
                     </label>
                     <TextField
                         {...field}

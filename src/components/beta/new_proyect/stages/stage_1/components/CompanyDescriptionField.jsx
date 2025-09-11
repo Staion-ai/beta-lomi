@@ -17,7 +17,7 @@ function CompanyDescriptionField() {
             render={({ field }) => (
                 <Box className="form-field">
                     <label htmlFor="companyDescription" className="input-label">
-                        Describe qué hace tu empresa y en qué área se desarrolla
+                        Describe qué hace tu empresa y en qué área se desarrolla *
                     </label>
                     <TextField
                         {...field}

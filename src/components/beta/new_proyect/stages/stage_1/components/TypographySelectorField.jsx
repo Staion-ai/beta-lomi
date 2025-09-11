@@ -22,7 +22,7 @@ function TypographySelectorField() {
             render={({ field }) => (
                 <Box className="form-field">
                     <label htmlFor="typography" className="input-label">
-                        Selecciona la tipografía principal para tu marca
+                        Selecciona la tipografía principal para tu marca *
                     </label>
                     <FormControl fullWidth error={!!errors.typography}>
                         <Select

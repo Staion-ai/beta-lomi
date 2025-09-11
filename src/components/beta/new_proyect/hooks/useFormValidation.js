@@ -22,6 +22,9 @@ export const useFormValidation = () => {
                 if (!data.logo) {
                     errors.push('El logo de la empresa es obligatorio')
                 }
+                if (!data.heroImage) {
+                    errors.push('La imagen del hero es obligatoria')
+                }
                 if (!data.colors || !Array.isArray(data.colors) || data.colors.length === 0) {
                     errors.push('Debes seleccionar al menos un color para tu marca')
                 }
@@ -97,6 +100,9 @@ export const useFormValidation = () => {
         if (!data.logo) {
             errors.push('Etapa 1: El logo de la empresa es obligatorio')
         }
+        if (!data.heroImage) {
+            errors.push('Etapa 1: La imagen del hero es obligatoria')
+        }
         if (!data.colors || data.colors.length === 0) {
             errors.push('Etapa 1: Debes seleccionar al menos un color')
         }
@@ -145,6 +151,8 @@ export const useFormValidation = () => {
                     data.description &&
                     typeof data.description === 'string' &&
                     data.description.trim().length >= 10 &&
+                    data.logo &&
+                    data.heroImage &&
                     data.colors &&
                     Array.isArray(data.colors) &&
                     data.colors.length > 0

@@ -49,6 +49,10 @@ export const useMultiStepForm = (steps, onComplete) => {
             finalFormData.append('files', currentFormData.logo)
         }
 
+        if (currentFormData.heroImage && currentFormData.heroImage instanceof File) {
+            finalFormData.append('files', currentFormData.heroImage)
+        }
+
         Object.entries(filesData).forEach(([/* stage */, files]) => {
             Object.entries(files).forEach(([/* fileKey */, file]) => {
                 if (file) {
@@ -71,6 +75,11 @@ export const useMultiStepForm = (steps, onComplete) => {
             updatedLogo = urlMap[data.logo.name];
         }
 
+        let updatedHeroImage = data.heroImage;
+        if (data.heroImage && data.heroImage instanceof File && urlMap[data.heroImage.name]) {
+            updatedHeroImage = urlMap[data.heroImage.name];
+        }
+
         const updatedProducts = data.products.map(product => ({
             ...product,
             image: urlMap[product.image] || product.image
@@ -84,12 +93,13 @@ export const useMultiStepForm = (steps, onComplete) => {
         return {
             ...data,
             logo: updatedLogo,
+            heroImage: updatedHeroImage,
             products: updatedProducts,
             testimonials: updatedTestimonials
         };
     }
 
-    const updateHeroBackgroundWithProductImage = (templateContent, formData) => {
+    const updateHeroBackgroundWithImage = (templateContent, formData) => {
         if (!templateContent) {
             console.warn('No template content available to update hero background')
             return templateContent
@@ -97,7 +107,15 @@ export const useMultiStepForm = (steps, onComplete) => {
 
         let imageUrl = null
 
-        if (formData?.products && formData.products.length > 0) {
+        // Priorizar la imagen del hero si existe
+        if (formData?.heroImage &&
+            typeof formData.heroImage === 'string' &&
+            (formData.heroImage.startsWith('http') || formData.heroImage.startsWith('https'))) {
+            imageUrl = formData.heroImage
+        }
+
+        // Si no hay imagen del hero, usar imagen de productos como fallback
+        if (!imageUrl && formData?.products && formData.products.length > 0) {
             const productWithImage = formData.products.find(product =>
                 product.image &&
                 (product.image.startsWith('http') || product.image.startsWith('https'))
@@ -107,6 +125,7 @@ export const useMultiStepForm = (steps, onComplete) => {
             }
         }
 
+        // Si no hay imagen de productos, usar imagen de testimoniales como último recurso
         if (!imageUrl && formData?.testimonials && formData.testimonials.length > 0) {
             const testimonialWithImage = formData.testimonials.find(testimonial =>
                 testimonial.image &&
@@ -211,7 +230,7 @@ export const useMultiStepForm = (steps, onComplete) => {
 
                     const content = await generateTemplateContent(updatedDataWithUrls)
 
-                    let updatedContent = updateHeroBackgroundWithProductImage(content, updatedDataWithUrls)
+                    let updatedContent = updateHeroBackgroundWithImage(content, updatedDataWithUrls)
 
                     updatedContent = updateNavbarLogoWithUrl(updatedContent, updatedDataWithUrls)
 

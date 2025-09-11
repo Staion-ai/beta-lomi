@@ -26,7 +26,7 @@ const CustomStepper = ({
 
                     let labelColor = 'rgba(255, 255, 255, 0.6) !important'
                     if (isCompleted || isActive) {
-                        labelColor = '#F9DF88 !important'
+                        labelColor = '#000 !important'
                     }
 
                     return (

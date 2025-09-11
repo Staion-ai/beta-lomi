@@ -5,6 +5,7 @@ import {
   CompanyNameField,
   CompanyDescriptionField,
   CompanyLogoField,
+  HeroImageField,
   ColorSelectorField,
   TypographySelectorField,
   SocialNetworkSelectorField,
@@ -27,6 +28,7 @@ function Stage1() {
         <CompanyNameField />
         <CompanyDescriptionField />
         <CompanyLogoField />
+        <HeroImageField />
         <ColorSelectorField />
         <TypographySelectorField />
         <SocialNetworkSelectorField />

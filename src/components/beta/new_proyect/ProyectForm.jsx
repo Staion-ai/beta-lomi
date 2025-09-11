@@ -31,6 +31,7 @@ function ProyectForm() {
       company_name: '',
       description: '',
       logo: null,
+      heroImage: null,
       colors: [],
       socialNetworks: [],
       socialNetworkLinks: {},
