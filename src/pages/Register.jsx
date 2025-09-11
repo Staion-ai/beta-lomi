@@ -18,6 +18,9 @@ import { useAuth } from '../contexts/useAuth'
 
 function Register() {
   const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    celphone: '',
     email: '',
     password1: '',
     password2: ''
@@ -44,7 +47,7 @@ function Register() {
     setError('')
     setSuccess('')
 
-    if (!formData.email || !formData.password1 || !formData.password2) {
+    if (!formData.first_name || !formData.last_name || !formData.celphone || !formData.email || !formData.password1 || !formData.password2) {
       setError('Por favor complete todos los campos')
       return
     }
@@ -62,18 +65,21 @@ function Register() {
     try {
       // Register user with the API
       const registerResult = await registerMutation.mutateAsync({
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        celphone: formData.celphone,
         email: formData.email,
         password1: formData.password1,
         password2: formData.password2
       })
-      
+
       // If registration returns tokens (auto-login), use them
       if (registerResult.access && registerResult.refresh && registerResult.user) {
         setSuccess('Registro exitoso. Iniciando sesión...')
-        
+
         // Process the authentication response through context
         const loginResult = await login(registerResult)
-        
+
         if (loginResult.success) {
           setTimeout(() => {
             navigate('/dashboard')
@@ -153,6 +159,54 @@ function Register() {
                     {success}
                   </Alert>
                 )}
+
+                <TextField
+                  fullWidth
+                  label="Nombre"
+                  name="first_name"
+                  type="text"
+                  value={formData.first_name}
+                  onChange={handleInputChange}
+                  variant="outlined"
+                  disabled={registerMutation.isPending}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2
+                    }
+                  }}
+                />
+
+                <TextField
+                  fullWidth
+                  label="Apellido"
+                  name="last_name"
+                  type="text"
+                  value={formData.last_name}
+                  onChange={handleInputChange}
+                  variant="outlined"
+                  disabled={registerMutation.isPending}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2
+                    }
+                  }}
+                />
+
+                <TextField
+                  fullWidth
+                  label="Número de celular"
+                  name="celphone"
+                  type="tel"
+                  value={formData.celphone}
+                  onChange={handleInputChange}
+                  variant="outlined"
+                  disabled={registerMutation.isPending}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2
+                    }
+                  }}
+                />
 
                 <TextField
                   fullWidth
