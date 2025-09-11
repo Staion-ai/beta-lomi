@@ -5,7 +5,8 @@
   box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   font-family: 'Inter', sans-serif;
@@ -29,15 +30,46 @@ body, html {
   padding: 1rem;
 }
 
+/* Header navigation */
+.header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding: 10px;
+}
+
 /* Logo */
 .logo-container {
   display: flex;
   align-items: center;
-  width: 100%;
   max-width: 140px;
   height: auto;
-  margin-left: 10px;
-  padding-top: 10px;
+}
+
+/* Login button */
+.login-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 400;
+  background-color: #8783CA;
+  color: #ffffff;
+  border: 1.5px solid #8783CA;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  line-height: 1;
+}
+
+.login-btn:hover {
+  background-color: #ffffff;
+  color: #8783CA;
+  border: 1.5px solid #8783CA;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .logo {
@@ -136,9 +168,12 @@ body, html {
 /* --------------------------- */
 /* TABLET (>=768px) */
 @media (min-width: 768px) {
+  .header-nav {
+    padding: 15px;
+  }
+
   .logo-container {
     max-width: 150px;
-    margin-left: 15px;
   }
 
   .logo {
@@ -148,6 +183,11 @@ body, html {
 
   .logo-text {
     font-size: 32px;
+  }
+
+  .login-btn {
+    padding: 10px 20px;
+    font-size: 15px;
   }
 
   .info-container {
@@ -180,10 +220,13 @@ body, html {
 /* --------------------------- */
 /* DESKTOP (>=1024px) */
 @media (min-width: 1024px) {
+  .header-nav {
+    padding: 0 100px;
+    padding-top: 15px;
+  }
+
   .logo-container {
     max-width: 190px;
-    margin-left: 100px;
-    padding-top: 0;
   }
 
   .logo {
@@ -193,6 +236,11 @@ body, html {
 
   .logo-text {
     font-size: 40px;
+  }
+
+  .login-btn {
+    padding: 12px 24px;
+    font-size: 16px;
   }
 
   .info-container {

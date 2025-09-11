@@ -15,6 +15,7 @@ import {
 import { Login as LoginIcon } from '@mui/icons-material'
 import { useAuth } from '../contexts/useAuth'
 import { useLoginUser } from '../hooks/useLoginUser'
+import lomi_icon from '../assets/images/icono.png'
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -91,7 +92,7 @@ function Login() {
             <Box sx={{ textAlign: 'center', mb: 4 }}>
               <Box sx={{ mb: 2 }}>
                 <img
-                  src="/src/assets/images/icono.png"
+                  src={lomi_icon}
                   alt="LOMI Logo"
                   style={{
                     width: '60px',

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import '../../assets/styles/Header.css'
 
 const Header = () => {
@@ -14,9 +15,15 @@ const Header = () => {
     return (
         <div className="hero">
             <header className="header">
-                <div className='logo-container'>
-                    <img src="../../lomi-icon.png" alt="Logo LOMI" className="logo" />
-                    <h2 className='logo-text'>LOMI</h2>
+                <div className="header-nav">
+                    <div className='logo-container'>
+                        <img src="../../lomi-icon.png" alt="Logo LOMI" className="logo" />
+                        <h2 className='logo-text'>LOMI</h2>
+                    </div>
+
+                    <Link to="/login" className="login-btn">
+                        Ingresar
+                    </Link>
                 </div>
 
                 <div className='info-container'>
