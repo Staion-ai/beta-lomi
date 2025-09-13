@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Container, Typography, Box, Alert, Button } from '@mui/material';
 import TemplateSelector from '../components/beta/preview/components/TemplateSelector';
 import TemplateRenderer from '../components/beta/preview/components/TemplateRenderer';
@@ -9,27 +9,23 @@ import { useAuth } from '../contexts/useAuth';
 import AuthHeader from '../components/auth/AuthHeader';
 import MessageSnackbar from '../components/common/MessageSnackBar';
 import { useMessage } from '../hooks/useMessage';
+import { useWompiPayment } from '../hooks/useWompiPayment';
 import '../components/beta/preview/styles/Preview.css';
-import { useCreateTemplate } from '../hooks/useCreateTemplate';
-import { getAccessToken } from '../lib/tokenStorage';
 
 function Preview() {
     const location = useLocation();
     const [selectedTemplate, setSelectedTemplate] = useState(DEFAULT_TEMPLATE);
     const { templateContent, formData } = useTemplate();
-    const { user, getToken } = useAuth();
-    const { message, showError, showSuccess, showInfo, hideMessage } = useMessage();
-
-    const { mutateAsync: createTemplate } = useCreateTemplate();
-
-    const navigate = useNavigate()
+    const { user } = useAuth();
+    const { message, showError, showInfo, hideMessage } = useMessage();
+    const { initiatePayment, isProcessingPayment, paymentError } = useWompiPayment();
 
     useEffect(() => {
         if (location.state?.templateContent && !templateContent) {
             console.warn('Template content received via location state instead of context');
             showInfo('Contenido del template recibido desde navegación');
         }
-    }, [location.state, templateContent]);
+    }, [location.state, templateContent, showInfo]);
 
     const handleTemplateChange = (template) => {
         setSelectedTemplate(template);
@@ -57,34 +53,37 @@ function Preview() {
             return;
         }
 
-        const companyName = formData?.company_name || 'Compañía no especificada';
-
-        const webCreationData = {
-            ...templateContent,
-            client_name: companyName,
-            user_id: user.pk,
-            repo_url: selectedTemplate.id,
-        };
-
+        // Store selected template info for payment success page
+        // Note: This assumes the TemplateContext has a method to update template content
+        // If not available, we'll store it in sessionStorage as fallback
         try {
-            showInfo('Creando tu sitio web...');
-
-            await createTemplate({
-                templateData: webCreationData,
-                token: getToken()
-            }, {
-                onError: (error) => {
-                    console.error('❌ Error al crear la plantilla de usuario:', error);
-                    showError(`Error al crear la plantilla: ${error?.detail || error?.message}`);
-                }
-            }
-            );
-
-            showSuccess('¡Tu sitio web ha sido creado exitosamente!');
-            navigate('/dashboard');
+            sessionStorage.setItem('selected_template_id', selectedTemplate.id);
         } catch (error) {
-            console.error('❌ Error al crear la web:', error);
-            showError(`${error?.detail || error?.message}`);
+            console.warn('Could not store selected template in sessionStorage:', error);
+        }
+
+        // Initiate payment flow
+        const companyName = formData?.company_name || 'Compañía no especificada';
+        
+        try {
+            showInfo('Redirigiendo a la pasarela de pago...');
+            
+            await initiatePayment({
+                amount: "50000", // 500 COP in cents
+                description: `Creación de sitio web para ${companyName}`,
+                customerData: {
+                    email: user.email,
+                    name: `${user.first_name || ''} ${user.last_name || ''}`.trim(),
+                    phone: user.phone || ''
+                },
+                onError: (error) => {
+                    console.error('❌ Error al iniciar el pago:', error);
+                    showError(`Error al procesar el pago: ${error?.message || 'Error desconocido'}`);
+                }
+            });
+        } catch (error) {
+            console.error('❌ Error en el flujo de pago:', error);
+            showError(`Error al iniciar el pago: ${error?.message || 'Error desconocido'}`);
         }
     };
 
@@ -106,6 +105,7 @@ function Preview() {
                             <Button
                                 variant="contained"
                                 onClick={handleButtonClick}
+                                disabled={isProcessingPayment}
                                 sx={{
                                     backgroundColor: '#8783CA',
                                     color: '#FFFFFF',
@@ -120,10 +120,14 @@ function Preview() {
                                     },
                                     '&:active': {
                                         backgroundColor: '#5A549F',
+                                    },
+                                    '&:disabled': {
+                                        backgroundColor: '#cccccc',
+                                        color: '#666666',
                                     }
                                 }}
                             >
-                                Crea tu web
+                                {isProcessingPayment ? 'Procesando pago...' : 'Crea tu web'}
                             </Button>
                         </Box>
                     </Container>
@@ -131,6 +135,23 @@ function Preview() {
 
                 <div className="preview-content">
                     <Container maxWidth="lg">
+                        {paymentError && (
+                            <Alert
+                                severity="error"
+                                sx={{
+                                    mb: 3,
+                                    borderRadius: 2,
+                                    backgroundColor: '#ffebee',
+                                    color: '#c62828',
+                                    '& .MuiAlert-icon': {
+                                        color: '#c62828'
+                                    }
+                                }}
+                            >
+                                Error en el pago: {paymentError}
+                            </Alert>
+                        )}
+                        
                         {templateContent && (
                             <Alert
                                 severity="success"
