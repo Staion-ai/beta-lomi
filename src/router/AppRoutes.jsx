@@ -5,6 +5,7 @@ import Register from '../pages/Register'
 import Dashboard from '../pages/Dashboard'
 import ProyectForm from '../components/beta/new_proyect/ProyectForm'
 import Preview from '../pages/Preview'
+import PaymentSuccess from '../pages/PaymentSuccess'
 import ProtectedRoute from '../components/auth/ProtectedRoute'
 
 function AppRoutes() {
@@ -34,6 +35,14 @@ function AppRoutes() {
                 element={
                     <ProtectedRoute>
                         <Preview />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/payment-success"
+                element={
+                    <ProtectedRoute>
+                        <PaymentSuccess />
                     </ProtectedRoute>
                 }
             />
