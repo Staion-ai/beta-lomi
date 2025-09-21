@@ -19,6 +19,7 @@ export const useLogout = () => {
             if (currentToken) {
                 try {
                     await logoutMutation.mutateAsync({ token: currentToken })
+                    localStorage.removeItem('template_content')
                 } catch (apiError) {
                     console.warn('Server logout failed, proceeding with local logout:', apiError.message)
                 }

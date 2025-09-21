@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Container, Typography, Box, Alert, Button } from '@mui/material';
 import TemplateSelector from '../components/beta/preview/components/TemplateSelector';
 import TemplateRenderer from '../components/beta/preview/components/TemplateRenderer';
@@ -8,17 +8,23 @@ import { useTemplate } from '../contexts/TemplateContext';
 import { useAuth } from '../contexts/useAuth';
 import AuthHeader from '../components/auth/AuthHeader';
 import MessageSnackbar from '../components/common/MessageSnackBar';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 import { useMessage } from '../hooks/useMessage';
 import { useWompiPayment } from '../hooks/useWompiPayment';
 import '../components/beta/preview/styles/Preview.css';
+import ArrowDirection from '../components/common/ArrowDirection';
+import { useCreateTemplate } from '../hooks/useCreateTemplate';
 
 function Preview() {
     const location = useLocation();
+    const navigate = useNavigate();
     const [selectedTemplate, setSelectedTemplate] = useState(DEFAULT_TEMPLATE);
     const { templateContent, formData } = useTemplate();
     const { user } = useAuth();
-    const { message, showError, showInfo, hideMessage } = useMessage();
+    const { message, showError, showInfo, showSuccess, hideMessage } = useMessage();
     const { initiatePayment, isProcessingPayment, paymentError } = useWompiPayment();
+    const { mutate: createTemplate, isPending: isCreatingTemplate } = useCreateTemplate()
+    const [localTemplateContent, setLocalTemplateContent] = useState(null);
 
     useEffect(() => {
         if (location.state?.templateContent && !templateContent) {
@@ -26,6 +32,24 @@ function Preview() {
             showInfo('Contenido del template recibido desde navegación');
         }
     }, [location.state, templateContent, showInfo]);
+
+    // Load template content from localStorage or sessionStorage as a fallback
+    useEffect(() => {
+        if (!templateContent) {
+            try {
+                const stored = sessionStorage.getItem('template_content') || localStorage.getItem('template_content');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    setLocalTemplateContent(parsed);
+                    showInfo('Contenido del template cargado');
+                }
+            } catch (err) {
+                console.warn('Failed to parse template_content from storage', err);
+            }
+        } else {
+            setLocalTemplateContent(null);
+        }
+    }, [templateContent, showInfo]);
 
     const handleTemplateChange = (template) => {
         setSelectedTemplate(template);
@@ -35,7 +59,9 @@ function Preview() {
 
 
     const handleButtonClick = async () => {
-        if (!templateContent) {
+        const effectiveTemplateContent = templateContent || localTemplateContent;
+
+        if (!effectiveTemplateContent) {
             console.error('❌ Error: No hay contenido del template disponible');
             showError('Debes completar el formulario primero para generar el contenido del template.');
             return;
@@ -53,9 +79,6 @@ function Preview() {
             return;
         }
 
-        // Store selected template info for payment success page
-        // Note: This assumes the TemplateContext has a method to update template content
-        // If not available, we'll store it in sessionStorage as fallback
         try {
             sessionStorage.setItem('selected_template_id', selectedTemplate.id);
         } catch (error) {
@@ -64,26 +87,37 @@ function Preview() {
 
         // Initiate payment flow
         const companyName = formData?.company_name || 'Compañía no especificada';
-        
+
+        const webCreationData = {
+            ...templateContent,
+            client_name: companyName,
+            user_id: user.pk,
+            repo_url: selectedTemplate.id,
+        };
+
         try {
-            showInfo('Redirigiendo a la pasarela de pago...');
-            
-            await initiatePayment({
-                amount: "50000", // 500 COP in cents
-                description: `Creación de sitio web para ${companyName}`,
-                customerData: {
-                    email: user.email,
-                    name: `${user.first_name || ''} ${user.last_name || ''}`.trim(),
-                    phone: user.phone || ''
+            showInfo('Creando tu sitio web...');
+
+            createTemplate({
+                templateData: webCreationData,
+            }, {
+                onSuccess: (data) => {
+                    console.log('✅ Plantilla de usuario creada con éxito:', data);
+                    localStorage.removeItem('template_content');
+                    localStorage.removeItem('template_form_data')
+                    showSuccess('¡Tu sitio web ha sido creado exitosamente!');
+                    setTimeout(() => {
+                        navigate('/dashboard');
+                    }, 2500);
                 },
                 onError: (error) => {
-                    console.error('❌ Error al iniciar el pago:', error);
-                    showError(`Error al procesar el pago: ${error?.message || 'Error desconocido'}`);
+                    console.error('❌ Error al crear la plantilla de usuario:', error);
+                    showError(`Error al crear la plantilla: ${error?.detail || error?.message}`);
                 }
             });
         } catch (error) {
-            console.error('❌ Error en el flujo de pago:', error);
-            showError(`Error al iniciar el pago: ${error?.message || 'Error desconocido'}`);
+            console.error('❌ Error al crear la web:', error);
+            showError(`${error?.detail || error?.message}`);
         }
     };
 
@@ -105,7 +139,7 @@ function Preview() {
                             <Button
                                 variant="contained"
                                 onClick={handleButtonClick}
-                                disabled={isProcessingPayment}
+                                disabled={isProcessingPayment || isCreatingTemplate}
                                 sx={{
                                     backgroundColor: '#8783CA',
                                     color: '#FFFFFF',
@@ -127,7 +161,8 @@ function Preview() {
                                     }
                                 }}
                             >
-                                {isProcessingPayment ? 'Procesando pago...' : 'Crea tu web'}
+                                {isProcessingPayment ? 'Procesando pago...' :
+                                    isCreatingTemplate ? 'Creando sitio web...' : 'Crea tu web'}
                             </Button>
                         </Box>
                     </Container>
@@ -151,8 +186,8 @@ function Preview() {
                                 Error en el pago: {paymentError}
                             </Alert>
                         )}
-                        
-                        {templateContent && (
+
+                        {(templateContent || localTemplateContent) && (
                             <Alert
                                 severity="success"
                                 sx={{
@@ -170,6 +205,12 @@ function Preview() {
                             </Alert>
                         )}
 
+                        <ArrowDirection
+                            direction="left"
+                            onClick={() => navigate(-1)}
+                            ariaLabel="Página anterior"
+                        />
+
                         <TemplateSelector
                             selectedTemplate={selectedTemplate}
                             onTemplateChange={handleTemplateChange}
@@ -177,11 +218,22 @@ function Preview() {
 
                         <TemplateRenderer
                             template={selectedTemplate}
-                            data={templateContent}
+                            data={templateContent || localTemplateContent}
                         />
                     </Container>
                 </div>
             </div>
+
+            {/* Loading overlay during template creation */}
+            {isCreatingTemplate && (
+                <LoadingSpinner
+                    open={isCreatingTemplate}
+                    message="Creando tu sitio web..."
+                    submessage="Por favor espera mientras procesamos tu solicitud"
+                    variant="overlay"
+                    showProgress={true}
+                />
+            )}
 
             <MessageSnackbar
                 open={message.open}

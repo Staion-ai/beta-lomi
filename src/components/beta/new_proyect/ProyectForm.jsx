@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm, FormProvider } from 'react-hook-form'
 import { Box, Container } from '@mui/material'
@@ -22,7 +22,7 @@ import AuthHeader from '../../auth/AuthHeader'
 import '../../../assets/styles/Form.css'
 import './MultiStepForm.css'
 
-const steps = ['Información de la Empresa', 'Productos y Servicios', 'Clientes']
+const steps = ['Información de la Empresa', 'Detalles del Proyecto', 'Productos y Servicios', 'Clientes']
 
 function ProyectForm() {
   const navigate = useNavigate()
@@ -56,6 +56,7 @@ function ProyectForm() {
     handleBack,
     isStepComplete: checkStepComplete,
     updateStageFiles,
+    setFormData,
     showCurrentStepErrors
   } = useMultiStepForm(steps, handleFormComplete)
 
@@ -68,6 +69,26 @@ function ProyectForm() {
     const currentData = methods.watch()
     showCurrentStepErrors(currentData)
   }
+
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('template_form_data')
+      if (!raw) return
+
+      const parsed = JSON.parse(raw)
+      if (!parsed || typeof parsed !== 'object') return
+
+      methods.reset(parsed)
+
+      if (typeof setFormData === 'function') {
+        setFormData(parsed)
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.warn('Could not load template_form_data from localStorage:', err)
+    }
+  }, [])
 
   return (
     <>

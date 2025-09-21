@@ -13,7 +13,7 @@ const FormNavigationButtons = ({
     isSubmitting = false,
     onShowErrors
 }) => {
-    const allStepsComplete = isStepComplete(0) && isStepComplete(1) && isStepComplete(2)
+    const allStepsComplete = isStepComplete(0) && isStepComplete(1) && isStepComplete(2) && isStepComplete(3)
     const isLastStep = activeStep === steps.length - 1
 
     const getSubmitButtonConfig = () => {

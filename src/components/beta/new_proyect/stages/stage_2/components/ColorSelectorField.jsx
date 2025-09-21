@@ -9,7 +9,7 @@ import {
     Chip,
     OutlinedInput
 } from '@mui/material'
-import { colorOptions } from '../constants/stage1Constants'
+import { colorOptions } from '../constants/staeg2Constants'
 import CheckIcon from '@mui/icons-material/Check'
 
 function ColorSelectorField() {

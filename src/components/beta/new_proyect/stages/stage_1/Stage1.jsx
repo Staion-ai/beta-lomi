@@ -1,20 +1,19 @@
 import React from 'react'
-import { Box } from '@mui/material'
+import { Box, Alert, Typography } from '@mui/material'
 import {
   StageHeader,
   CompanyNameField,
   CompanyDescriptionField,
-  CompanyLogoField,
-  HeroImageField,
-  ColorSelectorField,
-  TypographySelectorField,
-  SocialNetworkSelectorField,
-  SocialNetworkLinksField
+  EmailField,
+  PhoneField,
 } from './components'
 import { stage1Config } from './constants/stage1Constants'
 import { useSocialNetworksCleaner } from '../../hooks'
+import { Stage1Provider, useStage1Context } from './context/Stage1Context'
+import './Stage1.css'
 
-function Stage1() {
+function Stage1Content() {
+  const { shouldEnableOtherFields, companyNameValidationState } = useStage1Context()
   useSocialNetworksCleaner()
 
   return (
@@ -24,17 +23,51 @@ function Stage1() {
         description={stage1Config.description}
       />
 
-      <Box>
+      {/* Mensaje informativo basado en el estado */}
+      {!shouldEnableOtherFields && (
+        <Alert
+          severity={companyNameValidationState === 'unavailable' ? 'warning' : 'info'}
+          sx={{ mb: 3 }}
+        >
+          <Typography variant="body2">
+            {companyNameValidationState === 'unavailable'
+              ? '❌ El nombre ingresado no está disponible. Ingresa un nombre diferente para continuar.'
+              : '📝 Completa el nombre de tu empresa para habilitar los demás campos'
+            }
+          </Typography>
+        </Alert>
+      )}
+
+      {shouldEnableOtherFields && (
+        <Alert severity="success" sx={{ mb: 3 }}>
+          <Typography variant="body2">
+            ✅ Nombre disponible. ¡Puedes continuar completando el formulario!
+          </Typography>
+        </Alert>
+      )}
+
+      <Box className="stage1-container">
+        {/* El campo de nombre SIEMPRE está habilitado */}
         <CompanyNameField />
-        <CompanyDescriptionField />
-        <CompanyLogoField />
-        <HeroImageField />
-        <ColorSelectorField />
-        <TypographySelectorField />
-        <SocialNetworkSelectorField />
-        <SocialNetworkLinksField />
+        
+        {/* Los demás campos se habilitan solo cuando el nombre está disponible */}
+        <Box 
+          className={`stage1-fields-wrapper ${!shouldEnableOtherFields ? 'disabled stage1-disabled-fields' : ''}`}
+        >
+          <CompanyDescriptionField />
+          <EmailField />
+          <PhoneField />
+        </Box>
       </Box>
     </Box>
+  )
+}
+
+function Stage1() {
+  return (
+    <Stage1Provider>
+      <Stage1Content />
+    </Stage1Provider>
   )
 }
 

@@ -16,7 +16,7 @@ import TwitterIcon from '@mui/icons-material/Twitter'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import YouTubeIcon from '@mui/icons-material/YouTube'
-import { socialNetworkOptions } from '../constants/stage1Constants'
+import { socialNetworkOptions } from '../constants/staeg2Constants'
 import { FaTiktok } from 'react-icons/fa'
 
 function SocialNetworkSelectorField() {

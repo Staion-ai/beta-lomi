@@ -19,6 +19,8 @@ export const useFormValidation = () => {
                 if (!data.description || typeof data.description !== 'string' || data.description.trim().length < 10) {
                     errors.push('La descripción de la empresa es requerida (mínimo 10 caracteres)')
                 }
+                break
+            case 1:
                 if (!data.logo) {
                     errors.push('El logo de la empresa es obligatorio')
                 }
@@ -42,8 +44,7 @@ export const useFormValidation = () => {
                     })
                 }
                 break
-
-            case 1:
+            case 2:
                 if (!data.products || !Array.isArray(data.products) || data.products.length === 0) {
                     errors.push('Debes agregar al menos un producto o servicio')
                 } else {
@@ -65,7 +66,7 @@ export const useFormValidation = () => {
                 }
                 break
 
-            case 2:
+            case 3:
                 if (!data.testimonials || !Array.isArray(data.testimonials) || data.testimonials.length === 0) {
                     errors.push('Debes agregar al menos un cliente')
                 } else {
@@ -151,13 +152,20 @@ export const useFormValidation = () => {
                     data.description &&
                     typeof data.description === 'string' &&
                     data.description.trim().length >= 10 &&
+                    data.email &&
+                    typeof data.email === 'string' &&
+                    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(data.email) &&
+                    data.phone_number
+                )
+            case 1:
+                return (
                     data.logo &&
                     data.heroImage &&
                     data.colors &&
                     Array.isArray(data.colors) &&
                     data.colors.length > 0
                 )
-            case 1:
+            case 2:
                 return (
                     data.products &&
                     Array.isArray(data.products) &&
@@ -170,7 +178,7 @@ export const useFormValidation = () => {
                         p.image
                     )
                 )
-            case 2:
+            case 3:
                 return (
                     data.testimonials &&
                     Array.isArray(data.testimonials) &&

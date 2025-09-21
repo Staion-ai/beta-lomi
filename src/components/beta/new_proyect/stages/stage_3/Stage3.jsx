@@ -1,44 +1,44 @@
 import React from 'react'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import {
-  StageHeader,
-  ClientsList,
-  AddClientButton,
-  EmptyStateMessage,
-  useClientsManager
+  ProductsList,
+  AddProductButton,
+  useProductsManager
 } from './components'
 
 function Stage3({ updateStageFiles }) {
   const {
     fields,
-    errors,
-    expandedItems,
-    addClient,
-    removeClient,
-    toggleExpand
-  } = useClientsManager()
+    collapsedCards,
+    toggleCardCollapse,
+    addProduct,
+    removeProduct,
+    handleImageUpload
+  } = useProductsManager(updateStageFiles)
 
   return (
     <Box className="stage-container">
-      <StageHeader />
+      <Typography variant="h4" component="h2" className="stage-title">
+        Productos y Servicios
+      </Typography>
+      <Typography variant="body1" className="stage-description">
+        Agrega hasta 4 productos o servicios que ofrece tu empresa
+      </Typography>
 
       <Box>
-        <ClientsList
+        <ProductsList
           fields={fields}
-          expandedItems={expandedItems}
-          onToggleExpand={toggleExpand}
-          onRemoveClient={removeClient}
-          errors={errors}
-          updateStageFiles={updateStageFiles}
+          collapsedCards={collapsedCards}
+          onToggleCollapse={toggleCardCollapse}
+          onRemove={removeProduct}
+          onImageUpload={handleImageUpload}
         />
 
-        <AddClientButton
-          clientsCount={fields.length}
-          onAddClient={addClient}
-          maxClients={4}
+        <AddProductButton
+          fieldsLength={fields.length}
+          maxProducts={4}
+          onAddProduct={addProduct}
         />
-
-        <EmptyStateMessage show={fields.length === 0} />
       </Box>
     </Box>
   )

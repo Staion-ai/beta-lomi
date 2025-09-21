@@ -1,0 +1,135 @@
+{
+    "navbar": {
+        "logo": {
+            "image_url": "https://storage.googleapis.com/lomi-ai-images-bucket/user/user_12345/images/7f8dd3a77bf54d2ca42e5a4b4c571de2.png",
+            "link_url": "https://example.com",
+            "alt_text": "ChepeTaller Logo"
+        },
+        "options": [
+            {
+                "label": "Inicio",
+                "url": "/inicio"
+            },
+            {
+                "label": "Servicios",
+                "url": "/servicios"
+            },
+            {
+                "label": "Contacto",
+                "url": "/contacto"
+            }
+        ],
+        "cta_button": {
+            "label": "Comenzar ahora",
+            "url": "/get-started"
+        },
+        "sec_cta_button": {
+            "label": "Saber más",
+            "url": "/know-more"
+        }
+    },
+    "hero_section": {
+        "title": "¡El mejo' taller de mecánica en la ciudad! ¡ChepeTaller al rescate!",
+        "subtitle": "¡Ven y descubre por qué nuestro mantenimiento es el equilibrio perfecto entre calidad y precio!",
+        "background_image": "path/to/background.jpg",
+        "cta_button": {
+            "label": "¡Agendar servicio ahora!",
+            "url": "/learn-more"
+        },
+        "social_proof": {
+            "text": "¡Confía en nosotros, ¡Mercedes ya lo hizo y quedó feliz!"
+        }
+    },
+    "value_proposition": {
+        "title": "Nuestros Servicios",
+        "content": [
+            {
+                "name": "Mantenimiento",
+                "image_url": "https://storage.googleapis.com/lomi-ai-images-bucket/user/user_12345/images/03b7c3d6bcc44f14852d6656f44b35cd.jpg",
+                "description": "El equilibrio perfecto entre calidad precio"
+            }
+        ]
+    },
+    "faqs": {
+        "title": "Preguntas Frecuentes",
+        "background_image": "path/to/background.jpg",
+        "questions": [
+            {
+                "question": "¿Qué tipo de vehículos atienden?",
+                "answer": "Atendemos todo tipo de vehículos, desde carros familiares hasta camionetas de carga."
+            },
+            {
+                "question": "¿Cuánto tiempo tardan en realizar un mantenimiento?",
+                "answer": "Nuestro tiempo de mantenimiento varía dependiendo del servicio, pero siempre priorizamos la calidad y eficiencia."
+            },
+            {
+                "question": "¿Ofrecen garantía en sus servicios?",
+                "answer": "¡Claro que sí! Todos nuestros servicios cuentan con garantía de satisfacción."
+            },
+            {
+                "question": "¿Puedo reservar cita en línea?",
+                "answer": "¡Sí! Puedes agendar tu cita a través de nuestro sitio web o llamándonos directamente."
+            }
+        ]
+    },
+    "testimony": {
+        "title": "Esto dicen nuestros clientes",
+        "testimonials": [
+            {
+                "client_name": "Mercedes",
+                "client_company": "Mercedes",
+                "testimonial": "",
+                "client_image": "https://storage.googleapis.com/lomi-ai-images-bucket/user/user_12345/images/ba751b5fce0a46f39f3e0a3c844fffd5.jpg"
+            }
+        ]
+    },
+    "footer": {
+        "engaging_subtitles": [
+            "Conecta con ChepeTaller",
+            "Síguenos en redes sociales",
+            "Mantente actualizado"
+        ],
+        "social_media_section": {
+            "social_links": [
+                {
+                    "platform": "Instagram",
+                    "url": "https://www.instagram.com/kevin_velez18/"
+                },
+                {
+                    "platform": "TikTok",
+                    "url": "https://www.tiktok.com/@kevin_velez188"
+                }
+            ],
+            "active": [
+                "Instagram",
+                "TikTok"
+            ]
+        },
+        "contact": {
+            "subtitle": "Get in touch with us",
+            "contact_info": [
+                {
+                    "type": "Email",
+                    "value": "contact@tenislosverdes.com"
+                },
+                {
+                    "type": "Phone",
+                    "value": "+57 300 123 4567"
+                }
+            ]
+        },
+        "logo": {
+            "image_url": "https://storage.googleapis.com/lomi-ai-images-bucket/user/user_12345/images/7f8dd3a77bf54d2ca42e5a4b4c571de2.png",
+            "link_url": "https://example.com",
+            "alt_text": "ChepeTaller Logo"
+        },
+        "develop_by": "Powered by LomiAI"
+    },
+    "styles": {
+        "color_primary": "#FB8C00",
+        "color_secondary": "#00ACC1",
+        "color_tertiary": "#1E88E5",
+        "font_family": "Inter",
+        "color_reasoning": "Colores proporcionados por el usuario"
+    }
+}

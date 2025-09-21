@@ -182,7 +182,7 @@ export const logoutUser = async (token) => {
 export const createUserTemplate = async (templateData, token) => {
     if (!templateData) return {}
     try {
-        const response = await fetch(`${base_auth_url}/api/v1/create-user-template/`, {
+        const response = await fetch(`${base_auth_url}/api/v1/user-templates/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -212,7 +212,7 @@ export const createUserTemplate = async (templateData, token) => {
 */
 export const getUserAttempts = async (user_id) => {
     try {
-        const response = await fetch(`${base_auth_url}/api/v1/user-attempts/?user_id=${user_id}`, {
+        const response = await fetch(`${base_auth_url}/api/v1/user-templates/attempts/?user_id=${user_id}`, {
             method: 'GET',
         })
 
@@ -233,7 +233,7 @@ export const getUserAttempts = async (user_id) => {
 */
 export const checkProjectNameExists = async (projectName, user_id) => {
     try {
-        const response = await fetch(`${base_auth_url}/api/v1/check_name_projects/?name_project=${encodeURIComponent(projectName)}&user_id=${user_id}`, {
+        const response = await fetch(`${base_auth_url}/api/v1/user-templates/check-name/?name_project=${encodeURIComponent(projectName)}&user_id=${user_id}`, {
             method: 'GET',
         })
 
@@ -247,5 +247,28 @@ export const checkProjectNameExists = async (projectName, user_id) => {
     } catch (error) {
         console.error('Check Project Name Exists API error:', error)
         throw new Error(error.message || 'Error al verificar la existencia del proyecto')
+    }
+}
+
+
+export const getPagesUser = async (user_id, token) => {
+    try {
+        const response = await fetch(`${base_auth_url}/api/v1/user-templates/?user_id=${user_id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+
+        if (!response.ok) {
+            const errorData = await response.json()
+            throw new Error(errorData.detail || 'Error al obtener las páginas del usuario')
+        }
+
+        const data = await response.json()
+        return data
+    } catch (error) {
+        throw new Error(error.message || 'Error al obtener las páginas del usuario')
     }
 }

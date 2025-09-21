@@ -3,35 +3,38 @@ import { useFormContext, Controller } from 'react-hook-form'
 import { Box, TextField } from '@mui/material'
 import { useStage1Context } from '../context/Stage1Context'
 
-function CompanyDescriptionField() {
+function EmailField() {
     const { control, formState: { errors } } = useFormContext()
     const { shouldEnableOtherFields } = useStage1Context()
 
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
     return (
         <Controller
-            name="description"
+            name="email"
             control={control}
             rules={{
-                required: 'La descripción es requerida',
-                minLength: { value: 10, message: 'Mínimo 10 caracteres' },
-                maxLength: { value: 500, message: 'Máximo 500 caracteres' }
+                required: 'El email es requerido',
+                pattern: {
+                    value: emailRegex,
+                    message: 'Por favor ingresa un email válido'
+                }
             }}
             render={({ field }) => (
                 <Box className="form-field">
-                    <label htmlFor="companyDescription" className="input-label">
-                        Describe qué hace tu empresa y en qué área se desarrolla *
+                    <label htmlFor="email" className="input-label">
+                        ¿Cuál es tu email de contacto? *
                     </label>
                     <TextField
                         {...field}
-                        id="companyDescription"
+                        id="email"
+                        type="email"
                         variant="outlined"
-                        placeholder="Describe tu empresa, productos o servicios..."
+                        placeholder="ejemplo@empresa.com"
                         fullWidth
-                        multiline
-                        rows={4}
                         disabled={!shouldEnableOtherFields}
-                        error={!!errors.description}
-                        helperText={errors.description?.message}
+                        error={!!errors.email}
+                        helperText={errors.email?.message}
                         sx={{
                             '& .MuiFormHelperText-root': {
                                 color: '#ff5252',
@@ -46,4 +49,4 @@ function CompanyDescriptionField() {
     )
 }
 
-export default CompanyDescriptionField
+export default EmailField

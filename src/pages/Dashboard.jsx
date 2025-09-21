@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
     Container,
@@ -14,15 +14,17 @@ import {
 import { Add, Visibility } from '@mui/icons-material'
 import AuthHeader from '../components/auth/AuthHeader'
 import { useGetAttempts } from '../hooks/useGetAttempts'
-import { getAccessToken } from '../lib/tokenStorage'
 import LoadingSpinner from '../components/common/LoadingSpinner'
 import { useAuth } from '../contexts/useAuth'
+import ProjectsModal from '../components/dashboard/ProjectsModal'
 
 function Dashboard() {
     const navigate = useNavigate()
 
     const { user } = useAuth()
-    const { data: attemptsData, isLoading: attemptsLoading } = useGetAttempts(user.pk)
+    const { data: attemptsData, isLoading: attemptsLoading } = useGetAttempts(user?.pk)
+
+    const [openProjectsModal, setOpenProjectsModal] = useState(false)
 
     const handleCreateProject = () => {
         navigate('/form')
@@ -198,7 +200,6 @@ function Dashboard() {
                                 flexDirection: 'column',
                                 borderRadius: 3,
                                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                                opacity: 0.6
                             }}
                         >
                             <CardContent sx={{ flexGrow: 1, textAlign: 'center', p: 3 }}>
@@ -228,8 +229,11 @@ function Dashboard() {
                                 <Button
                                     variant="outlined"
                                     fullWidth
-                                    disabled
+                                    onClick={() => setOpenProjectsModal(true)}
+                                    disabled={openProjectsModal}
                                     sx={{
+                                        backgroundColor: '#8783CA',
+                                        color: 'white',
                                         py: 1.5,
                                         fontSize: '1.1rem',
                                         borderRadius: 2,
@@ -237,7 +241,7 @@ function Dashboard() {
                                         fontWeight: 600
                                     }}
                                 >
-                                    Próximamente
+                                    Ver Proyectos
                                 </Button>
                             </CardActions>
                         </Card>
@@ -402,6 +406,12 @@ function Dashboard() {
                         </Grid>
                     </Box>
                 </Paper>
+
+                <ProjectsModal
+                    open={openProjectsModal}
+                    onClose={() => setOpenProjectsModal(false)}
+                    userId={user.pk}
+                />
             </Container>
         </>
     )

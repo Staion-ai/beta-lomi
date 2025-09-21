@@ -7,7 +7,7 @@ import {
     Select,
     MenuItem
 } from '@mui/material'
-import { fontOptions } from '../constants/stage1Constants'
+import { fontOptions } from '../constants/staeg2Constants'
 
 function TypographySelectorField() {
     const { control, formState: { errors } } = useFormContext()

@@ -180,6 +180,43 @@ export const useMultiStepForm = (steps, onComplete) => {
         return templateContent
     }
 
+    // Función para filtrar las imágenes del objeto de datos antes de guardar en localStorage
+    const filterImageDataForStorage = (data) => {
+        const filteredData = { ...data }
+
+        // Remover imágenes principales si son archivos (File objects)
+        if (filteredData.logo instanceof File) {
+            delete filteredData.logo
+        }
+        if (filteredData.heroImage instanceof File) {
+            delete filteredData.heroImage
+        }
+
+        // Filtrar imágenes de productos
+        if (filteredData.products && Array.isArray(filteredData.products)) {
+            filteredData.products = filteredData.products.map(product => {
+                const filteredProduct = { ...product }
+                if (typeof filteredProduct.image !== 'string' || filteredProduct.image instanceof File) {
+                    delete filteredProduct.image
+                }
+                return filteredProduct
+            })
+        }
+
+        // Filtrar imágenes de testimoniales
+        if (filteredData.testimonials && Array.isArray(filteredData.testimonials)) {
+            filteredData.testimonials = filteredData.testimonials.map(testimonial => {
+                const filteredTestimonial = { ...testimonial }
+                if (typeof filteredTestimonial.image !== 'string' || filteredTestimonial.image instanceof File) {
+                    delete filteredTestimonial.image
+                }
+                return filteredTestimonial
+            })
+        }
+
+        return filteredData
+    }
+
     const handleSubmit = async (data) => {
         setIsSubmitting(true)
 
@@ -217,6 +254,10 @@ export const useMultiStepForm = (steps, onComplete) => {
 
                 updatedData.country = "Colombia"
 
+                // Guardar datos del formulario en localStorage (sin imágenes File)
+                const dataForStorage = filterImageDataForStorage(updatedData)
+                localStorage.setItem('template_form_data', JSON.stringify(dataForStorage))
+
                 const finalFormData = createFormData(updatedData)
 
                 setIsUploadingImages(true)
@@ -235,7 +276,7 @@ export const useMultiStepForm = (steps, onComplete) => {
                     updatedContent = updateNavbarLogoWithUrl(updatedContent, updatedDataWithUrls)
 
                     updateTemplateContent(updatedContent, updatedDataWithUrls) // Actualizar el context con el contenido y los datos originales                    setNotification({ open: true, message: 'Proyecto creado exitosamente. Contenido generado.', severity: 'success' })
-
+                    localStorage.setItem("templaete_content", JSON.stringify(templateContent))
                     if (onComplete) {
                         setTimeout(() => {
                             onComplete(updatedContent)
