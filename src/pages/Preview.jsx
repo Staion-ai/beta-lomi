@@ -47,6 +47,8 @@ function Preview() {
             });
             const data = await res.json();
             if (data.checkout_url) {
+                localStorage.removeItem('selected_template_id'); // Limpiar selección previa
+                localStorage.removeItem('template_content'); // Limpiar contenido previo
                 window.open(data.checkout_url, "_blank"); // Redirección a Wompi Checkout
             }
         } catch (err) {
