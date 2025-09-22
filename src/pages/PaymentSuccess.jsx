@@ -33,11 +33,9 @@ function PaymentSuccess() {
         fetch(`${base_auth_url}/api/v1/payments/verify/${transactionId}/`)
             .then(res => res.json())
             .then(apiRes => {
-                console.log("RESPUESTA DEL BACKEND", apiRes);
 
                 setStatus(apiRes.status || "ERROR");
                 setPaymentData(apiRes.data.data || null);  // 👈 GUARDA SOLO LA DATA
-                console.log("Confirmacion", apiRes.data.data)
             })
             .catch(() => setStatus("ERROR"));
     }, [transactionId]);

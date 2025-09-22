@@ -123,7 +123,6 @@ function Preview() {
 
         try {
             sessionStorage.setItem('selected_template_id', selectedTemplate.id);
-            console.log("Id del template a comprar:", selectedTemplate.id);
         } catch (error) {
             console.warn('Could not store selected template in sessionStorage:', error);
         }
@@ -146,7 +145,6 @@ function Preview() {
                 templateData: webCreationData,
             }, {
                 onSuccess: (data) => {
-                    console.log('✅ Plantilla de usuario creada con éxito:', data);
                     handleOpen();
                 },
                 onError: (error) => {

@@ -23,8 +23,6 @@ export const useLogout = () => {
                 } catch (apiError) {
                     console.warn('Server logout failed, proceeding with local logout:', apiError.message)
                 }
-            } else {
-                console.log('No access token found, skipping server logout')
             }
 
             const result = await contextLogout()
