@@ -10,7 +10,6 @@ import {
 import { stage1Config } from './constants/stage1Constants'
 import { useSocialNetworksCleaner } from '../../hooks'
 import { Stage1Provider, useStage1Context } from './context/Stage1Context'
-import './Stage1.css'
 
 function Stage1Content() {
   const { shouldEnableOtherFields, companyNameValidationState } = useStage1Context()
@@ -46,18 +45,13 @@ function Stage1Content() {
         </Alert>
       )}
 
-      <Box className="stage1-container">
+      <Box>
         {/* El campo de nombre SIEMPRE está habilitado */}
         <CompanyNameField />
-        
         {/* Los demás campos se habilitan solo cuando el nombre está disponible */}
-        <Box 
-          className={`stage1-fields-wrapper ${!shouldEnableOtherFields ? 'disabled stage1-disabled-fields' : ''}`}
-        >
-          <CompanyDescriptionField />
-          <EmailField />
-          <PhoneField />
-        </Box>
+        <CompanyDescriptionField />
+        <EmailField />
+        <PhoneField />
       </Box>
     </Box>
   )
