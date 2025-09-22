@@ -60,7 +60,6 @@ export function useWompiPayment() {
             // Build Wompi checkout URL
             const baseUrl = WOMPI_CONFIG.is_sandbox ? WOMPI_CONFIG.sandbox_url : WOMPI_CONFIG.production_url;
             const paymentUrl = new URL(baseUrl);
-            
             // Add payment parameters to URL
             Object.entries(paymentData).forEach(([key, value]) => {
                 if (typeof value === 'object') {
