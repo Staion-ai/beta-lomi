@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Container, Typography, Box, Alert, Button } from '@mui/material';
+import { 
+    Container, Typography, Box, Alert, Button, 
+    /*Modal*/
+    Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemIcon, ListItemText
+} from '@mui/material';
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import TemplateSelector from '../components/beta/preview/components/TemplateSelector';
 import TemplateRenderer from '../components/beta/preview/components/TemplateRenderer';
 import { DEFAULT_TEMPLATE } from '../components/beta/preview/templateConfig';
@@ -13,6 +18,39 @@ import { useWompiPayment } from '../hooks/useWompiPayment';
 import '../components/beta/preview/styles/Preview.css';
 
 function Preview() {
+
+    /*Pasarela de pago mediante modal*/
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => setOpen(true);
+    const handleclose = () => setOpen(false);
+
+    const USD_COP = 4000;
+
+    const handleSelectPlan = async (amountUsd) => {
+
+        // usd a cop
+        const amountCop = amountUsd * USD_COP;
+
+        // convertir COP - centavos para wompi
+        const priceCents = 32320 * 100;
+
+        try {
+            const res = await fetch("http://127.0.0.1:8000/api/accounts/payments/create-checkout/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" }, 
+                body: JSON.stringify({ amount_in_cents: priceCents }),
+            });
+            const data = await res.json();
+            if (data.checkout_url) {
+                window.open(data.checkout_url, "_blank"); // Redirección a Wompi Checkout
+            }
+        } catch (err) {
+            console.error("❌ Error creando checkout:", err);
+        }
+        };
+    /*Fin de pasarela*/
+
     const location = useLocation();
     const [selectedTemplate, setSelectedTemplate] = useState(DEFAULT_TEMPLATE);
     const { templateContent, formData } = useTemplate();
@@ -32,9 +70,11 @@ function Preview() {
         showInfo(`Plantilla "${template.name}" seleccionada`);
     };
 
+    /*HandleSelec*/
 
 
     const handleButtonClick = async () => {
+        /*
         if (!templateContent) {
             console.error('❌ Error: No hay contenido del template disponible');
             showError('Debes completar el formulario primero para generar el contenido del template.');
@@ -52,16 +92,20 @@ function Preview() {
             showError('No se pudo obtener el nombre de la empresa del formulario.');
             return;
         }
-
+        */
         // Store selected template info for payment success page
         // Note: This assumes the TemplateContext has a method to update template content
         // If not available, we'll store it in sessionStorage as fallback
         try {
             sessionStorage.setItem('selected_template_id', selectedTemplate.id);
+            console.log("Id del template a comprar:", selectedTemplate.id);
         } catch (error) {
             console.warn('Could not store selected template in sessionStorage:', error);
         }
 
+        handleOpen();
+
+        /*
         // Initiate payment flow
         const companyName = formData?.company_name || 'Compañía no especificada';
         
@@ -85,6 +129,7 @@ function Preview() {
             console.error('❌ Error en el flujo de pago:', error);
             showError(`Error al iniciar el pago: ${error?.message || 'Error desconocido'}`);
         }
+        */
     };
 
     return (
@@ -104,8 +149,9 @@ function Preview() {
                             </Box>
                             <Button
                                 variant="contained"
-                                onClick={handleButtonClick}
-                                disabled={isProcessingPayment}
+                                onClick={() => {
+                                    handleButtonClick();
+                                }}
                                 sx={{
                                     backgroundColor: '#8783CA',
                                     color: '#FFFFFF',
@@ -127,9 +173,98 @@ function Preview() {
                                     }
                                 }}
                             >
-                                {isProcessingPayment ? 'Procesando pago...' : 'Crea tu web'}
+                                Crea tu web
                             </Button>
                         </Box>
+
+                        <Dialog
+                            open={open}
+                            onClose={handleclose}
+                            maxWidth = "sm"
+                            fullWidth
+                        >
+                            <DialogTitle>Elige tu plan</DialogTitle>
+                            <DialogContent dividers>
+                                <Box 
+                                    display="flex" 
+                                    flexDirection="column" 
+                                    gap={3}
+                                >
+                                    <Box
+                                        sx={{
+                                            border: "1px solid #ccc",
+                                            borderRadius: "8px",
+                                            p: 2,
+                                            cursor:"pointer",
+                                        }}
+                                        onClick={()=> handleSelectPlan(7)}
+                                    >
+                                        <Typography>Plan Starter - $32,320 COP - Incluye IVA / año</Typography>
+                                        {/* Lista de beneficios */}
+                                        <List dense>
+                                            <ListItem disableGutters>
+                                                <ListItemIcon>
+                                                    <CheckCircleIcon color="success" fontSize="small" />
+                                                </ListItemIcon>
+                                                <ListItemText primary="Incluye subdominio en lomilabs.com" />
+                                            </ListItem>
+                            
+                                            <ListItem disableGutters>
+                                                <ListItemIcon>
+                                                    <CheckCircleIcon color="success" fontSize="small" />
+                                                </ListItemIcon>
+                                                <ListItemText primary="Soporte básico" />
+                                            </ListItem>
+                                        </List>
+                                        <Typography
+                                            variant="button"
+                                            sx={{
+                                                mt: 2,
+                                                display: "block",
+                                                textAlign: "center",
+                                                bgcolor: "#8783CA",
+                                                color: "#fff",
+                                                fontWeight: "bold",
+                                                borderRadius: "8px",
+                                                px: 2,
+                                                py: 1,
+                                                transition: "0.3s",
+                                                "&:hover": {
+                                                    bgcolor: "#6B66B8",
+                                                },
+                                            }}
+                                        >
+                                            Comprar
+                                        </Typography>
+                                    </Box>
+
+                                    <Box
+                                        sx={{
+                                            border: "1px solid #ccc",
+                                            borderRadius: "8px",
+                                            p: 2,
+                                            cursor: "not-allowed",
+                                            opacity: 0.6,
+                                            pointerEvents: "none",
+                                        }}
+                                        onClick={() => handleSelectPlan(19)}
+                                    >
+                                        <Typography>Plan Pro - $19 USD</Typography>
+                                        <Typography
+                                            variant='body2'
+                                            color='text.secondary'
+                                        >
+                                            Proximamente
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleclose} color='secondary'>
+                                        Cerrar
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
                     </Container>
                 </div>
 
