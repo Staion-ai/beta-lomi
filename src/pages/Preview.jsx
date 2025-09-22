@@ -19,6 +19,7 @@ import { useWompiPayment } from '../hooks/useWompiPayment';
 import '../components/beta/preview/styles/Preview.css';
 import ArrowDirection from '../components/common/ArrowDirection';
 import { useCreateTemplate } from '../hooks/useCreateTemplate';
+import { base_auth_url } from '../constants';
 
 function Preview() {
 
@@ -39,7 +40,7 @@ function Preview() {
         const priceCents = 32320 * 100;
 
         try {
-            const res = await fetch("http://127.0.0.1:8000/api/accounts/payments/create-checkout/", {
+            const res = await fetch(`${base_auth_url}/api/v1/payments/create-checkout/`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ amount_in_cents: priceCents }),
