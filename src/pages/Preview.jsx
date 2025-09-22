@@ -126,9 +126,7 @@ function Preview() {
             console.warn('Could not store selected template in sessionStorage:', error);
         }
 
-        handleOpen();
 
-        /*
         // Initiate payment flow
         const companyName = formData?.company_name || 'Compañía no especificada';
 
@@ -147,12 +145,7 @@ function Preview() {
             }, {
                 onSuccess: (data) => {
                     console.log('✅ Plantilla de usuario creada con éxito:', data);
-                    localStorage.removeItem('template_content');
-                    localStorage.removeItem('template_form_data')
-                    showSuccess('¡Tu sitio web ha sido creado exitosamente!');
-                    setTimeout(() => {
-                        navigate('/dashboard');
-                    }, 2500);
+                    handleOpen();
                 },
                 onError: (error) => {
                     console.error('❌ Error al crear la plantilla de usuario:', error);
@@ -163,7 +156,6 @@ function Preview() {
             console.error('❌ Error al crear la web:', error);
             showError(`${error?.detail || error?.message}`);
         }
-        */
     };
 
     return (
