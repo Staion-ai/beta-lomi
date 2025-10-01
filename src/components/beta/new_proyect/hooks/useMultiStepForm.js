@@ -276,7 +276,7 @@ export const useMultiStepForm = (steps, onComplete) => {
                     updatedContent = updateNavbarLogoWithUrl(updatedContent, updatedDataWithUrls)
 
                     updateTemplateContent(updatedContent, updatedDataWithUrls) // Actualizar el context con el contenido y los datos originales                    setNotification({ open: true, message: 'Proyecto creado exitosamente. Contenido generado.', severity: 'success' })
-                    localStorage.setItem("templaete_content", JSON.stringify(templateContent))
+                    localStorage.setItem("template_content", JSON.stringify(templateContent))
                     if (onComplete) {
                         setTimeout(() => {
                             onComplete(updatedContent)

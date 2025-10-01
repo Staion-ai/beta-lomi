@@ -25,7 +25,7 @@ function Preview() {
 
     /*Pasarela de pago mediante modal*/
     const [open, setOpen] = useState(false);
-
+    const { getToken } = useAuth();
     const handleOpen = () => setOpen(true);
     const handleclose = () => setOpen(false);
 
@@ -47,8 +47,6 @@ function Preview() {
             });
             const data = await res.json();
             if (data.checkout_url) {
-                localStorage.removeItem('selected_template_id'); // Limpiar selección previa
-                localStorage.removeItem('template_content'); // Limpiar contenido previo
                 window.open(data.checkout_url, "_blank"); // Redirección a Wompi Checkout
             }
         } catch (err) {
@@ -104,59 +102,62 @@ function Preview() {
         const effectiveTemplateContent = templateContent || localTemplateContent;
 
         if (!effectiveTemplateContent) {
-            console.error('❌ Error: No hay contenido del template disponible');
             showError('Debes completar el formulario primero para generar el contenido del template.');
             return;
         }
 
         if (!user?.email) {
-            console.error('❌ Error: No se encontró el email del usuario');
             showError('Usuario no autenticado correctamente.');
             return;
         }
 
         if (!formData?.company_name) {
-            console.error('❌ Error: No se encontró el nombre de la compañía');
             showError('No se pudo obtener el nombre de la empresa del formulario.');
             return;
         }
 
         try {
-            sessionStorage.setItem('selected_template_id', selectedTemplate.id);
-        } catch (error) {
-            console.warn('Could not store selected template in sessionStorage:', error);
-        }
+            // Guardar id numérico en sessionStorage
+            const templateId = selectedTemplate.id; // ✅ Aseguramos número
+            console.log('Selected template ID:', selectedTemplate);
+            console.log('Selected template ID (number):', templateId);
+            sessionStorage.setItem('selected_template_id', templateId);
+            
+            const companyName = formData.company_name || 'Compañía no especificada';
 
+            showInfo('Creando checkout...');
 
-        // Initiate payment flow
-        const companyName = formData?.company_name || 'Compañía no especificada';
-
-        const webCreationData = {
-            ...templateContent,
-            client_name: companyName,
-            user_id: user.pk,
-            repo_url: selectedTemplate.id,
-        };
-
-        try {
-            showInfo('Creando tu sitio web...');
-
-            createTemplate({
-                templateData: webCreationData,
-            }, {
-                onSuccess: (data) => {
-                    handleOpen();
+            const response = await fetch(`${base_auth_url}/api/v1/payments/create-checkout/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${getToken()}`
                 },
-                onError: (error) => {
-                    console.error('❌ Error al crear la plantilla de usuario:', error);
-                    showError(`Error al crear la plantilla: ${error?.detail || error?.message}`);
-                }
+                body: JSON.stringify({
+                    amount: 32320,
+                    currency: "COP",
+                    email: user.email,
+                    company_name: companyName,
+                    template_id: templateId,
+                    template_content: effectiveTemplateContent,
+                    user_id: user.pk
+                })
             });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                window.location.href = data.checkout_url; // Redirige al checkout
+            } else {
+                showError(data.error || "Error creando el checkout");
+            }
         } catch (error) {
-            console.error('❌ Error al crear la web:', error);
-            showError(`${error?.detail || error?.message}`);
+            console.error("❌ Error creando checkout:", error);
+            showError("Error al crear el checkout. Inténtalo de nuevo.");
         }
     };
+
+
 
     return (
         <>
@@ -167,7 +168,7 @@ function Preview() {
                         <Box display="flex" justifyContent="space-between" alignItems="center">
                             <Box>
                                 <Typography variant="h4" component="h1" color='#000' gutterBottom>
-                                    Vista Previa de Plantillas
+                                    Vista previa de plantillas
                                 </Typography>
                                 <Typography variant="body1" color="text.secondary">
                                     Selecciona una plantilla para ver cómo se ve tu proyecto.

@@ -190,13 +190,12 @@ function Register() {
 
                 {/* Información Personal */}
                 <Typography variant="h6" sx={{ color: '#333', fontWeight: 600, fontSize: '1.1rem', mb: -1 }}>
-                  Información Personal
+                  Información personal
                 </Typography>
 
                 {/* Nombre y Apellido en la misma fila */}
-                <Box sx={{ display: 'flex', gap: 2 }}>
+                <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
                   <TextField
-                    fullWidth
                     label="Nombre"
                     name="first_name"
                     type="text"
@@ -205,13 +204,14 @@ function Register() {
                     variant="outlined"
                     disabled={registerMutation.isPending}
                     sx={{
+                      flex: 1,
                       '& .MuiOutlinedInput-root': {
-                        borderRadius: 2
+                        borderRadius: 2,
+                        height: 48,
                       }
                     }}
                   />
                   <TextField
-                    fullWidth
                     label="Apellido"
                     name="last_name"
                     type="text"
@@ -220,8 +220,10 @@ function Register() {
                     variant="outlined"
                     disabled={registerMutation.isPending}
                     sx={{
+                      flex: 1,
                       '& .MuiOutlinedInput-root': {
-                        borderRadius: 2
+                        borderRadius: 2,
+                        height: 48,
                       }
                     }}
                   />
@@ -229,7 +231,7 @@ function Register() {
 
                 {/* Contacto */}
                 <Typography variant="h6" sx={{ color: '#333', fontWeight: 600, fontSize: '1.1rem', mb: -1, mt: 1 }}>
-                  Información de Contacto
+                  Información de contacto
                 </Typography>
 
                 <TextField
