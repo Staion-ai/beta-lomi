@@ -2,12 +2,9 @@ import React from 'react'
 
 import '../assets/styles/Testimony.css'
 
-import { useCSSVar } from '../hooks/useCSSVar';
 import chroma from "chroma-js";
 
 const Testimony = ({ title, testimonials }) => {
-
-    const primaryColor = useCSSVar("--color-primary", "#FFFFFF");
 
     const textColor = (color, fallback = "#FFFFFF") => {
         const bg = color ? chroma(color) : chroma(fallback);
@@ -16,7 +13,7 @@ const Testimony = ({ title, testimonials }) => {
 
     return (
         <section className="testimony-section">
-            <h2 className="testimony-title" style={{ color: textColor("#ffffff") }}>{title}</h2>
+            <h2 className="testimony-title" style={{ color: textColor() }}>{title}</h2>
             <div className="testimony-grid">
                 {testimonials.map((item, index) => (
                     <div key={index} className="testimony-card">
@@ -25,7 +22,7 @@ const Testimony = ({ title, testimonials }) => {
                             alt={item.client_name}
                             className="testimony-img"
                         />
-                        <p className="testimony-name" style={{ color: textColor("#ffffff") }}>{item.client_name}</p>
+                        <p className="testimony-name" style={{ color: textColor() }}>{item.client_name}</p>
                     </div>
                 ))}
             </div>

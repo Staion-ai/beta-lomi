@@ -9,9 +9,10 @@ export const useTheme = (styles) => {
     root.style.setProperty("--color-primary", styles.color_primary);
     root.style.setProperty("--color-secondary", styles.color_secondary);
     root.style.setProperty("--color-tertiary", styles.color_tertiary);
+    root.style.setProperty("--color-reasoning", styles.color_reasoning);
 
-    if (styles.active_font) {
-      root.style.setProperty("--font-family", styles.active_font);
+    if (styles.font_family) {
+      root.style.setProperty("--font-family", styles.font_family);
 
       const linkId = "dynamic-font";
       let link = document.getElementById(linkId);
@@ -23,7 +24,7 @@ export const useTheme = (styles) => {
         document.head.appendChild(link);
       }
 
-      link.href = `https://fonts.googleapis.com/css2?family=${styles.active_font.replace(
+      link.href = `https://fonts.googleapis.com/css2?family=${styles.font_family.replace(
         / /g,
         "+"
       )}:wght@400;500;700;900&display=swap`;

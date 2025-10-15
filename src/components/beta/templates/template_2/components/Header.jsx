@@ -13,6 +13,17 @@ const Header = ({ content }) => {
         return bg.luminance() > 0.5 ? "#000000" : "#FFFFFF"
     }
 
+    const handleLinkClick = (e) => {
+        e.preventDefault(); // Evita el salto instantáneo por defecto
+        const targetId = e.currentTarget.getAttribute("href"); // obtiene el href del enlace
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+            // Scroll suave hasta la sección correspondiente
+            targetElement.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
 
     return (
         <>
@@ -27,16 +38,25 @@ const Header = ({ content }) => {
                         </div>
 
                         <ul>
-                            {navbar.options.map((item, index) => (
-                                <li key={index}>
-                                    <a href={item.url}> {item.label} </a>
-                                </li>
-                            ))}
+                            {navbar.options.map((item, index) => {
+                                let hrefFixed = "#";
+                                if (item.label === "Inicio") hrefFixed = "#header";
+                                else if (item.label === "Servicios") hrefFixed = "#services";
+                                else if (item.label === "Contacto") hrefFixed = "#footer";
+
+                                return (
+                                    <li key={index}>
+                                        <a href={hrefFixed} onClick={handleLinkClick}>
+                                            {item.label}
+                                        </a>
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </div>
 
                     <div className="right-navigation">
-                        <a href={navbar.cta_button.url}>
+                        <a target="_blank" href={navbar.cta_button.url}>
                             <button style={{ backgroundColor: styles.color_secondary, color: textColor(styles.color_secondary) }}> {navbar.cta_button.label} </button>
                         </a>
                     </div>
@@ -56,7 +76,7 @@ const Header = ({ content }) => {
 
                         <div className="btn-container"  >
                             {hero_section.cta_button && (
-                                <a href={hero_section.cta_button.url} >
+                                <a target="_blank" href={hero_section.cta_button.url} >
                                     <button style={{ backgroundColor: styles.color_secondary, color: textColor(styles.color_secondary) }}>{hero_section.cta_button.label}</button>
                                 </a>
                             )}

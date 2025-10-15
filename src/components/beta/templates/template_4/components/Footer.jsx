@@ -30,7 +30,7 @@ const Footer = ({ engaging_subtitles, social_media_section: sms, contact, logo, 
   };
 
   return (
-    <footer className="footer" style={{ color: textColor(primaryColor) }}>
+    <footer id='/contacto' className="footer" style={{ color: textColor(primaryColor) }}>
       <div className="footer-top">
         <a href={logo.link_url} className="footer-logo">
           <img src={logo.image_url} alt={logo.alt_text} />

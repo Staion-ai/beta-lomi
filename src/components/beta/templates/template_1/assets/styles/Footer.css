@@ -1,7 +1,7 @@
 /* ===== CONTENEDORES BASE ===== */
 .footer-container {
     width: 100%;
-    min-height: 400px;
+    max-height: 400px;
     display: flex;
     align-items: center;
     justify-content: center;

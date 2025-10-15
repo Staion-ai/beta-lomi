@@ -27,7 +27,7 @@ const Footer = ({ content }) => {
 
     return (
         <>
-            <footer className='footer-container' style={{ backgroundColor: styles.color_primary, color: textColor(styles.color_primary), fontFamily: styles.active_font }}>
+            <footer id='footer' className='footer-container' style={{ backgroundColor: styles.color_primary, color: textColor(styles.color_primary), fontFamily: styles.active_font }}>
                 <div className='content-container'>
 
                     <div className="content-divisor">

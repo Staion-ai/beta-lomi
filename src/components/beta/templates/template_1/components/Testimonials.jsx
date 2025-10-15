@@ -23,6 +23,7 @@ const Testimonials = ({ content }) => {
                             </div>
                             <div className="client-info">
                                 <p className="client-name">{item.client_name}</p>
+                                <p className="client-testi">{item.testimonial}</p>
                             </div>
                         </div>
                     ))}

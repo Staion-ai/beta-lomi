@@ -98,6 +98,7 @@ function Preview() {
     /*HandleSelec*/
 
 
+    /*
     const handleButtonClick = async () => {
         const effectiveTemplateContent = templateContent || localTemplateContent;
 
@@ -156,8 +157,66 @@ function Preview() {
             showError("Error al crear el checkout. Inténtalo de nuevo.");
         }
     };
+    */
 
+    /* CREACION DE WEB SIN PAGO */
+    const handleButtonClick = async () => {
+        const effectiveTemplateContent = templateContent || localTemplateContent;
 
+        if (!effectiveTemplateContent) {
+            showError("Debes completar el formulario primero para generar el contenido del template.");
+            return;
+        }
+
+        if (!user?.email) {
+            showError("Usuario no autenticado correctamente.");
+            return;
+        }
+
+        if (!formData?.company_name) {
+            showError("No se pudo obtener el nombre de la empresa del formulario.");
+            return;
+        }
+
+        try {
+            const templateId = selectedTemplate.id;
+            const companyName = formData.company_name || "Compañía no especificada";
+
+            sessionStorage.setItem("selected_template_id", templateId);
+            showInfo("Creando tu sitio web...");
+
+            const response = await fetch(`${base_auth_url}/api/v1/user-templates/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${getToken()}`
+                },
+                body: JSON.stringify({
+                    user_id: user.pk,
+                    repo_url: templateId,
+                    client_name: companyName,
+                    template_content: effectiveTemplateContent
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                showSuccess("Sitio creado correctamente 🎉");
+                console.log("✅ UserTemplate creado:", data);
+
+            // si querés redirigir:
+            // window.location.href = `/mis-sitios/${data.id}`;
+            } else {
+                showError(data.detail || "Error al crear el sitio web");
+                console.error("❌ Error en creación:", data);
+            }
+        } catch (error) {
+            console.error("❌ Error creando sitio:", error);
+            showError("Error al crear el sitio. Inténtalo de nuevo.");
+        }
+    };
+    /* */
 
     return (
         <>
@@ -199,8 +258,10 @@ function Preview() {
                                     }
                                 }}
                             >
-                                {isProcessingPayment ? 'Procesando pago...' :
+                                {isCreatingTemplate ? "Creando sitio web..." : "Crea tu web"}
+                                {/* {isProcessingPayment ? 'Procesando pago...' :
                                     isCreatingTemplate ? 'Creando sitio web...' : 'Crea tu web'}
+                                */}
                             </Button>
                         </Box>
 

@@ -14,9 +14,10 @@
 /* --- Section con fondo (section-bg) --- */
 .section-bg {
   margin: 0;
+  margin-top: 60px;
   padding: 0;
   width: 100%;
-  min-height: calc(80vh - 60px);
+  min-height: calc(100vh - 60px);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -64,7 +65,7 @@
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  /* empuja hacia abajo dentro del hero */
+  margin-top: auto; /* empuja hacia abajo dentro del hero */
 }
 
 .container-button .cta-button {
@@ -105,14 +106,12 @@
   .container-button .cta-button {
     margin: 0 auto;
     padding: 14px 36px;
-    max-width: 400px;
-    /* límite de ancho en desktop */
+    max-width: 400px; /* límite de ancho en desktop */
     display: block;
   }
 }
 
 /* --- Prevención de scroll lateral --- */
-html,
-body {
+html, body {
   overflow-x: hidden;
 }

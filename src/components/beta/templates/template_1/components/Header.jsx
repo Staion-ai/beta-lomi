@@ -77,7 +77,7 @@ const Header = ({ content }) => {
                 onClick={closeMenu}
             ></div>
 
-            <header className="header-container" style={{ color: textColor(styles.color_primary), fontFamily: styles.active_font }}>
+            <header id="header" className="header-container" style={{ color: textColor(styles.color_primary), fontFamily: styles.active_font }}>
                 <div className="navigation-container" style={{ backgroundColor: styles.color_primary }} ref={menuRef}>
 
                     {/* Menú hamburguesa (visible en móviles) */}
@@ -91,16 +91,20 @@ const Header = ({ content }) => {
 
                     <div className={`left-navigation ${menuOpen ? "open" : ""}`} style={{ backgroundColor: styles.color_primary, color: textColor(styles.color_primary) }}>
                         <ul>
-                            {navbar.options.map((item, index) => (
-                                <li key={index}>
-                                    <a
-                                        href={item.url}
-                                        onClick={handleLinkClick}
-                                    >
-                                        {item.label}
-                                    </a>
-                                </li>
-                            ))}
+                            {navbar.options.map((item, index) => {
+                                let hrefFixed = "#";
+                                if (item.label === "Inicio") hrefFixed = "#header";
+                                else if (item.label === "Servicios") hrefFixed = "#services";
+                                else if (item.label === "Contacto") hrefFixed = "#footer";
+
+                                return (
+                                    <li key={index}>
+                                        <a href={hrefFixed} onClick={handleLinkClick}>
+                                            {item.label}
+                                        </a>
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </div>
 
@@ -111,7 +115,7 @@ const Header = ({ content }) => {
                     </div>
 
                     <div className="right-navigation">
-                        <a href={navbar.cta_button.url}>
+                        <a target='_blank' href={navbar.cta_button.url}>
                             <button style={{ backgroundColor: styles.color_secondary, color: textColor(styles.color_secondary) }}>
                                 {navbar.cta_button.label}
                             </button>
@@ -144,7 +148,7 @@ const Header = ({ content }) => {
 
                     <div className="btn-container"  >
                         {hero_section.cta_button && (
-                            <a href={hero_section.cta_button.url} >
+                            <a target="_blank" href={hero_section.cta_button.url} >
                                 <button style={{ backgroundColor: styles.color_secondary, color: textColor(styles.color_secondary) }}>
                                     {hero_section.cta_button.label}
                                 </button>

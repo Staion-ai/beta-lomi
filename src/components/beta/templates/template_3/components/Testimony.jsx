@@ -2,12 +2,9 @@ import React from 'react'
 
 import '../assets/styles/Testimony.css';
 
-import { useCSSVar } from '../hooks/useCSSVar';
 import chroma from "chroma-js";
 
 const Testimony = ({ title, testimonials }) => {
-
-    const primaryColor = useCSSVar("--color-primary", "#FFFFFF");
 
     const textColor = (color, fallback = "#FFFFFF") => {
         const bg = color ? chroma(color) : chroma(fallback);

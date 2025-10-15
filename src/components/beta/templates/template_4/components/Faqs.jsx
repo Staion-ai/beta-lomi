@@ -21,11 +21,11 @@ const Faqs = ({ title, questions, background_image: backgroundImage }) => {
   };
 
   return (
-    <div className={`${backgroundImage ? "faqs-section " : "faqs-no-bg"}`}
+    <div className={"faqs-no-bg"}
       id="/contact"
       style={{
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : "none",
-        color: textColor(primaryColor)
+        color: textColor()
       }}
     >
       <h2 style={{ color: textColor(primaryColor) }}>{title}</h2>
@@ -34,14 +34,14 @@ const Faqs = ({ title, questions, background_image: backgroundImage }) => {
           <li key={index} className="faq-item">
             <button
               className="faq-question"
-              style={{ color: textColor(primaryColor) }}
+              style={{ color: textColor() }}
               onClick={() => toggleAnswer(index)}
             >
               {q.question}
               <span>{openIndex === index ? "▲" : "▼"}</span>
             </button>
             {openIndex === index && (
-              <p className="faq-answer" style={{ color: textColor(primaryColor) }}>{q.answer}</p>
+              <p className="faq-answer" style={{ color: textColor() }}>{q.answer}</p>
             )}
           </li>
         ))}

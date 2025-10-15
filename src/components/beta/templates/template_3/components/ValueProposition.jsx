@@ -2,13 +2,9 @@ import React from 'react';
 
 import '../assets/styles/ValueProposition.css';
 
-import { useCSSVar } from '../hooks/useCSSVar';
 import chroma from "chroma-js";
 
-
 const ValueProposition = ({ title, content }) => {
-
-  const primaryColor = useCSSVar("--color-primary", "#FFFFFF");
 
   const textColor = (color, fallback = "#FFFFFF") => {
     const bg = color ? chroma(color) : chroma(fallback);
@@ -16,14 +12,16 @@ const ValueProposition = ({ title, content }) => {
   };
 
   return (
-    <div className="value-section" id='/about'>
+    <div className="value-section" id='/servicios'>
       <h2 style={{ color: textColor() }}>{title}</h2>
       <div className="value-grid">
         {content.map((item, index) => (
           <div key={index} className="value-item">
             <p className="value-text" style={{ color: textColor() }}>{item.name}</p>
             {item.image_url &&
-              <img src={item.image_url} alt={`Image for ${item.name}`} />
+              <div className="value-image-container">
+                <img src={item.image_url} alt={`Image for ${item.name}`} />
+              </div>
             }
           </div>
         ))}

@@ -269,7 +269,9 @@ export const useMultiStepForm = (steps, onComplete) => {
                     setIsUploadingImages(false)
                     setIsGeneratingContent(true)
 
-                    const content = await generateTemplateContent(updatedDataWithUrls)
+                    const { company_name: clientName } = updatedDataWithUrls;
+
+                    const content = await generateTemplateContent({...updatedDataWithUrls, client_name: clientName});
 
                     let updatedContent = updateHeroBackgroundWithImage(content, updatedDataWithUrls)
 
