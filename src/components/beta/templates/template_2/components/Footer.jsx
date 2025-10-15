@@ -25,6 +25,14 @@ const Footer = ({ content }) => {
         return bg.luminance() > 0.5 ? "#000000" : "#FFFFFF"
     };
 
+    let contactList = [];
+
+    try {
+        contactList = footer?.contact?.contact_info || [];
+    } catch (error) {
+        console.error("Error al acceder a footer.contact.contact_info:", error);
+    }
+
     return (
         <>
             <footer className='footer-container' style={{ backgroundColor: styles.color_primary, color: textColor(styles.color_primary), fontFamily: styles.active_font }}>
@@ -68,16 +76,15 @@ const Footer = ({ content }) => {
                             </div>
 
                             <div className="placeholder-contact">
-                                <div className="contact-section">
-                                    <p>{footer.contact.subtitle}</p>
+
+                            <div className="contact-section">
+                                <p>¡No dudes en contactarnos!</p>
                                     <ul>
-                                        {footer.contact.contact_info.map((info, index) => (
-                                            <li key={index}>
-                                                <strong>{info.type}:</strong> {info.value}
-                                            </li>
-                                        ))}
+                                        <li><strong>Email:</strong> {footer.contact.email}</li>
+                                            <li><strong>Teléfono:</strong> {footer.contact.phone}</li>
                                     </ul>
-                                </div>
+                            </div>
+
                             </div>
                         </div>
                     </div>

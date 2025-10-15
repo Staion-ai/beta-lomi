@@ -59,13 +59,10 @@ const Footer = ({ activePlatforms = [], content }) => {
                     </div>
 
                     <div className="contact-section">
-                        <p>{footer.contact.subtitle}</p>
+                        <p>¡No dudes en contactarnos!</p>
                         <ul>
-                            {footer?.contact?.contact_info?.map((info, index) => (
-                                <li key={index}>
-                                    <strong>{info.type}:</strong> {info.value}
-                                </li>
-                            ))}
+                            <li><strong>Email:</strong> {footer.contact.email}</li>
+                            <li><strong>Teléfono:</strong> {footer.contact.phone}</li>
                         </ul>
                     </div>
 

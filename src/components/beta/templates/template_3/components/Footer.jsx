@@ -66,12 +66,13 @@ const Footer = ({ engaging_subtitles, social_media_section: sms, contact, logo, 
           </div>
 
           <div className="footer-contact">
-            <p className='contact-subtitle' style={{ color: textColor(primaryColor) }}>{contact.subtitle}</p>
-            {contact.contact_info.map((info, index) => (
-              <div key={index} className="contact-info" style={{ color: textColor(primaryColor) }}>
-                <strong style={{ color: textColor(primaryColor) }}>{info.type}:</strong> {info.value}
-              </div>
-            ))}
+            <ul>
+              {Object.entries(contact).map(([key, value], index) => (
+                <li key={index}>
+                  <strong>{key}:</strong> {value}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
