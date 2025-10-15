@@ -5,7 +5,6 @@ import '../assets/styles/HeroSection.css';
 import { useCSSVar } from '../hooks/useCSSVar';
 import chroma from "chroma-js";
 
-
 const HeroSection = ({
   title,
   subtitle,
@@ -14,6 +13,8 @@ const HeroSection = ({
   social_proof: socialProof
 }) => {
   const primaryColor = useCSSVar("--color-primary", "#FFFFFF");
+
+  const resolvedImage = backgroundImage ? new URL(backgroundImage, import.meta.url).href : undefined;
 
   const textColor = (color, fallback = "#FFFFFF") => {
     const bg = color ? chroma(color) : chroma(fallback);
@@ -24,9 +25,9 @@ const HeroSection = ({
     <>
       <section
         className={`${backgroundImage ? "section-bg " : "no-bg"}`}
-        id="/"
+        id="/inicio"
         style={{
-          backgroundImage: backgroundImage ? `url(${backgroundImage})` : "none"
+          backgroundImage: resolvedImage ? `url(${resolvedImage})` : "none"
         }}
       >
         <div className='section-content' style={{ color: textColor(primaryColor) }}>
@@ -34,6 +35,7 @@ const HeroSection = ({
           <p className="subtitle-hero" style={{ color: textColor(primaryColor) }}>{subtitle}</p>
           <a
             href={cta.url}
+            target="_blank" rel="noopener noreferrer"
             className="cta-button"
             style={{ color: textColor(primaryColor) }}
           >

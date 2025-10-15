@@ -9,7 +9,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6); /* overlay oscuro para legibilidad */
+  background: rgba(0, 0, 0, 0.6);
   z-index: 0;
 }
 
@@ -87,7 +87,7 @@
 /* Si no hay bg */
 .faqs-no-bg {
   padding: 60px 20px;
-  background: var(--color-primary);
+  background: var(--color-secondary);
 }
 
 .faqs-no-bg .faq-item {

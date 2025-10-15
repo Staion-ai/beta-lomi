@@ -21,7 +21,7 @@ const Faqs = ({ title, questions, background_image: backgroundImage }) => {
   };
 
   return (
-    <div className={`${backgroundImage ? "faqs-section " : "faqs-no-bg"}`}
+    <div className={"faqs-no-bg"}
       id="/contact"
       style={{
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : "none"

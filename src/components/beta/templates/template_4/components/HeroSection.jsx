@@ -24,7 +24,7 @@ const HeroSection = ({
     <>
       <section
         className={`${backgroundImage ? "section-bg " : "no-bg"}`}
-        id="/"
+        id="/inicio"
         style={{
           backgroundImage: backgroundImage ? `url(${backgroundImage})` : "none",
         }}
@@ -39,6 +39,7 @@ const HeroSection = ({
           <a
             href={cta.url}
             className="cta-button"
+            target="_blank" rel="noopener noreferrer"
             style={{ color: textColor(primaryColor) }}
           >
             {cta.label}

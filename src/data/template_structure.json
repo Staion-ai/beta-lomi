@@ -1,162 +1,176 @@
 {
-  "repo_url": "https://github.com/Staion-Startup/lomi-template-3.git",
-  "client_name": "Tenis los verdes",
+  "faqs": {
+    "title": "Preguntas Frecuentes",
+    "questions": [
+      {
+        "answer": "En potenciar negocios a través de la digitalización y la inteligencia artificial.",
+        "question": "¿En qué nos destacamos?"
+      },
+      {
+        "answer": "Brindar soluciones prácticas y personalizadas para cada cliente.",
+        "question": "¿Cuál es nuestro enfoque?"
+      },
+      {
+        "answer": "Contáctanos para una evaluación inicial de tus necesidades.",
+        "question": "¿Cómo empezar?"
+      },
+      {
+        "answer": "Sí, acompañamos a nuestros clientes en la implementación y evolución de las soluciones propuestas.",
+        "question": "¿Ofrecen soporte continuo?"
+      }
+    ],
+    "background_image": "path/to/background.jpg"
+  },
+  "footer": {
+    "logo": {
+      "alt_text": "LILIANA LÓPEZ | Estrategia Digital + IA Logo",
+      "link_url": "https://example.com",
+      "image_url": "https://storage.googleapis.com/lomi-ai-images-bucket/user/user_12345/images/be7e8b3d4ab24a5cb2b55b772c7d3a83.png"
+    },
+    "contact": {
+      "subtitle": "¡No dudes en contactarme!",
+      "contact_info": [
+        {
+          "type": "Email",
+          "value": "heady.liliana@gmail.com"
+        },
+        {
+          "type": "Phone",
+          "value": "+57 321 634 1853"
+        }
+      ]
+    },
+    "develop_by": "Powered by LomiAI",
+    "engaging_subtitles": [
+      "Conecta con LILIANA LÓPEZ | Estrategia Digital + IA",
+      "Síguenos en redes sociales",
+      "Mantente actualizado"
+    ],
+    "social_media_section": {
+      "active": [
+        "TikTok",
+        "Facebook",
+        "Instagram"
+      ],
+      "social_links": [
+        {
+          "url": "https://www.tiktok.com/@lilianalopez.ia",
+          "platform": "TikTok"
+        },
+        {
+          "url": "https://www.facebook.com/profile.php?id=61579340553531",
+          "platform": "Facebook"
+        },
+        {
+          "url": "https://www.instagram.com/lilianalopez.ia?igsh=MXgwZTdzaTFoNWlvaQ==",
+          "platform": "Instagram"
+        }
+      ]
+    }
+  },
   "navbar": {
     "logo": {
-      "image_url": "src\\components\\beta\\templates\\template_1\\assets\\images\\hi_lizz_logo.jpg",
+      "alt_text": "LILIANA LÓPEZ | Estrategia Digital + IA Logo",
       "link_url": "https://example.com",
-      "alt_text": "Tenis los verdes Logo"
+      "image_url": "https://storage.googleapis.com/lomi-ai-images-bucket/user/user_12345/images/be7e8b3d4ab24a5cb2b55b772c7d3a83.png"
     },
     "options": [
       {
-        "label": "Inicio",
-        "url": "/inicio"
+        "url": "/inicio",
+        "label": "Inicio"
       },
       {
-        "label": "Productos",
-        "url": "/productos"
+        "url": "/servicios",
+        "label": "Servicios"
       },
       {
-        "label": "Contacto",
-        "url": "/contacto"
+        "url": "/contacto",
+        "label": "Contacto"
       }
     ],
     "cta_button": {
-      "label": "¡Empieza ya!",
-      "url": "/get-started"
+      "url": "https://wa.me/573216341853",
+      "label": "Comenzar ahora"
     },
     "sec_cta_button": {
-      "label": "Descubre más",
-      "url": "/know-more"
+      "url": "/know-more",
+      "label": "Saber más"
     }
   },
-  "hero_section": {
-    "title": "¡Caminemos juntos hacia el estilo con Tenis los Verdes!",
-    "subtitle": "Encuentra los tenis verdes más exclusivos, ¡solo en nuestra tienda!",
-    "background_image": "src\\components\\beta\\templates\\template_1\\assets\\images\\cabello_header.jpg",
-    "cta_button": {
-      "label": "¡Compra ahora!",
-      "url": "/learn-more"
-    },
-    "social_proof": {
-      "text": "¡Miles de clientes satisfechos con nuestros tenis verdes de alta calidad!"
-    }
+  "styles": {
+    "font_family": "DM Sans",
+    "color_primary": "#FB8C00",
+    "color_tertiary": "#f8f9fa",
+    "color_reasoning": "Colores proporcionados por el usuario",
+    "color_secondary": "#6c757d"
   },
-  "value_proposition": {
-    "title": "Nuestros Productos",
-    "content": [
-      {
-        "name": "Tenis Verde Clásico",
-        "image_url": "src\\components\\beta\\templates\\template_1\\assets\\images\\image_test.png"
-      },
-      {
-        "name": "Tenis Verde Neón",
-        "image_url": "src\\components\\beta\\templates\\template_1\\assets\\images\\image_test.png"
-      },
-      {
-        "name": "Tenis Verde Militar",
-        "image_url": "src\\components\\beta\\templates\\template_1\\assets\\images\\image_test.png"
-      },
-      {
-        "name": "Tenis Verde Elegante",
-        "image_url": "src\\components\\beta\\templates\\template_1\\assets\\images\\image_test.png"
-      }
-    ]
-  },
-  "faqs": {
-    "title": "Preguntas Frecuentes",
-    "background_image": "src\\components\\beta\\templates\\template_1\\assets\\images\\cabello_header.jpg",
-    "questions": [
-      {
-        "question": "¿Qué tallas tienen disponibles los tenis verdes?",
-        "answer": "Contamos con tallas desde la 35 hasta la 45."
-      },
-      {
-        "question": "¿Se pueden realizar cambios o devoluciones?",
-        "answer": "Sí, aceptamos cambios y devoluciones dentro de los 15 días posteriores a la compra."
-      },
-      {
-        "question": "¿Cuál es el tiempo de entrega?",
-        "answer": "El tiempo de entrega es de 3 a 5 días hábiles."
-      },
-      {
-        "question": "¿Los tenis verdes son unisex?",
-        "answer": "¡Por supuesto! Nuestros tenis están diseñados para todos."
-      }
-    ]
-  },
+  "user_id": 6,
+  "repo_url": "https://github.com/Staion-Startup/lomi-template-1",
   "testimony": {
     "title": "Esto dicen nuestros clientes",
     "testimonials": [
       {
-        "client_name": "María Gómez",
-        "client_image": "src\\components\\beta\\templates\\template_1\\assets\\images\\cabello_header.jpg"
+        "client_name": "GEMA DE CRISTAL",
+        "testimonial": "",
+        "client_image": "https://storage.googleapis.com/lomi-ai-images-bucket/user/user_12345/images/4cfdba24e3e940a4b36163e83161fd34.png",
+        "client_company": "GEMA DE CRISTAL"
       },
       {
-        "client_name": "Carlos Pérez",
-        "client_image": "src\\components\\beta\\templates\\template_1\\assets\\images\\cabello_header.jpg"
+        "client_name": "MICHES VIBRAS ",
+        "testimonial": "",
+        "client_image": "https://storage.googleapis.com/lomi-ai-images-bucket/user/user_12345/images/fe59474e0e39426286e97322cfbc6ed5.jpg",
+        "client_company": "MICHES VIBRAS "
       },
       {
-        "client_name": "Luisa Rodríguez",
-        "client_image": "src\\components\\beta\\templates\\template_1\\assets\\images\\cabello_header.jpg"
+        "client_name": "QUESOS ARTESANALES - ALTA PINTA",
+        "testimonial": "",
+        "client_image": "https://storage.googleapis.com/lomi-ai-images-bucket/user/user_12345/images/09958bee1c0a422eaccaef6cbb94ed8e.jpg",
+        "client_company": "QUESOS ARTESANALES - ALTA PINTA"
       },
       {
-        "client_name": "Juan Vargas",
-        "client_image": "src\\components\\beta\\templates\\template_1\\assets\\images\\cabello_header.jpg"
+        "client_name": "BARBERSHOP",
+        "testimonial": "",
+        "client_image": "https://storage.googleapis.com/lomi-ai-images-bucket/user/user_12345/images/9f4c87a1d22a487fb9803e1590ba009a.jpg",
+        "client_company": "BARBERSHOP"
       }
     ]
   },
-  "footer": {
-    "engaging_subtitles": [
-      "Join our community",
-      "Stay updated with our latest news"
-    ],
-    "social_media_section": {
-      "subtitle": "Follow us on social media",
-      "social_links": [
-        {
-          "platform": "Facebook",
-          "url": "https://facebook.com/yourpage"
-        },
-        {
-          "platform": "Instagram",
-          "url": "https://instagram.com/yourpage"
-        },
-        {
-          "platform": "YouTube",
-          "url": "https://youtube.com/@yourchannel"
-        }
-      ],
-      "active": [
-        "Facebook",
-        "Instagram",
-        "YouTube"
-      ]
+  "client_name": "LILIANA LÓPEZ | Estrategia Digital + IA",
+  "hero_section": {
+    "title": "Transforma tus ideas en resultados reales con LILIANA LÓPEZ",
+    "subtitle": "Especialistas en estrategia digital, automatización e inteligencia artificial para potenciar tu negocio. ¡Optimiza tus procesos y multiplica tus ventas!",
+    "cta_button": {
+      "url": "https://wa.me/573216341853",
+      "label": "Descubre cómo"
     },
-    "contact": {
-      "subtitle": "Get in touch with us",
-      "contact_info": [
-        {
-          "type": "Email",
-          "value": "contact@tenislosverdes.com"
-        },
-        {
-          "type": "Phone",
-          "value": "+57 300 123 4567"
-        }
-      ]
+    "social_proof": {
+      "text": "Clientes satisfechos confían en nuestra experiencia y resultados comprobados."
     },
-    "logo": {
-      "image_url": "src/assets/images/image_test.png",
-      "link_url": "https://example.com",
-      "alt_text": "Tenis los verdes Logo"
-    },
-    "develop_by": "2025 Tenis los verdes - Un producto de STAION SAS"
+    "background_image": "https://storage.googleapis.com/lomi-ai-images-bucket/user/user_12345/images/705d53045aa647c6a5dba996d37af54b.png"
   },
-  "styles": {
-    "color_primary": "#FF6B35",
-    "color_secondary": "#004E89",
-    "color_tertiary": "#FF0000",
-    "font_family": "Inter"
+  "value_proposition": {
+    "title": "Nuestros Servicios",
+    "content": [
+      {
+        "name": "Consultoría en Digitalización e ia Personalizada",
+        "image_url": "https://storage.googleapis.com/lomi-ai-images-bucket/user/user_12345/images/16a1e402b9b74653836e2ee7a6800db6.png",
+        "description": "Transforma tu manera de trabajar, paso a paso.\n\nNo importa si apenas estás dando tus primeros pasos en lo digital o si ya tienes un negocio en marcha: te acompañamos para identificar cómo la tecnología y la IA pueden ahorrarte tiempo, dinero y esfuerzo.\n\nDesde elegir las herramientas digitales básicas hasta aplicar soluciones con inteligencia artificial, te guiamos de forma clara y práctica. \nY lo mejor: te acompañamos en la implementación inicial, para que empieces a ver resultados reales sin enredarte con lo técnico."
+      },
+      {
+        "name": "Automatización con IA y Herramientas Digitales",
+        "image_url": "https://storage.googleapis.com/lomi-ai-images-bucket/user/user_12345/images/aea207e331ff481c87e16b94d96ee734.png",
+        "description": "Menos trabajo repetitivo, más tiempo para lo importante.\n\nDiseñamos sistemas que ponen tus procesos en piloto automático, combinando lo mejor de la digitalización y la IA:\n\nChatbots para atención al cliente.\n\nCorreos automáticos y flujos de respuesta.\n\nAgendas y reservas digitales.\n\nIntegraciones entre tus aplicaciones (WhatsApp, correo, CRM, etc.).\n\nAdemás, te damos soporte y actualizaciones, asegurando que tus automatizaciones crezcan contigo y siempre funcionen al día."
+      },
+      {
+        "name": "Análisis Digital y Decisiones Inteligentes",
+        "image_url": "https://storage.googleapis.com/lomi-ai-images-bucket/user/user_12345/images/8663ebdb6a5e43938c40490108f08a2c.png",
+        "description": "Convierte datos en claridad y resultados.\n\nCreamos dashboards visuales y reportes automáticos que organizan lo que hoy ves disperso en hojas de cálculo o sistemas. Ya sea que quieras seguir tus ventas, clientes, finanzas personales o productividad, tendrás la información clara y lista para usar.\n\nLo importante: no necesitas ser experto en datos. Te enseñamos a interpretar los resultados y a tomar mejores decisiones, conectando tus herramientas digitales con la inteligencia artificial para que siempre tengas información actualizada y útil."
+      },
+      {
+        "name": "Formación y Capacitación en Digitalización + IA",
+        "image_url": "https://storage.googleapis.com/lomi-ai-images-bucket/user/user_12345/images/cfa9fa2541e94cae9a6d3a7d64fe39aa.png",
+        "description": "Aprende a usar la tecnología en tu día a día.\n\nTanto si eres principiante en lo digital como si ya tienes recorrido, te damos formación práctica y aplicada para aprovechar al máximo la tecnología. Ofrecemos:\n\nTalleres rápidos y aplicados: “Cómo digitalizar tu negocio paso a paso”, “Automatiza tu WhatsApp”, “Usa ChatGPT en tu día a día”.\n\nAsesorías 1:1 para resolver tus casos específicos.\n\nPlantillas, guías y recursos listos para usar, que te ahorran tiempo y curva de aprendizaje.\n\nSiempre con un enfoque práctico y actualizado, para que no te quedes atrás en el mundo digital ni en la evolución de la IA."
+      }
+    ]
   }
 }

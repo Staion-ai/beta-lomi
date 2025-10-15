@@ -38,7 +38,7 @@ const NavBar = ({ logo, options: links, cta_button: cta }) => {
             </li>
           ))}
           {/* CTA Button */}
-          <a href={cta.url} className='cta-button' style={{ color: textColor(primaryColor) }}>
+          <a href={cta.url} target="_blank" className='cta-button' rel="noopener noreferrer" style={{ color: textColor(primaryColor) }}>
             {cta.label}
           </a>
         </ul>

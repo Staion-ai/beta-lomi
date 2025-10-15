@@ -13,7 +13,7 @@ const Services = ({ content }) => {
 
     return (
         <>
-            <div className="services-container" style={{ color: textColor(), fontFamily: styles.active_font }}>
+            <div id='services' className="services-container" style={{ color: textColor(), fontFamily: styles.active_font }}>
                 <div className='re-container'>
                     <h2 className="services-title">  {value_proposition.title}  </h2>
                     <div className="services-grid">
@@ -23,7 +23,8 @@ const Services = ({ content }) => {
                                     <img src={item.image_url} alt={`Service ${index + 1}`} />
                                 </div>
                                 <div className="service-info">
-                                    <p className="description">{item.name}</p>
+                                    <p className="description1"> {item.name}</p>
+                                    <p className="description"> {item.description} </p>
                                 </div>
                             </div>
                         ))}

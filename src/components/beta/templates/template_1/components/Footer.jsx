@@ -12,7 +12,7 @@ const iconMap = {
     TikTok: FaTiktok
 };
 
-const Footer = ({ activePlatforms = [], content }) => {
+const Footer = ({ content, activePlatforms = [] }) => {
     const { footer, styles } = content;
     const { social_media_section } = footer;
 
@@ -27,7 +27,7 @@ const Footer = ({ activePlatforms = [], content }) => {
 
     return (
         <>
-            <footer className='footer-container' style={{ backgroundColor: styles.color_primary, color: textColor(styles.color_primary), fontFamily: styles.active_font }}>
+            <footer id="footer" className='footer-container' style={{ backgroundColor: styles.color_primary, color: textColor(styles.color_primary), fontFamily: styles.active_font }}>
                 <div className='content-container'>
 
                     <div className='footer-logo'>
@@ -59,10 +59,13 @@ const Footer = ({ activePlatforms = [], content }) => {
                     </div>
 
                     <div className="contact-section">
-                        <p>¡No dudes en contactarnos!</p>
+                        <p>{footer.contact.subtitle}</p>
                         <ul>
-                            <li><strong>Email:</strong> {footer.contact.email}</li>
-                            <li><strong>Teléfono:</strong> {footer.contact.phone}</li>
+                            {footer.contact.contact_info.map((info, index) => (
+                                <li key={index}>
+                                    <strong>{info.type}:</strong> {info.value}
+                                </li>
+                            ))}
                         </ul>
                     </div>
 

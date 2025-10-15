@@ -15,7 +15,6 @@ const iconMap = {
   TikTok: FaTiktok
 };
 
-
 const Footer = ({ engaging_subtitles, social_media_section: sms, contact, logo, develop_by }) => {
 
   // Filtrar solo los links activos
@@ -31,21 +30,26 @@ const Footer = ({ engaging_subtitles, social_media_section: sms, contact, logo, 
   };
 
   return (
-    <footer className="footer">
+    <footer className="footer" id='/contacto'>
       <div className="footer-top">
         <div className="footer-logo">
           <a href={logo.link_url}>
             <img src={logo.image_url} alt={logo.alt_text} />
           </a>
           <div className="engaging-subtitles">
-            <h2 style={{ color: textColor(primaryColor) }}>{engaging_subtitles[0]}</h2>
-            <h3 style={{ color: textColor(primaryColor) }}>{engaging_subtitles[1]}</h3>
+            {engaging_subtitles.map((subtitle, index) => (
+              <h3 key={index} style={{ color: textColor(primaryColor) }}>
+                {subtitle}
+              </h3>
+            ))}
           </div>
         </div>
 
         <div className="footer-info">
           <div className="footer-social">
-            <p style={{ color: textColor(primaryColor) }}>{sms.subtitle}</p>
+            <p style={{ color: textColor(primaryColor) }}>
+              {typeof sms.subtitle === "string" ? sms.subtitle : ""}
+            </p>
             <div className="social-icons">
               {filteredLinks.map((link, idx) => {
                 const Icon = iconMap[link.platform];
@@ -69,7 +73,7 @@ const Footer = ({ engaging_subtitles, social_media_section: sms, contact, logo, 
             <ul>
               {Object.entries(contact).map(([key, value], index) => (
                 <li key={index}>
-                  <strong>{key}:</strong> {value}
+                  <strong style={{ color: "#ffffff" }}>{key}:</strong> <p style={{ color: "#ffffff" }}>{value}</p>
                 </li>
               ))}
             </ul>

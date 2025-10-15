@@ -1,7 +1,7 @@
 import { useState } from "react";
-import chroma from "chroma-js";
 import '../assets/styles/Faqs.css'
 import '../assets/styles/Fonts.css'
+import chroma from "chroma-js";
 
 const Faqs = ({ content }) => {
     const { faqs, styles } = content;
