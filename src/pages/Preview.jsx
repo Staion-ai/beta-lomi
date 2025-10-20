@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
+    Backdrop, CircularProgress,
     Container, Typography, Box, Alert, Button,
     /*Modal*/
     Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemIcon, ListItemText
@@ -28,6 +29,8 @@ function Preview() {
     const { getToken } = useAuth();
     const handleOpen = () => setOpen(true);
     const handleclose = () => setOpen(false);
+
+    const [loading, setLoading] = useState(false);
 
     const USD_COP = 4000;
 
@@ -179,6 +182,9 @@ function Preview() {
         }
 
         try {
+
+            setLoading(true);
+
             const templateId = selectedTemplate.id;
             const companyName = formData.company_name || "Compañía no especificada";
 
@@ -204,9 +210,8 @@ function Preview() {
             if (response.ok) {
                 showSuccess("Sitio creado correctamente 🎉");
                 console.log("✅ UserTemplate creado:", data);
-
-            // si querés redirigir:
-            // window.location.href = `/mis-sitios/${data.id}`;
+                // si querés redirigir:
+                window.location.href = `/dashboard`;
             } else {
                 showError(data.detail || "Error al crear el sitio web");
                 console.error("❌ Error en creación:", data);
@@ -214,6 +219,8 @@ function Preview() {
         } catch (error) {
             console.error("❌ Error creando sitio:", error);
             showError("Error al crear el sitio. Inténtalo de nuevo.");
+        } finally {
+            setLoading(false);
         }
     };
     /* */
@@ -263,6 +270,19 @@ function Preview() {
                                     isCreatingTemplate ? 'Creando sitio web...' : 'Crea tu web'}
                                 */}
                             </Button>
+                            <Backdrop
+                                sx={{
+                                    color: "#fff",
+                                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                                    flexDirection: "column",
+                                }}
+                                open={loading}
+                            >
+                                <CircularProgress color="inherit" />
+                                <Typography variant="h6" sx={{ mt: 2 }}>
+                                    🚀 Creando tu web, por favor espera...
+                                </Typography>
+                            </Backdrop>
                         </Box>
 
                         <Dialog
