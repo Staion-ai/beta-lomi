@@ -79,7 +79,7 @@ function Preview() {
     useEffect(() => {
         if (!templateContent) {
             try {
-                const stored = sessionStorage.getItem('template_content') || localStorage.getItem('template_content');
+                const stored = sessionStorage.getItem('template_form_data') || localStorage.getItem('template_form_data');
                 if (stored) {
                     const parsed = JSON.parse(stored);
                     setLocalTemplateContent(parsed);
@@ -138,12 +138,12 @@ function Preview() {
                     Authorization: `Bearer ${getToken()}`
                 },
                 body: JSON.stringify({
+                    ...effectiveTemplateContent,
                     amount: 32320,
                     currency: "COP",
                     email: user.email,
                     company_name: companyName,
-                    template_id: templateId,
-                    template_content: effectiveTemplateContent,
+                    template_id: templateId,                    
                     user_id: user.pk
                 })
             });
@@ -198,10 +198,10 @@ function Preview() {
                     Authorization: `Bearer ${getToken()}`
                 },
                 body: JSON.stringify({
+                    ...effectiveTemplateContent,
                     user_id: user.pk,
                     repo_url: templateId,
                     client_name: companyName,
-                    template_content: effectiveTemplateContent
                 })
             });
 
@@ -210,6 +210,7 @@ function Preview() {
             if (response.ok) {
                 showSuccess("Sitio creado correctamente 🎉");
                 console.log("✅ UserTemplate creado:", data);
+                localStorage.removeItem('template_form_data');
                 // si querés redirigir:
                 window.location.href = `/dashboard`;
             } else {

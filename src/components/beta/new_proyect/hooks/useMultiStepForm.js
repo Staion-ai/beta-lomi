@@ -271,14 +271,13 @@ export const useMultiStepForm = (steps, onComplete) => {
 
                     const { company_name: clientName } = updatedDataWithUrls;
 
-                    const content = await generateTemplateContent({...updatedDataWithUrls, client_name: clientName});
+                    const content = await generateTemplateContent({ ...updatedDataWithUrls, client_name: clientName });
 
                     let updatedContent = updateHeroBackgroundWithImage(content, updatedDataWithUrls)
 
                     updatedContent = updateNavbarLogoWithUrl(updatedContent, updatedDataWithUrls)
 
-                    updateTemplateContent(updatedContent, updatedDataWithUrls) // Actualizar el context con el contenido y los datos originales                    setNotification({ open: true, message: 'Proyecto creado exitosamente. Contenido generado.', severity: 'success' })
-                    localStorage.setItem("template_content", JSON.stringify(templateContent))
+                    updateTemplateContent(updatedContent, updatedDataWithUrls)
                     if (onComplete) {
                         setTimeout(() => {
                             onComplete(updatedContent)

@@ -20,7 +20,6 @@ export const useLogout = () => {
                 try {
                     await logoutMutation.mutateAsync({ token: currentToken })
                     localStorage.removeItem('selected_template_id'); // Limpiar selección previa
-                    localStorage.removeItem('template_content'); // Limpiar contenido previo
                     localStorage.removeItem('template_form_data'); // Limpiar datos del formulario
                 } catch (apiError) {
                     console.warn('Server logout failed, proceeding with local logout:', apiError.message)

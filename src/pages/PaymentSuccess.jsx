@@ -30,11 +30,10 @@ function PaymentSuccess() {
                     console.log("Datos del pago:", data);
                     setPaymentData(data);
                     setStatus(data.status || 'ERROR');
-                    if(data.status === 'APPROVED') {
+                    if (data.status === 'APPROVED') {
                         localStorage.removeItem('selected_template_id'); // Limpiar selección previa
-                        localStorage.removeItem('template_content'); // Limpiar contenido previo
                         localStorage.removeItem('template_form_data'); // Limpiar datos del formulario
-                    } 
+                    }
                     // Detener polling si ya está aprobado o rechazado
                     if (data.status === 'APPROVED' || data.status === 'DECLINED') {
                         setPolling(false);
