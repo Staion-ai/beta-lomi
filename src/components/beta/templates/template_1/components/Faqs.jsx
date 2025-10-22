@@ -4,7 +4,7 @@ import '../assets/styles/Faqs.css'
 import '../assets/styles/Fonts.css'
 
 const Faqs = ({ content }) => {
-    const { faqs, styles } = content;
+    const { faqs, styles } = content.template_content;
     const [openIndex, setOpenIndex] = useState(null);
 
     const toggleQuestion = (index) => {

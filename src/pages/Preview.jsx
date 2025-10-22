@@ -198,10 +198,11 @@ function Preview() {
                     Authorization: `Bearer ${getToken()}`
                 },
                 body: JSON.stringify({
-                    ...effectiveTemplateContent,
                     user_id: user.pk,
                     repo_url: templateId,
                     client_name: companyName,
+                    ...effectiveTemplateContent,
+
                 })
             });
 

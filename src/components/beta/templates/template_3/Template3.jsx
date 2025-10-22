@@ -25,7 +25,7 @@ const components = {
 function Template3({ data }) {
     // Use dynamic data if available, otherwise fall back to static content
     const content = data || content_data;
-    const { styles, ...sections } = content;
+    const { styles, ...sections } = content.template_content;
 
     useTheme(styles);
 

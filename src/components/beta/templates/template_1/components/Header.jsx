@@ -5,7 +5,7 @@ import chroma from "chroma-js";
 import { useState, useEffect, useRef } from "react";
 
 const Header = ({ content }) => {
-    const { navbar, hero_section, styles } = content;
+    const { navbar, hero_section, styles } = content.template_content;
     const [validImage, setValidImage] = useState(true);
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef(null);

@@ -9,7 +9,7 @@ export const TemplateProvider = ({ children }) => {
     const [isGenerating, setIsGenerating] = useState(false)
 
     const updateTemplateContent = (content, originalFormData = null) => {
-        setTemplateContent(content)
+        setTemplateContent({ template_content: content })
         if (originalFormData) {
             setFormData(originalFormData)
         }

@@ -13,7 +13,7 @@ const iconMap = {
 };
 
 const Footer = ({ activePlatforms = [], content }) => {
-    const { footer, styles } = content;
+    const { footer, styles } = content.template_content;
     const { social_media_section } = footer;
 
     const filteredSocials = social_media_section.social_links.filter(link =>
@@ -58,18 +58,18 @@ const Footer = ({ activePlatforms = [], content }) => {
                         </div>
                     </div>
 
-                        <div className="placeholder-contact">
-                            <div className="contact-section">
-                                <p>{ footer.contact.subtitle }</p>
-                                <ul>
-                                    {footer.contact.contact_info.map((info, index) => (
-                                        <li key={index}>
-                                            <strong>{info.type}:</strong> {info.value}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                    <div className="placeholder-contact">
+                        <div className="contact-section">
+                            <p>{footer.contact.subtitle}</p>
+                            <ul>
+                                {footer.contact.contact_info.map((info, index) => (
+                                    <li key={index}>
+                                        <strong>{info.type}:</strong> {info.value}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
+                    </div>
 
                     <div className="legal-section">
                         <small>{footer.develop_by}</small>

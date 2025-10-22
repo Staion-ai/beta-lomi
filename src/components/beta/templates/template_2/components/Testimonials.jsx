@@ -4,7 +4,7 @@ import chroma from "chroma-js"
 
 
 const Testimonials = ({ content }) => {
-    const { testimony, styles } = content;
+    const { testimony, styles } = content.template_content;
 
     const textColor = (color, fallback = "#FFFFFF") => {
         const bg = color ? chroma(color) : chroma(fallback);

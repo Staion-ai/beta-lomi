@@ -5,7 +5,7 @@ import '../assets/styles/Header.css'
 import '../assets/styles/Fonts.css'
 
 const Header = ({ content }) => {
-    const { navbar, hero_section, styles } = content;
+    const { navbar, hero_section, styles } = content.template_content;
     const [validImage, setValidImage] = useState(true);
 
     const textColor = (color, fallback = "#FFFFFF") => {

@@ -3,7 +3,7 @@ import '../assets/styles/Fonts.css'
 import chroma from "chroma-js";
 
 const Services = ({ content }) => {
-    const { value_proposition, styles } = content;
+    const { value_proposition, styles } = content.template_content;
 
     const textColor = (color, fallback = "#FFFFFF") => {
         const bg = color ? chroma(color) : chroma(fallback);

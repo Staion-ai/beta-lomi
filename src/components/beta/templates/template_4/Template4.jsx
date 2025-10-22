@@ -23,7 +23,7 @@ const components = {
 
 function Template4({ data }) {
 
-    const { styles, ...sections } = data || content;
+    const { styles, ...sections } = data.template_content || content.template_content;
 
     useTheme(styles);
 
